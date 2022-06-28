@@ -1,11 +1,13 @@
 #include "includes.hpp"
 #include "Features/UnlockGirls/UnlockGirls.h"
 #include "Features/ModifyGiftQuantity/ModifyGiftQuantity.h"
+#include "Features/InfiniteDiamonds/InfiniteDiamonds.h"
 
 bool attached = false;
 Console con = Console::instance(true);
 UnlockGirls unlockGirls;
 ModifyGiftQuantity modGiftQuantity;
+InfiniteDiamonds infiniteDiamonds;
 
 DWORD WINAPI MainThread(LPVOID lpReserved)
 {
@@ -16,6 +18,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 		unlockGirls.Create();
 		unlockGirls.Toggle();
 		modGiftQuantity.Create();
+		infiniteDiamonds.Create();
 		
 		attached = true;
 
@@ -26,6 +29,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 		if (GetAsyncKeyState(VK_INSERT) & 0x1)
 		{
 			modGiftQuantity.Toggle();
+			infiniteDiamonds.Toggle();
 		}
 		
 		if (GetAsyncKeyState(VK_END) & 0x1)

@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console\Console.hpp" />
+    <ClInclude Include="Features\InfiniteDiamonds\InfiniteDiamonds.h" />
     <ClInclude Include="Features\ModifyGiftQuantity\ModifyGiftQuantity.h" />
     <ClInclude Include="Features\UnlockGirls\UnlockGirls.h" />
     <ClInclude Include="Hook\hook.h" />
@@ -106,6 +107,7 @@
     <ClInclude Include="minhook\src\hde\table32.h" />
     <ClInclude Include="minhook\src\hde\table64.h" />
     <ClInclude Include="minhook\src\trampoline.h" />
+    <ClInclude Include="SDK\Enums.h" />
     <ClInclude Include="SDK\Girls.h" />
     <ClInclude Include="SDK\mono.h" />
   </ItemGroup>
