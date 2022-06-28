@@ -1,14 +1,22 @@
 #include "includes.hpp"
 #include "Features/UnlockGirls/UnlockGirls.h"
+#include "Features/ModifyGiftQuantity/ModifyGiftQuantity.h"
 
 bool attached = false;
 Console con = Console::instance(true);
+UnlockGirls unlockGirls;
+ModifyGiftQuantity modGiftQuantity;
 
 DWORD WINAPI MainThread(LPVOID lpReserved)
 {
 	do
-	{
-		std::cout << "Init\n";
+	{	
+		// Initalize Hooks
+		MH_Initialize();
+		unlockGirls.Create();
+		unlockGirls.Toggle();
+		modGiftQuantity.Create();
+		
 		attached = true;
 
 	} while (!attached);
@@ -17,8 +25,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 	{
 		if (GetAsyncKeyState(VK_INSERT) & 0x1)
 		{
-			std::cout << "Unlocking Girls!\n";
-			UnlockGirls();
+			modGiftQuantity.Toggle();
 		}
 		
 		if (GetAsyncKeyState(VK_END) & 0x1)
@@ -28,9 +35,15 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 		}
 	}
 
+	// Restore Hooks
+	unlockGirls.Destroy();
+	modGiftQuantity.Destroy();
+
+	// Free Utils
+	std::this_thread::sleep_for(std::chrono::seconds(3));
 	con.free();
 
-	Sleep(5000);
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	FreeLibraryAndExitThread((HMODULE)lpReserved, 1);
 	return TRUE;
 }

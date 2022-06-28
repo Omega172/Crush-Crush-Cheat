@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <stdexcept>
+#include <thread>
 
 // Utilities
 #include "Console/Console.hpp"

@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console\Console.hpp" />
+    <ClInclude Include="Features\ModifyGiftQuantity\ModifyGiftQuantity.h" />
     <ClInclude Include="Features\UnlockGirls\UnlockGirls.h" />
     <ClInclude Include="Hook\hook.h" />
     <ClInclude Include="includes.hpp" />

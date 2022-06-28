@@ -80,6 +80,9 @@
     <ClInclude Include="minhook\src\trampoline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Features\ModifyGiftQuantity\ModifyGiftQuantity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="minhook\dll_resources\MinHook.def">
