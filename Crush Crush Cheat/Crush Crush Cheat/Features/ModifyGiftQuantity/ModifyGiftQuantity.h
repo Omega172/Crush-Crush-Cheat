@@ -56,6 +56,8 @@ public:
 	{
 		std::cout << "Gift_OnGift Called: " << quantity << std::endl;
 
+		quantity = 1000000;
+
 		return oGift_OnGift(__this, quantity);
 	}
 };
