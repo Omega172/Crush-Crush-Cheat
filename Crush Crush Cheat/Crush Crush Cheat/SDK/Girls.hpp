@@ -89,6 +89,7 @@ inline std::vector<Girl> Girls
     {"Charlotte", Girl_ID::Charlotte},
     {"Odango", Girl_ID::Odango},
     {"Shibuki", Girl_ID::Shibuki},
+    {"Sirina", Girl_ID::Sirina},
     {"Catara", Girl_ID::Catara},
     {"Vellatrix", Girl_ID::Vellatrix},
     {"Peanut", Girl_ID::Peanut},

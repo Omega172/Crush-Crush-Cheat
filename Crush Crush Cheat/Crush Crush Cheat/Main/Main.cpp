@@ -31,15 +31,18 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 		if (GetAsyncKeyState(VK_END) & 0x1)
 			bExit = true;
 		
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	} while (!bExit);
 
-	// Restore Hooks
+	// Restore Hooks & Disable features
 	unlockGirls.Destroy();
 	speedHack.Disable();
 	modifyGiftQuantity.Destroy();
 	phoneSkip.Destroy();
+	modGirls.Destroy();
+	albumUnlock.Destory();
 	
+	std::this_thread::sleep_for(std::chrono::seconds(3));
 	con.free();
 	FreeLibraryAndExitThread((HMODULE)lpReserved, EXIT_SUCCESS);
 	return 0;
@@ -56,6 +59,8 @@ void Init()
 	unlockGirls.Create();
 	modifyGiftQuantity.Create();
 	phoneSkip.Create();
+	modGirls.Create();
+	albumUnlock.Create();
 
 	MH_Initialize();
 }

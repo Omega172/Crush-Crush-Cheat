@@ -50,6 +50,8 @@
     <ClInclude Include="Features\ModifyGiftQuantity.hpp" />
     <ClInclude Include="Features\InfiniteDiamonds.hpp" />
     <ClInclude Include="Features\PhoneSkip.hpp" />
+    <ClInclude Include="Features\ModGirls.hpp" />
+    <ClInclude Include="Features\AlbumUnlock.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Hooking\Keiro\minhook\dll_resources\MinHook.def" />

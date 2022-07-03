@@ -1,6 +1,11 @@
 #pragma once
 #include "../Includes.hpp"
 
+// UnityEngine.Time
+// Token: 0x06000DC2 RID: 3522
+// public static extern void set_timeScale(float value)
+// UnityEngine.Time::set_timeScale(float value)
+
 class SpeedHack
 {
 private:
@@ -14,7 +19,7 @@ private:
 		if (set_timeScale == nullptr)
 			return;
 
-		std::cout << "Time Scale: " << scale << std::endl;
+		std::cout << "[OmegaWare.xyz]::set_timeScale = " << scale << std::endl;
 
 		void* args[1] = { &scale };
 		Mono::instance().Invoke(set_timeScale, nullptr, args);

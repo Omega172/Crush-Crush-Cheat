@@ -21,7 +21,9 @@ void GUI::Render()
 		if (ImGui::Button(con.getVisibility() ? "Hide Console" : "Show Console"))
 			con.toggleVisibility();
 		unlockGirls.Render();
+		modGirls.Render();
 		phoneSkip.Render();
+		albumUnlock.Render();
 	}
 	ImGui::EndChild();
 	ImGui::SameLine();
@@ -32,6 +34,7 @@ void GUI::Render()
 	infiniteDiamonds.Render();
 	
 	modifyGiftQuantity.Render();
+	ImGui::SameLine();
 
 	ImGui::End();
 }

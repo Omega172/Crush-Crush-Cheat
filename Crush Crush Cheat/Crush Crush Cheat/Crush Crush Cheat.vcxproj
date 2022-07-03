@@ -29,7 +29,9 @@
     <ClCompile Include="Utils\Console\Console.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Features\AlbumUnlock.hpp" />
     <ClInclude Include="Features\InfiniteDiamonds.hpp" />
+    <ClInclude Include="Features\ModGirls.hpp" />
     <ClInclude Include="Features\ModifyGiftQuantity.hpp" />
     <ClInclude Include="Features\PhoneSkip.hpp" />
     <ClInclude Include="Features\SpeedHack.hpp" />

@@ -21,7 +21,7 @@ public:
 
 	void Render()
 	{
-		ImGui::BeginChild("##ModifyGiftQuantity", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y), true);
+		ImGui::BeginChild("##ModifyGiftQuantity", ImVec2(ImGui::GetContentRegionAvail().x / 2, ImGui::GetContentRegionAvail().y), true);
 		{
 			ImGui::Text("Gifts");
 			ImGui::InputInt("##Gift Quantity", &modQuantity);
@@ -38,6 +38,7 @@ public:
 		if (Gift_OnGift == nullptr)
 			return;
 
+		std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Created" << std::endl;
 		CreateHook(Gift_OnGift);
 	}
 
@@ -49,7 +50,7 @@ public:
 		if (toggle && !hookEnabled)
 		{
 			hookEnabled = true;
-			//std::cout << "Gift_OnGift Hook Enabled!\n";
+			std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Enabled" << std::endl;
 			EnableHook(Gift_OnGift);
 			return;
 		}
@@ -57,7 +58,7 @@ public:
 		if (!toggle && hookEnabled)
 		{
 			hookEnabled = false;
-			//std::cout << "Gift_OnGift Hook Disabled!\n";
+			std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Disabled" << std::endl;
 			DisableHook(Gift_OnGift);
 			return;
 		}
@@ -65,17 +66,13 @@ public:
 
 	void Destroy()
 	{
+		std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Destroyed" << std::endl;
 		DisableHook(Gift_OnGift);
-	}
-
-	int GetModQuantity()
-	{
-		return modQuantity;
 	}
 
 	HOOK_DEF(void, Gift_OnGift, (void* __this, INT quantity))
 	{
-		//std::cout << "Gift_OnGift Called: " << quantity << std::endl;
+		std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Called = " << quantity << std::endl;
 
 		quantity = modQuantity;
 

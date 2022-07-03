@@ -47,6 +47,10 @@ inline ModifyGiftQuantity modifyGiftQuantity;
 inline InfiniteDiamonds infiniteDiamonds;
 #include "Features/PhoneSkip.hpp"
 inline PhoneSkip phoneSkip;
+#include "Features/ModGirls.hpp"
+inline ModGirls modGirls;
+#include "Features/AlbumUnlock.hpp"
+inline AlbumUnlock albumUnlock;
 
 typedef HRESULT(__stdcall* Present) (IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
