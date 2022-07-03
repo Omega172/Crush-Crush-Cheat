@@ -10,10 +10,66 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Hooking\Keiro\kiero.cpp" />
+    <ClCompile Include="Hooking\Keiro\minhook\src\buffer.c" />
+    <ClCompile Include="Hooking\Keiro\minhook\src\hde\hde32.c" />
+    <ClCompile Include="Hooking\Keiro\minhook\src\hde\hde64.c" />
+    <ClCompile Include="Hooking\Keiro\minhook\src\hook.c" />
+    <ClCompile Include="Hooking\Keiro\minhook\src\trampoline.c" />
+    <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="ImGui\imgui_demo.cpp" />
+    <ClCompile Include="ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="EntryPoint.cpp" />
+    <ClCompile Include="Main\Main.cpp" />
+    <ClCompile Include="Utils\Console\Console.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Features\InfiniteDiamonds.hpp" />
+    <ClInclude Include="Features\ModifyGiftQuantity.hpp" />
+    <ClInclude Include="Features\PhoneSkip.hpp" />
+    <ClInclude Include="Features\SpeedHack.hpp" />
+    <ClInclude Include="Features\Watermark.hpp" />
+    <ClInclude Include="GUI\GUI.hpp" />
+    <ClInclude Include="Hooking\Hook.h" />
+    <ClInclude Include="Hooking\Keiro\kiero.h" />
+    <ClInclude Include="Hooking\Keiro\minhook\include\MinHook.h" />
+    <ClInclude Include="Hooking\Keiro\minhook\src\buffer.h" />
+    <ClInclude Include="Hooking\Keiro\minhook\src\hde\hde32.h" />
+    <ClInclude Include="Hooking\Keiro\minhook\src\hde\hde64.h" />
+    <ClInclude Include="Hooking\Keiro\minhook\src\hde\pstdint.h" />
+    <ClInclude Include="Hooking\Keiro\minhook\src\hde\table32.h" />
+    <ClInclude Include="Hooking\Keiro\minhook\src\hde\table64.h" />
+    <ClInclude Include="Hooking\Keiro\minhook\src\trampoline.h" />
+    <ClInclude Include="ImGui\imconfig.h" />
+    <ClInclude Include="ImGui\imgui.h" />
+    <ClInclude Include="ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ImGui\imstb_textedit.h" />
+    <ClInclude Include="ImGui\imstb_truetype.h" />
+    <ClInclude Include="Includes.hpp" />
+    <ClInclude Include="Main\Main.hpp" />
+    <ClInclude Include="SDK\Enums.hpp" />
+    <ClInclude Include="Features\UnlockGirls.hpp" />
+    <ClInclude Include="SDK\Girls.hpp" />
+    <ClInclude Include="SDK\Mono.hpp" />
+    <ClInclude Include="Utils\Console\Console.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Hooking\Keiro\minhook\dll_resources\MinHook.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Hooking\Keiro\minhook\dll_resources\MinHook.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{33bbb673-fb42-4330-b160-481524240b63}</ProjectGuid>
+    <ProjectGuid>{53acfc8b-de08-4584-a1ef-37d1d081eb2e}</ProjectGuid>
     <RootNamespace>CrushCrushCheat</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -44,12 +100,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\Mono\include\mono-2.0;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\Mono\include\mono-2.0;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\Mono\include\mono-2.0;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\Mono\include\mono-2.0;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -61,8 +117,9 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -77,46 +134,13 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Console\Console.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="minhook\src\buffer.c" />
-    <ClCompile Include="minhook\src\hde\hde32.c" />
-    <ClCompile Include="minhook\src\hde\hde64.c" />
-    <ClCompile Include="minhook\src\hook.c" />
-    <ClCompile Include="minhook\src\trampoline.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Console\Console.hpp" />
-    <ClInclude Include="Features\InfiniteDiamonds\InfiniteDiamonds.h" />
-    <ClInclude Include="Features\ModifyGiftQuantity\ModifyGiftQuantity.h" />
-    <ClInclude Include="Features\UnlockGirls\UnlockGirls.h" />
-    <ClInclude Include="Hook\hook.h" />
-    <ClInclude Include="includes.hpp" />
-    <ClInclude Include="minhook\include\MinHook.h" />
-    <ClInclude Include="minhook\src\buffer.h" />
-    <ClInclude Include="minhook\src\hde\hde32.h" />
-    <ClInclude Include="minhook\src\hde\hde64.h" />
-    <ClInclude Include="minhook\src\hde\pstdint.h" />
-    <ClInclude Include="minhook\src\hde\table32.h" />
-    <ClInclude Include="minhook\src\hde\table64.h" />
-    <ClInclude Include="minhook\src\trampoline.h" />
-    <ClInclude Include="SDK\Enums.h" />
-    <ClInclude Include="SDK\Girls.h" />
-    <ClInclude Include="SDK\mono.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="minhook\dll_resources\MinHook.def" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="minhook\dll_resources\MinHook.rc" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

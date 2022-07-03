@@ -1,0 +1,38 @@
+#pragma once
+#include "../Includes.hpp"
+
+// Utilities
+// Token: 0x060009D0 RID: 2512 RVA: 0x00051AE4 File Offset: 0x0004FCE4
+// public static bool AwardDiamonds(int amount)
+// Utilities::AwardDiamonds(int amount)
+
+// Utilities
+// Token: 0x060009D2 RID: 2514 RVA: 0x00051BC8 File Offset: 0x0004FDC8
+// public static void PurchaseDiamonds(int count)
+// Utilities::PurchaseDiamonds(int count)
+
+class InfiniteDiamonds
+{
+private:
+	int amount = 1000000;
+
+public:
+	InfiniteDiamonds() {};
+	
+	void Render()
+	{
+		ImGui::InputInt("Diamond Amount", &amount);
+		if (ImGui::Button("Give Diamonds"))
+			Give();
+	}
+
+	void Give()
+	{
+		MonoMethod* AwardDiamonds = Mono::instance().GetMethod("Utilities", "AwardDiamonds", 1);
+		if (AwardDiamonds == nullptr)
+			return;
+
+		void* args[1] = { &amount };
+		MonoObject* result = Mono::instance().Invoke(AwardDiamonds, nullptr, args);
+	}
+};
