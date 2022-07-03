@@ -19,7 +19,7 @@ inline bool checkStatus(std::string name, MH_STATUS status)
 {
 	if (status != MH_OK && status != MH_ERROR_ALREADY_CREATED && status != MH_ERROR_ALREADY_INITIALIZED)
 	{
-		std::cout << "ERROR - Hook::" << name << " | " << MH_StatusToString(status) << std::endl;
+		LogHook(HookLogReason::Error, name, MH_StatusToString(status));
 		return false;
 	}
 

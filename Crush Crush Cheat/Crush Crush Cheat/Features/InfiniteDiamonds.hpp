@@ -40,6 +40,7 @@ public:
 		void* args[1] = { &amount };
 		MonoObject* result = Mono::instance().Invoke(AwardDiamonds, nullptr, args);
 
-		std::cout << "[OmegaWare.xyz]::Invoke(AwardDiamonds) = " << result << std::endl;
+		if (bExtraDebug)
+			LogInvoke("AwardDiamonds", "Result = " + (std::stringstream()<<result).str());
 	}
 };

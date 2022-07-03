@@ -37,6 +37,7 @@
     <ClInclude Include="Features\SpeedHack.hpp" />
     <ClInclude Include="Features\Watermark.hpp" />
     <ClInclude Include="GUI\GUI.hpp" />
+    <ClInclude Include="GUI\Style.hpp" />
     <ClInclude Include="Hooking\Hook.h" />
     <ClInclude Include="Hooking\Keiro\kiero.h" />
     <ClInclude Include="Hooking\Keiro\minhook\include\MinHook.h" />
@@ -62,6 +63,8 @@
     <ClInclude Include="SDK\Girls.hpp" />
     <ClInclude Include="SDK\Mono.hpp" />
     <ClInclude Include="Utils\Console\Console.hpp" />
+    <ClInclude Include="Utils\Logging\Color.hpp" />
+    <ClInclude Include="Utils\Logging\Logging.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Hooking\Keiro\minhook\dll_resources\MinHook.def" />

@@ -38,7 +38,7 @@ public:
 		if (Gift_OnGift == nullptr)
 			return;
 
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Created" << std::endl;
+		LogHook(HookLogReason::Create, "Gift_OnGift");
 		CreateHook(Gift_OnGift);
 	}
 
@@ -50,7 +50,7 @@ public:
 		if (toggle && !hookEnabled)
 		{
 			hookEnabled = true;
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Enabled" << std::endl;
+			LogHook(HookLogReason::Enable, "Gift_OnGift");
 			EnableHook(Gift_OnGift);
 			return;
 		}
@@ -58,7 +58,7 @@ public:
 		if (!toggle && hookEnabled)
 		{
 			hookEnabled = false;
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Disabled" << std::endl;
+			LogHook(HookLogReason::Disable, "Gift_OnGift");
 			DisableHook(Gift_OnGift);
 			return;
 		}
@@ -66,13 +66,14 @@ public:
 
 	void Destroy()
 	{
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Destroyed" << std::endl;
+		LogHook(HookLogReason::Destroy, "Gift_OnGift");
 		DisableHook(Gift_OnGift);
 	}
 
 	HOOK_DEF(void, Gift_OnGift, (void* __this, INT quantity))
 	{
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Gift_OnGift Called = " << quantity << std::endl;
+		if (bExtraDebug)
+			LogHook(HookLogReason::Called, "Gift_OnGift", "quantity = " + std::to_string(quantity) + " overrideQuantity = " + std::to_string(modQuantity));
 
 		quantity = modQuantity;
 

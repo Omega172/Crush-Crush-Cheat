@@ -35,14 +35,15 @@ public:
 		if (Girls_Update == nullptr)
 			return;
 
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Girls_Update Created & Enabled" << std::endl;
+		LogHook(HookLogReason::Create, "Girls_Update");
+		LogHook(HookLogReason::Enable, "Girls_Update");
 		CreateHook(Girls_Update);
 		EnableHook(Girls_Update);
 	}
 
 	void Destroy()
 	{
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Girls_Update Destroyed" << std::endl;
+		LogHook(HookLogReason::Destroy, "Girls_Update");
 		DisableHook(Girls_Update);
 	}
 
@@ -59,7 +60,9 @@ public:
 		{
 			void* args[1] = { &Girls[i].id };
 			MonoObject* result = Mono::instance().Invoke(UnlockGirl, pGirlsClassInstance, args);
-			std::cout << "[OmegaWare.xyz]::Invoke(UnlockGirl)(Itter = " << i << ") = " << result << std::endl;
+			
+			if (bExtraDebug)
+				LogInvoke("UnlockGirl", "Itter = " + std::to_string(i) + " Result = " + (std::stringstream() << result).str());
 		}
 	}
 

@@ -35,7 +35,7 @@ public:
 		if (Girl_Update == nullptr)
 			return;
 
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Girl_Update Created & Enabled" << std::endl;
+		LogHook(HookLogReason::Create, "Girl_Update");
 		CreateHook(Girl_Update);
 	}
 
@@ -44,21 +44,21 @@ public:
 		if (toggle && !hookEnabled)
 		{
 			hookEnabled = true;
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Girl_Update Enabled" << std::endl;
+			LogHook(HookLogReason::Enable, "Girl_Update");
 			EnableHook(Girl_Update);
 		}
 
 		if (!toggle && hookEnabled)
 		{
 			hookEnabled = false;
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Girl_Update Disabled" << std::endl;
+			LogHook(HookLogReason::Disable, "Girl_Update");
 			DisableHook(Girl_Update);
 		}
 	}
 
 	void Destroy()
 	{
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Girl_Update Destroyed" << std::endl;
+		LogHook(HookLogReason::Destroy, "Girl_Update");
 		DisableHook(Girl_Update);
 	}
 
@@ -74,7 +74,9 @@ public:
 		int loveLevel = LoveLevels::LoveLevel::Lover;
 		void* args[1] = { &loveLevel };
 		MonoObject* result = Mono::instance().Invoke(Girl_SetLove, __this, args);
-		std::cout << "[OmegaWare.xyz]::Invoke(Girl_SetLove) = " << result << std::endl;
+		
+		if (bExtraDebug)
+			LogInvoke("Girl_SetLove", "Result = " + (std::stringstream() << result).str());
 		
 		return oGirl_Update(__this);
 	}

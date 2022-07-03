@@ -11,6 +11,7 @@
 #include <mono/metadata/object.h>
 
 inline bool bExit = false;
+inline bool bExtraDebug = false;
 
 // Main
 #include "Main/Main.hpp"
@@ -20,13 +21,15 @@ inline bool bExit = false;
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
 
+// Utils
+#include "Utils/Console/Console.hpp"
+#include "Utils/Logging/Color.hpp"
+#include "Utils/Logging/Logging.hpp"
+
 // Hooking
 #include "Hooking/Keiro/kiero.h"
 #include "Hooking/Keiro/minhook/include/MinHook.h"
 #include "Hooking/Hook.h"
-
-// Utils
-#include "Utils/Console/Console.hpp"
 
 // SDK
 #include "SDK/Mono.hpp"

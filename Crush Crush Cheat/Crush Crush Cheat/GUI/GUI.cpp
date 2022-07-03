@@ -12,18 +12,18 @@ void GUI::Render()
 	ImGui::Begin("OmegaWare.xyz (Crush Crush)", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse);
 
 	//	ImGui::SetCursorPos(ImVec2(6, 20));
-	ImGui::BeginChild("##Misc", ImVec2(ImGui::GetContentRegionAvail().x / 3, ImGui::GetContentRegionAvail().y / 2), true);
+	ImGui::BeginChild("##Cheat", ImVec2(ImGui::GetContentRegionAvail().x / 3, ImGui::GetContentRegionAvail().y / 2), true);
 	{
-		ImGui::Text("Misc");
+		ImGui::Text("Cheat");
 		if (ImGui::Button("Unload"))
 			bExit = true;
 		ImGui::SameLine();
-		if (ImGui::Button(con.getVisibility() ? "Hide Console" : "Show Console"))
-			con.toggleVisibility();
-		unlockGirls.Render();
-		modGirls.Render();
-		phoneSkip.Render();
-		albumUnlock.Render();
+		if (ImGui::Button(con.GetVisibility() ? "Hide Console" : "Show Console"))
+			con.ToggleVisibility();
+		ImGui::Checkbox("Extra Debug Info", &bExtraDebug);
+		ImGui::Checkbox("Watermark", &bWatermark);
+		if (bWatermark)
+			ImGui::Checkbox("Watermark FPS", &bWatermarkFPS);
 	}
 	ImGui::EndChild();
 	ImGui::SameLine();
@@ -35,6 +35,18 @@ void GUI::Render()
 	
 	modifyGiftQuantity.Render();
 	ImGui::SameLine();
+
+	ImGui::BeginChild("##Misc", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y), true);
+	{
+		ImGui::Text("Misc");
+		
+		unlockGirls.Render();
+		ImGui::SameLine();
+		modGirls.Render();
+		phoneSkip.Render();
+		albumUnlock.Render();
+	}
+	ImGui::EndChild();
 
 	ImGui::End();
 }

@@ -1,49 +1,49 @@
 #include "Console.hpp"
 
-void Console::initalize()
+void Console::Initalize()
 {
-    if (this->initalized == true || this->allocated == TRUE)
+    if (this->bInitalized)
         return;
 
     if (this->stdoutDummy == nullptr || this->stdinDummy == nullptr)
-        this->alloc();
+        this->Alloc();
 
-    this->initalized = true;
+    this->bInitalized = true;
 }
 
-Console& Console::instance()
+Console& Console::Instance()
 {
-    static Console _instance;
+    static Console _Instance;
 
-    if (!_instance.initalized)
-        _instance.initalize();
+    if (!_Instance.bInitalized)
+        _Instance.Initalize();
 
-    return _instance;
+    return _Instance;
 }
 
-Console& Console::instance(bool show)
+Console& Console::Instance(bool bVisibility)
 {
-    static Console _instance;
+    static Console _Instance;
 
-    if (!_instance.initalized)
-        _instance.initalize();
+    if (!_Instance.bInitalized)
+        _Instance.Initalize();
 
-    _instance.setVisibility(show);
+    _Instance.SetVisibility(bVisibility);
 
-    return _instance;
+    return _Instance;
 }
 
-BOOL Console::alloc()
+bool Console::Alloc()
 {
-    if (this->allocated)
+    if (this->bAllocated)
     {
         std::cout << "Console already allocated!\n";
-        return TRUE;
+        return true;
     }
 
     if (!AllocConsole()) {
         std::cout << "AllocConsole() Error: " << GetLastError() << std::endl;
-        return FALSE;
+        return false;
     }
 
     freopen_s(&stdoutDummy, "CONOUT$", "w", stdout);
@@ -51,19 +51,16 @@ BOOL Console::alloc()
     std::cout.clear();
     std::cin.clear();
 
-    this->allocated = true;
-
-    std::cout << "Console allocated!\n";
-
-    return TRUE;
+    this->bAllocated = true;
+    return true;
 }
 
-BOOL Console::free()
+bool Console::Free()
 {
-    if (!this->allocated)
+    if (!this->bAllocated)
     {
         std::cout << "No console allocated!\n";
-        return FALSE;
+        return false;
     }
 
     if (stdoutDummy)
@@ -74,22 +71,22 @@ BOOL Console::free()
     if (!FreeConsole())
     {
         std::cout << "FreeConsole() Error: " << GetLastError() << std::endl;
-        return FALSE;
+        return false;
     }
 
-    this->allocated = false;
-    return TRUE;
+    this->bAllocated = false;
+    return true;
 }
 
-void Console::setVisibility(bool visibility)
+void Console::SetVisibility(bool bVisibility)
 {
-    this->visible = visibility;
-    ShowWindow(GetConsoleWindow(), (visibility) ? SW_SHOW : SW_HIDE);
+    this->bVisible = bVisibility;
+    ShowWindow(GetConsoleWindow(), (bVisibility) ? SW_SHOW : SW_HIDE);
     return;
 }
 
-void Console::toggleVisibility()
+void Console::ToggleVisibility()
 {
-    setVisibility(!this->visible);
+    SetVisibility(!this->bVisible);
     return;
 }

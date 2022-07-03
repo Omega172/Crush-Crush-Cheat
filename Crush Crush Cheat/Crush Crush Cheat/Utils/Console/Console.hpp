@@ -6,20 +6,21 @@ class Console
 private:
 	FILE* stdoutDummy = nullptr;
 	FILE* stdinDummy = nullptr;
-	BOOL allocated = FALSE;
-	bool initalized = false;
-	bool visible = true;
-	void initalize();
+	bool bAllocated = FALSE;
+	bool bInitalized = false;
+	bool bVisible = true;
+	void Initalize();
 	Console() {};
 
 public:
-	static Console& instance();
-	static Console& instance(bool visibility);
-	BOOL alloc();
-	BOOL free();
-	void setVisibility(bool visibility);
-	void toggleVisibility();
-	bool getVisibility() { return this->visible; };
+	static Console& Instance();
+	static Console& Instance(bool bVisibility);
+	bool Alloc();
+	bool Free();
+	void SetVisibility(bool bVisibility);
+	void ToggleVisibility();
+	bool GetVisibility() { return this->bVisible; };
+	void SetTitle(std::string title) { SetConsoleTitleA(title.c_str()); };
 };
 
-inline Console con = Console::instance(false);
+inline Console con = Console::Instance(true);

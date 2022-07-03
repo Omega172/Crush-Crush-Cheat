@@ -31,10 +31,12 @@ public:
 	
 	void Render()
 	{
-		ImGui::Checkbox("Unlock Pinups", &toggle);
-
 		if (ImGui::Button("Unlock Date Pics"))
 			UnlockDatePhotos();
+
+		ImGui::SameLine();
+
+		ImGui::Checkbox("Unlock Pinups", &toggle);
 
 		Toggle();
 	}
@@ -45,14 +47,15 @@ public:
 		if (Album_IsPinupUnlocked == nullptr)
 			return;
 		
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Album_IsPinupUnlocked Created" << std::endl;
+		LogHook(HookLogReason::Create, "Album_IsPinupUnlocked");
 		CreateHook(Album_IsPinupUnlocked);
 
 		Album_Update = Mono::instance().GetCompiledMethod("Album", "Update", 0);
 		if (Album_Update == nullptr)
 			return;
 		
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Album_Update Created & Enabled" << std::endl;
+		LogHook(HookLogReason::Create, "Album_Update");
+		LogHook(HookLogReason::Enable, "Album_Update");
 		CreateHook(Album_Update);
 		EnableHook(Album_Update);
 	}
@@ -63,7 +66,7 @@ public:
 		{
 			hookEnabled = true;
 			
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Album_IsPinupUnlocked Enabled" << std::endl;
+			LogHook(HookLogReason::Enable, "Album_IsPinupUnlocked");
 			EnableHook(Album_IsPinupUnlocked);
 		}
 		
@@ -71,76 +74,70 @@ public:
 		{
 			hookEnabled = false;
 			
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Album_IsPinupUnlocked Disabled" << std::endl;
+			LogHook(HookLogReason::Disable, "Album_IsPinupUnlocked");
 			DisableHook(Album_IsPinupUnlocked);
 		}
 	}
 
 	void Destory()
 	{
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Album_IsPinupUnlocked Destroyed" << std::endl;
+		LogHook(HookLogReason::Destroy, "Album_IsPinupUnlocked");
 		DisableHook(Album_IsPinupUnlocked);
 
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Album_Update Destroyed" << std::endl;
+		LogHook(HookLogReason::Enable, "Album_Update");
 		DisableHook(Album_Update);
 	}
 
 	void UnlockDatePhotos()
 	{
 		if (pAlbumClassInstance == nullptr)
-		{
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Album Class instance null" << std::endl;
 			return;
-		}
 
 		MonoMethod* Album_AddDate = Mono::instance().GetMethod("Album", "AddDate", 2);
 		if (Album_AddDate == nullptr)
-		{
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Album_AddDate Method null" << std::endl;
 			return;
-		}
 
+		int dateType = NULL;
+		MonoObject* result;
 		for (unsigned int i = 0; i < Girls.size(); i++)
 		{
-			int dateType = DateTypes::DateType::Beach;
+			dateType = DateTypes::DateType::Beach;
 			void* args[2] = { &dateType, &Girls[i].id };
-			MonoObject* result = Mono::instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
-			//std::cout << "[OmegaWare.xyz]::Invoke(Album_AddDate)(Itter = " << i << " " << dateType << ") = " << result << std::endl;
-			
+			result = Mono::instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
 			
 			dateType = DateTypes::DateType::MoonlightStroll;
 			args[0] = &dateType;
 			args[1] = &Girls[i].id;
 			result = Mono::instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
-			//std::cout << "[OmegaWare.xyz]::Invoke(Album_AddDate)(Itter = " << i << " " << dateType << ") = " << result << std::endl;
-			
 			
 			dateType = DateTypes::DateType::MovieTheater;
 			args[0] = &dateType;
 			args[1] = &Girls[i].id;
 			result = Mono::instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
-			//std::cout << "[OmegaWare.xyz]::Invoke(Album_AddDate)(Itter = " << i << " " << dateType << ") = " << result << std::endl;
-			
 			
 			dateType = DateTypes::DateType::Sightseeing;
 			args[0] = &dateType;
 			args[1] = &Girls[i].id;
 			result = Mono::instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
-			std::cout << "[OmegaWare.xyz]::Invoke(Album_AddDate)(Itter = " << i << " " << dateType << ") = " << result << std::endl;
+			
+			if (bExtraDebug)
+				LogInvoke("Album_AddDate", "Itter = " + std::to_string(i) + " Result = " + (std::stringstream() << result).str());
 		}
 	}
 
 	HOOK_DEF(bool, Album_IsPinupUnlocked, (void* __this, int pinupPage, int image))
 	{
-		if (image != 0)
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Album_IsPinupUnlocked called = " << pinupPage << " " << image << std::endl;
-
+		if (image != 0 && bExtraDebug)
+			LogHook(HookLogReason::Called, "Album_IsPinupUnlocked", "pinupPage = " + std::to_string(pinupPage) + " image = " + std::to_string(image));
+		
 		return true;
 	}
 
 	HOOK_DEF(void, Album_Update, (void* __this))
 	{
-		//std::cout << "[OmegaWare.xyz]::[Hooks]::Album_Update called = " << __this << std::endl;
+		//if (bExtraDebug)
+			//LogHook(HookLogReason::Called, "Album_Update", (std::stringstream() << "__this = " << __this).str());
+		
 		pAlbumClassInstance = __this;
 		return oAlbum_Update(__this);
 	}

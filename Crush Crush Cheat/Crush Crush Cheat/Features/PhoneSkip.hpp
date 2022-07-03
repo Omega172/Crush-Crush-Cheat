@@ -30,6 +30,8 @@ public:
 		if (ImGui::Button("Phone Skip"))
 			Skip();
 		
+		ImGui::SameLine();
+
 		ImGui::Checkbox("Unlock Phone Convos", &toggle);
 
 		Toggle();
@@ -41,7 +43,8 @@ public:
 		if (Cellphone_Update == nullptr)
 			return;
 
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Cellphone_Update Created & Enabled" << std::endl;
+		LogHook(HookLogReason::Create, "Cellphone_Update");
+		LogHook(HookLogReason::Enable, "Cellphone_Update");
 		CreateHook(Cellphone_Update);
 		EnableHook(Cellphone_Update);
 
@@ -49,7 +52,7 @@ public:
 		if (Cellphone_IsUnlocked == nullptr)
 			return;
 		
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Cellphone_IsUnlocked Created" << std::endl;
+		LogHook(HookLogReason::Create, "Cellphone_IsUnlocked");
 		CreateHook(Cellphone_IsUnlocked);
 	}
 
@@ -58,23 +61,24 @@ public:
 		if (toggle && !hookEnabled)
 		{
 			hookEnabled = true;
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Cellphone_IsUnlocked Enabled" << std::endl;
+			LogHook(HookLogReason::Enable, "Cellphone_IsUnlocked");
 			EnableHook(Cellphone_IsUnlocked);
 		}
 
 		if (!toggle && hookEnabled)
 		{
 			hookEnabled = false;
-			std::cout << "[OmegaWare.xyz]::[Hooks]::Cellphone_IsUnlocked Disabled" << std::endl;
+			LogHook(HookLogReason::Disable, "Cellphone_IsUnlocked");
 			DisableHook(Cellphone_IsUnlocked);
 		}
 	}
 
 	void Destroy()
 	{
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Cellphone_Update Destroyed" << std::endl;
-		std::cout << "[OmegaWare.xyz]::[Hooks]::Cellphone_IsUnloaked Destroyed" << std::endl;
+		LogHook(HookLogReason::Destroy, "Cellphone_Update");
 		DisableHook(Cellphone_Update);
+		
+		LogHook(HookLogReason::Destroy, "Cellphone_IsUnlocked");
 		DisableHook(Cellphone_IsUnlocked);
 	}
 
@@ -88,7 +92,8 @@ public:
 			return;
 
 		MonoObject* result = Mono::instance().Invoke(TimeSkip, pCellphoneClassInstance, nullptr);
-		std::cout << "[OmegaWare.xyz]::Invoke(Debug_SkipMessage) = " << result << std::endl;
+		if (bExtraDebug)
+			LogInvoke("Debug_SkipMessage", "Result = " + (std::stringstream()<<result).str());
 	}
 
 	HOOK_DEF(void, Cellphone_Update, (void* __this))

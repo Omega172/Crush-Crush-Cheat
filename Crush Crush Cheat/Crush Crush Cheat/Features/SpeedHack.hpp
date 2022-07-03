@@ -19,10 +19,11 @@ private:
 		if (set_timeScale == nullptr)
 			return;
 
-		std::cout << "[OmegaWare.xyz]::set_timeScale = " << scale << std::endl;
-
 		void* args[1] = { &scale };
-		Mono::instance().Invoke(set_timeScale, nullptr, args);
+		MonoObject* result = Mono::instance().Invoke(set_timeScale, nullptr, args);
+		
+		if (bExtraDebug)
+			LogInvoke("set_timeScale", "Result = " + (std::stringstream() << result).str());
 	}
 
 public:

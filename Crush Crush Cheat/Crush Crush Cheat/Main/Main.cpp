@@ -1,5 +1,6 @@
 #include "Main.hpp"
 #include "../GUI/GUI.hpp"
+#include "../GUI/Style.hpp"
 
 bool hkInit = false;
 Present oPresent;
@@ -43,7 +44,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 	albumUnlock.Destory();
 	
 	std::this_thread::sleep_for(std::chrono::seconds(3));
-	con.free();
+	con.Free();
 	FreeLibraryAndExitThread((HMODULE)lpReserved, EXIT_SUCCESS);
 	return 0;
 }
@@ -100,7 +101,9 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 	}
 	
 	GUI::BeginRender();
+	ImGui::PushFont(tahomaFont);
 	GUI::Render();
+	ImGui::PopFont();
 	GUI::EndRender();
 	
 	pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
@@ -128,6 +131,6 @@ void InitImGui()
 	ImGui_ImplWin32_Init(window);
 	ImGui_ImplDX11_Init(pDevice, pContext);
 
-	//setupStyles();
-	//importFonts();
+	SetupStyle();
+	ImportFonts();
 }
