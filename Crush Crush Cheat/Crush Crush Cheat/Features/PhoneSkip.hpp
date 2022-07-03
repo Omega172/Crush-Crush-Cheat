@@ -18,7 +18,7 @@ public:
 	PhoneSkip() {};
 
 	void Render()
-	{\
+	{
 		if (ImGui::Button("Phone Skip"))
 			Skip();
 	}

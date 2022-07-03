@@ -16,6 +16,7 @@
     <ClCompile Include="Hooking\Keiro\minhook\src\hook.c" />
     <ClCompile Include="Hooking\Keiro\minhook\src\trampoline.c" />
     <ClCompile Include="Hooking\Keiro\kiero.cpp" />
+    <ClCompile Include="GUI\GUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes.hpp" />

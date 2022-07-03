@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GUI\GUI.cpp" />
     <ClCompile Include="Hooking\Keiro\kiero.cpp" />
     <ClCompile Include="Hooking\Keiro\minhook\src\buffer.c" />
     <ClCompile Include="Hooking\Keiro\minhook\src\hde\hde32.c" />

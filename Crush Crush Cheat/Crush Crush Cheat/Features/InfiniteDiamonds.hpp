@@ -21,9 +21,14 @@ public:
 	
 	void Render()
 	{
-		ImGui::InputInt("Diamond Amount", &amount);
-		if (ImGui::Button("Give Diamonds"))
-			Give();
+		ImGui::BeginChild("##InfiniteDiamonds", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y / 2), true);
+		{
+			ImGui::Text("Diamonds");
+			ImGui::InputInt("##Diamond Amount", &amount);
+			if (ImGui::Button("Give Diamonds"))
+				Give();
+		}
+		ImGui::EndChild();
 	}
 
 	void Give()

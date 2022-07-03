@@ -20,7 +20,7 @@ public:
 
 	void Render()
 	{
-		if (ImGui::Button("Unlock All Girls!"))
+		if (ImGui::Button("Unlock All Girls"))
 			Unlock();
 	}
 

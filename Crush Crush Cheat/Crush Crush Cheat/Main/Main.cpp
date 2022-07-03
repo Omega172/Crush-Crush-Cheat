@@ -1,4 +1,5 @@
 #include "Main.hpp"
+#include "../GUI/GUI.hpp"
 
 bool hkInit = false;
 Present oPresent;
@@ -20,7 +21,6 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 
 DWORD WINAPI MainThread(LPVOID lpReserved)
 {
-	//Console con = Console::instance(true);
 	Init();
 	
 	do
@@ -40,7 +40,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 	modifyGiftQuantity.Destroy();
 	phoneSkip.Destroy();
 	
-	//con.free();
+	con.free();
 	FreeLibraryAndExitThread((HMODULE)lpReserved, EXIT_SUCCESS);
 	return 0;
 }

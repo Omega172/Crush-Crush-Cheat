@@ -11,6 +11,16 @@ void Console::initalize()
     this->initalized = true;
 }
 
+Console& Console::instance()
+{
+    static Console _instance;
+
+    if (!_instance.initalized)
+        _instance.initalize();
+
+    return _instance;
+}
+
 Console& Console::instance(bool show)
 {
     static Console _instance;

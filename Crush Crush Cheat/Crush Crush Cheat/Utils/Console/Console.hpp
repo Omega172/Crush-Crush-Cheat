@@ -13,6 +13,7 @@ private:
 	Console() {};
 
 public:
+	static Console& instance();
 	static Console& instance(bool visibility);
 	BOOL alloc();
 	BOOL free();
@@ -20,3 +21,5 @@ public:
 	void toggleVisibility();
 	bool getVisibility() { return this->visible; };
 };
+
+inline Console con = Console::instance(false);

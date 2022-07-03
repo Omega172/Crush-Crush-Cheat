@@ -21,8 +21,13 @@ public:
 
 	void Render()
 	{
-		ImGui::InputInt("Gift Quantity", &modQuantity);
-		ImGui::Checkbox("Override Gift Quantity", &toggle);
+		ImGui::BeginChild("##ModifyGiftQuantity", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y), true);
+		{
+			ImGui::Text("Gifts");
+			ImGui::InputInt("##Gift Quantity", &modQuantity);
+			ImGui::Checkbox("Override Gift Quantity", &toggle);
+		}
+		ImGui::EndChild();
 
 		Toggle();
 	}
