@@ -31,6 +31,8 @@ public:
 		if (ImGui::Button("Phone Skip Wait"))
 			Skip();
 
+		ImGui::SameLine();
+
 		ImGui::Checkbox("Unlock Phone Convos", &toggle);
 
 		Toggle();
