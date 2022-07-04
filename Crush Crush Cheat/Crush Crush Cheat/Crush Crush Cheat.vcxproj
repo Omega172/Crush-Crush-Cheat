@@ -36,6 +36,7 @@
     <ClInclude Include="Features\PhoneSkip.hpp" />
     <ClInclude Include="Features\SpeedHack.hpp" />
     <ClInclude Include="Features\Watermark.hpp" />
+    <ClInclude Include="GUI\Custom.hpp" />
     <ClInclude Include="GUI\GUI.hpp" />
     <ClInclude Include="GUI\Style.hpp" />
     <ClInclude Include="Hooking\Hook.h" />

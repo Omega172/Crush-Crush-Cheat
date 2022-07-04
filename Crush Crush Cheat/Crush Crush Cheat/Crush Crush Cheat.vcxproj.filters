@@ -55,6 +55,7 @@
     <ClInclude Include="Utils\Logging\Logging.hpp" />
     <ClInclude Include="Utils\Logging\Color.hpp" />
     <ClInclude Include="GUI\Style.hpp" />
+    <ClInclude Include="GUI\Custom.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Hooking\Keiro\minhook\dll_resources\MinHook.def" />

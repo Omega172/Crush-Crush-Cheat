@@ -1,12 +1,19 @@
 #include "GUI.hpp"
+#include "Custom.hpp"
+
+int testHotkey;
 
 void GUI::Render()
 {
 	if (bWatermark)
 		showWatermark(bWatermarkFPS, "OmegaWare.xyz (Crush Crush)", ImVec4(255, 255, 255, 255), ImVec4(255, 255, 255, 0));
 
+	phoneSkip.Update();
+	
 	if (!bMenuOpen)
 		return;
+
+	//ImGui::ShowStyleEditor();
 
 	ImGui::SetNextWindowSize(ImVec2(WIDTH, HEIGHT));
 	ImGui::Begin("OmegaWare.xyz (Crush Crush)", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse);

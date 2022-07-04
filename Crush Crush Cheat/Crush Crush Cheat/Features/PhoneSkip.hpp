@@ -18,7 +18,8 @@ class PhoneSkip
 private:
 	bool hookEnabled = false;
 	bool toggle = false;
-	
+	int phoneSkipKey = VK_XBUTTON1;
+
 	void* Cellphone_Update = nullptr;
 	void* Cellphone_IsUnlocked = nullptr;
 
@@ -27,14 +28,18 @@ public:
 
 	void Render()
 	{
-		if (ImGui::Button("Phone Skip"))
+		if (ImGui::Button("Phone Skip Wait"))
 			Skip();
-		
-		ImGui::SameLine();
 
 		ImGui::Checkbox("Unlock Phone Convos", &toggle);
 
 		Toggle();
+	}
+
+	void Update()
+	{
+		if (GetAsyncKeyState(phoneSkipKey))
+			Skip();
 	}
 	
 	void Create()

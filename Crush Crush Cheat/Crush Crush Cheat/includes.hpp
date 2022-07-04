@@ -20,6 +20,7 @@ inline bool bExtraDebug = false;
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
+#include "GUI/Custom.hpp"
 
 // Utils
 #include "Utils/Console/Console.hpp"
