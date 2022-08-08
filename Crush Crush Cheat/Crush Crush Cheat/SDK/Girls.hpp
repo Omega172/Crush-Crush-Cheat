@@ -50,8 +50,9 @@ enum Girl_ID
     Esper,
     Renee,
     Mallory,
-    Lake = 46,
-    MAX = 46
+    Lake,
+	Brie = 47,
+    MAX = 47
 };
 
 struct Girl
@@ -108,5 +109,6 @@ inline std::vector<Girl> Girls
     {"Esper", Girl_ID::Esper},
     {"Renee", Girl_ID::Renee},
     {"Mallory", Girl_ID::Mallory},
-    {"Lake", Girl_ID::Lake} // 46
+    {"Lake", Girl_ID::Lake},
+    {"Brie", Girl_ID::Brie} // 47
 };
