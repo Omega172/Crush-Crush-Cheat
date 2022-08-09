@@ -1,43 +1,51 @@
-# Crush-Crush-Cheat
-A Cheat made for the Steam version of [Crush Crush](https://store.steampowered.com/app/459820/Crush_Crush/)
-
-# Why?
-Before I started this project, I was looking into reverse engineering and hacking Unity games, and I know the best way I learn is by doing.
-So I looked around on steam to find a free game made in Unity and I found Crush Crush, I was not interested in the content of the game just that it was made in Unity.
-
-# Features
-- An in-game menu created by hooking the games Direct-X 11 with keiro and using Dear-ImGui to render
-- The ability to unload the DLL at anytime to resume normal game function
-- A console attached to the game used for outputing debug information and hook status with a button to enable and disable it
-- A simple watermark in the top right corner that displays the cheat's title and the current FPS
-- Hooks for many of the games internal functions using MinHook
-
-# Cheats
-- Menu
--- Toggle using the **Insert** key
-
-- Cheat Section
--- **Unload**: A button that will unload the cheat from the game, which can also be achieved by pressing the **End** key
-
-- Speed Hack Section
--- This cheat modifies the games internal time scale to increase or decrease the simulation speed
--- **Factor**: An unlabled intiger input field that specifies how much to increase the time scale by
--- **Speed Hack**: A checkbox which enables or disables this feature
-
-- Diamonds Section
--- This cheat adds diamonds (the premium currency) to the current save
--- **Quantity**: An unlabled intiger input field specifying the quanyity of diamonds to add (can be negitive)
--- **Give Diamonds**: A button that will execute the games GiveDiamond function
-
-- Gifts Section
--- This cheat enables a hook which upon gifting one of the girls an item modifies the quantity to the set number
--- **Quantity**: An intiger input field specifying what the number of gifts should be set to
--- **Override Gift Quantity**: A checkbox which enables or disables this feature
-
-- Misc Section
--- **Unlock All Girls**: A button, this cheat will unlock all of the characters requardless of you owning the correct bundles or if you meet their requirements (Will not persist after reload of a save if disabled, although the girls stats and progress will persist if the game is saved)
--- **Phone Skip Wait**: A button, this cheat will skip the timer between messages of the current open phone conversation (will do nothing if the phone is closed)
--- **Unlock Date Picks**: A button, this cheat will unlock all of the memory album date photos for all currently unlocked girls (Will persist if the game is saved)
--- **All Girls Lover**: A checkbox, this cheat enables a hook which is triggered on game update, which will set all girls relation ship level to **Lover** (Will persist if the game is saved)
--- **Unlock Phone Convos**: A checkbox, this cheat enables a hook that will unlock all phone conversations requardless of you owning the correct bundles or if you meet their requirements (Will not persist after save if disabled, although the progress of any conversations will persist if the game is saved)
--- **Unlock Pinups**: A checkbox, this cheat will reveal all memory album pinup photos while enabled, a quick note is that two of the pinups will remain hidden because they don't actually exist to my knowledge (Will not persist)
+<h1 class="code-line" data-line-start=0 data-line-end=1 ><a id="CrushCrushCheat_0"></a>Crush-Crush-Cheat</h1>
+<p class="has-line-data" data-line-start="1" data-line-end="2">A Cheat made for the Steam version of <a href="https://store.steampowered.com/app/459820/Crush_Crush/">Crush Crush</a></p>
+<h1 class="code-line" data-line-start=3 data-line-end=4 ><a id="Why_3"></a>Why?</h1>
+<p class="has-line-data" data-line-start="4" data-line-end="6">Before I started this project, I was looking into reverse engineering and hacking Unity games, and I know the best way I learn is by doing.<br>
+So I looked around on steam to find a free game made in Unity and I found Crush Crush, I was not interested in the content of the game just that it was made in Unity.</p>
+<h1 class="code-line" data-line-start=7 data-line-end=8 ><a id="Features_7"></a>Features</h1>
+<ul>
+<li class="has-line-data" data-line-start="8" data-line-end="9">An in-game menu created by hooking the games Direct-X 11 with keiro and using Dear-ImGui to render</li>
+<li class="has-line-data" data-line-start="9" data-line-end="10">The ability to unload the DLL at anytime to resume normal game function</li>
+<li class="has-line-data" data-line-start="10" data-line-end="11">A console attached to the game used for outputing debug information and hook status with a button to enable and disable it</li>
+<li class="has-line-data" data-line-start="11" data-line-end="12">A simple watermark in the top right corner that displays the cheat’s title and the current FPS</li>
+<li class="has-line-data" data-line-start="12" data-line-end="14">Hooks for many of the games internal functions using MinHook</li>
+</ul>
+<h1 class="code-line" data-line-start=14 data-line-end=15 ><a id="Cheats_14"></a>Cheats</h1>
+<ul>
+<li class="has-line-data" data-line-start="15" data-line-end="18">
+<p class="has-line-data" data-line-start="15" data-line-end="17">Menu<br>
+– Toggle using the <strong>Insert</strong> key</p>
+</li>
+<li class="has-line-data" data-line-start="18" data-line-end="21">
+<p class="has-line-data" data-line-start="18" data-line-end="20">Cheat Section<br>
+– <strong>Unload</strong>: A button that will unload the cheat from the game, which can also be achieved by pressing the <strong>End</strong> key</p>
+</li>
+<li class="has-line-data" data-line-start="21" data-line-end="26">
+<p class="has-line-data" data-line-start="21" data-line-end="25">Speed Hack Section<br>
+– This cheat modifies the games internal time scale to increase or decrease the simulation speed<br>
+– <strong>Factor</strong>: An unlabled intiger input field that specifies how much to increase the time scale by<br>
+– <strong>Speed Hack</strong>: A checkbox which enables or disables this feature</p>
+</li>
+<li class="has-line-data" data-line-start="26" data-line-end="31">
+<p class="has-line-data" data-line-start="26" data-line-end="30">Diamonds Section<br>
+– This cheat adds diamonds (the premium currency) to the current save<br>
+– <strong>Quantity</strong>: An unlabled intiger input field specifying the quanyity of diamonds to add (can be negitive)<br>
+– <strong>Give Diamonds</strong>: A button that will execute the games GiveDiamond function</p>
+</li>
+<li class="has-line-data" data-line-start="31" data-line-end="36">
+<p class="has-line-data" data-line-start="31" data-line-end="35">Gifts Section<br>
+– This cheat enables a hook which upon gifting one of the girls an item modifies the quantity to the set number<br>
+– <strong>Quantity</strong>: An intiger input field specifying what the number of gifts should be set to<br>
+– <strong>Override Gift Quantity</strong>: A checkbox which enables or disables this feature</p>
+</li>
+<li class="has-line-data" data-line-start="36" data-line-end="43">
+<p class="has-line-data" data-line-start="36" data-line-end="43">Misc Section<br>
+– <strong>Unlock All Girls</strong>: A button, this cheat will unlock all of the characters requardless of you owning the correct bundles or if you meet their requirements (Will not persist after reload of a save if disabled, although the girls stats and progress will persist if the game is saved)<br>
+– <strong>Phone Skip Wait</strong>: A button, this cheat will skip the timer between messages of the current open phone conversation (will do nothing if the phone is closed)<br>
+– <strong>Unlock Date Picks</strong>: A button, this cheat will unlock all of the memory album date photos for all currently unlocked girls (Will persist if the game is saved)<br>
+– <strong>All Girls Lover</strong>: A checkbox, this cheat enables a hook which is triggered on game update, which will set all girls relation ship level to <strong>Lover</strong> (Will persist if the game is saved)<br>
+– <strong>Unlock Phone Convos</strong>: A checkbox, this cheat enables a hook that will unlock all phone conversations requardless of you owning the correct bundles or if you meet their requirements (Will not persist after save if disabled, although the progress of any conversations will persist if the game is saved)<br>
+– <strong>Unlock Pinups</strong>: A checkbox, this cheat will reveal all memory album pinup photos while enabled, a quick note is that two of the pinups will remain hidden because they don’t actually exist to my knowledge (Will not persist)</p>
+</li>
+</ul>
