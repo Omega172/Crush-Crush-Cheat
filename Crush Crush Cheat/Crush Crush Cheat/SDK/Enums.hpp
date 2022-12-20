@@ -17,64 +17,6 @@ namespace LoveLevels
 	};
 }
 
-namespace GirlNames
-{
-	enum GirlName
-	{
-		Unknown = -1,
-		Cassie,
-		Mio,
-		Quill,
-		Elle,
-		Nutaku,
-		Iro,
-		Bonnibel,
-		Ayano,
-		Fumi,
-		Bearverly,
-		Nina,
-		Alpha,
-		Pamu,
-		Luna,
-		Eva,
-		Karma,
-		Sutra,
-		DarkOne,
-		QPiddy,
-		Darya,
-		Jelle,
-		Quillzone,
-		Bonchovy,
-		Spectrum,
-		Charlotte,
-		Odango,
-		Shibuki,
-		Sirina,
-		Catara,
-		Vellatrix,
-		Peanut,
-		Roxxy,
-		Tessa,
-		Claudia,
-		Rosa,
-		Juliet,
-		Wendy,
-		Ruri,
-		Generica,
-		Suzu,
-		Lustat,
-		Sawyer,
-		Explora,
-		Esper,
-		Renee,
-		Mallory,
-		Lake,
-		ReneePF = 1000,
-		NovaPF,
-		QPernikiss = 18
-	};
-}
-
 namespace RequirementTypes
 {
 	enum RequirementType

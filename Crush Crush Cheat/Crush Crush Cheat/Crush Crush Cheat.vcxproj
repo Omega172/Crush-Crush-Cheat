@@ -31,6 +31,7 @@
   <ItemGroup>
     <ClInclude Include="Features\AlbumUnlock.hpp" />
     <ClInclude Include="Features\InfiniteDiamonds.hpp" />
+    <ClInclude Include="Features\JobUnlock.hpp" />
     <ClInclude Include="Features\ModGirls.hpp" />
     <ClInclude Include="Features\ModifyGiftQuantity.hpp" />
     <ClInclude Include="Features\PhoneSkip.hpp" />
@@ -107,7 +108,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Program Files\Mono\include\mono-2.0;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\Mono\include\mono-2.0\;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

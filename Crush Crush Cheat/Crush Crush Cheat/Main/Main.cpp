@@ -42,6 +42,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 	phoneSkip.Destroy();
 	modGirls.Destroy();
 	albumUnlock.Destory();
+	jobUnlock.Destroy();
 	
 	std::this_thread::sleep_for(std::chrono::seconds(3));
 	con.Free();
@@ -62,6 +63,7 @@ void Init()
 	phoneSkip.Create();
 	modGirls.Create();
 	albumUnlock.Create();
+	jobUnlock.Create();
 
 	MH_Initialize();
 }

@@ -15,6 +15,7 @@ class InfiniteDiamonds
 {
 private:
 	int amount = 1000000;
+	bool force = true;
 
 public:
 	InfiniteDiamonds() {};
@@ -33,11 +34,11 @@ public:
 
 	void Give()
 	{
-		MonoMethod* AwardDiamonds = Mono::instance().GetMethod("Utilities", "AwardDiamonds", 1);
+		MonoMethod* AwardDiamonds = Mono::instance().GetMethod("Utilities", "AwardDiamonds", 2);
 		if (AwardDiamonds == nullptr)
 			return;
 
-		void* args[1] = { &amount };
+		void* args[2] = { &amount, &force };
 		MonoObject* result = Mono::instance().Invoke(AwardDiamonds, nullptr, args);
 
 		if (bExtraDebug)

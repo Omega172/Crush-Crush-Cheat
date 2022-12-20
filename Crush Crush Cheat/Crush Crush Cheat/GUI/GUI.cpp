@@ -52,6 +52,7 @@ void GUI::Render()
 		modGirls.Render();
 		phoneSkip.Render();
 		albumUnlock.Render();
+		jobUnlock.Render();
 	}
 	ImGui::EndChild();
 

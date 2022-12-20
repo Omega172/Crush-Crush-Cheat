@@ -3,6 +3,7 @@
 
 #include <Windows.h>
 #include <iostream>
+#include <sstream>
 #include <thread>
 #include <vector>
 #include <D3D11.h>
@@ -55,6 +56,8 @@ inline PhoneSkip phoneSkip;
 inline ModGirls modGirls;
 #include "Features/AlbumUnlock.hpp"
 inline AlbumUnlock albumUnlock;
+#include "Features/JobUnlock.hpp"
+inline JobUnlock jobUnlock;
 
 typedef HRESULT(__stdcall* Present) (IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);
