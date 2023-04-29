@@ -43,6 +43,8 @@ inline bool bExtraDebug = false;
 #include "Features/Watermark.hpp"
 inline bool bWatermark = true;
 inline bool bWatermarkFPS = true;
+#include "Features/Quit.hpp"
+inline Quit quit;
 #include "Features/UnlockGirls.hpp"
 inline UnlockGirls unlockGirls;
 #include "Features/SpeedHack.hpp"

@@ -37,6 +37,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 	} while (!bExit);
 
 	// Restore Hooks & Disable features
+	quit.Destroy();
 	unlockGirls.Destroy();
 	speedHack.Disable();
 	modifyGiftQuantity.Destroy();
@@ -69,6 +70,7 @@ void Init()
 	MH_Initialize();
 
 	// Init Hooks
+	quit.Create();
 	unlockGirls.Create();
 	modifyGiftQuantity.Create();
 	phoneSkip.Create();
