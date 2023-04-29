@@ -46,7 +46,7 @@ public:
 	
 	void Create()
 	{
-		Cellphone_Update = Mono::instance().GetCompiledMethod("Cellphone", "Update", 0);
+		Cellphone_Update = Mono::Instance().GetCompiledMethod("Cellphone", "Update", 0);
 		if (Cellphone_Update == nullptr)
 			return;
 
@@ -55,7 +55,7 @@ public:
 		CreateHook(Cellphone_Update);
 		EnableHook(Cellphone_Update);
 
-		Cellphone_IsUnlocked = Mono::instance().GetCompiledMethod("Cellphone", "IsUnlocked", 1);
+		Cellphone_IsUnlocked = Mono::Instance().GetCompiledMethod("Cellphone", "IsUnlocked", 1);
 		if (Cellphone_IsUnlocked == nullptr)
 			return;
 		
@@ -94,11 +94,11 @@ public:
 		if (pCellphoneClassInstance == nullptr)
 			return;
 		
-		MonoMethod* TimeSkip = Mono::instance().GetMethod("Cellphone", "Debug_SkipMessage", 0);
+		MonoMethod* TimeSkip = Mono::Instance().GetMethod("Cellphone", "Debug_SkipMessage", 0);
 		if (TimeSkip == nullptr)
 			return;
 
-		MonoObject* result = Mono::instance().Invoke(TimeSkip, pCellphoneClassInstance, nullptr);
+		MonoObject* result = Mono::Instance().Invoke(TimeSkip, pCellphoneClassInstance, nullptr);
 		if (bExtraDebug)
 			LogInvoke("Debug_SkipMessage", "Result = " + (std::stringstream()<<result).str());
 	}

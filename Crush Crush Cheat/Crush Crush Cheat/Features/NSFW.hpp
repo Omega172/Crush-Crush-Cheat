@@ -25,7 +25,7 @@ public:
 
 	void Create()
 	{	
-		nsfw = (bool*)Mono::instance().GetStaticFieldValue("GameState", "NSFW");
+		nsfw = (bool*)Mono::Instance().GetStaticFieldValue("GameState", "NSFW");
 		if (nsfw == nullptr)
 		{
 			LogHook(HookLogReason::Error, "GameState_NSFW", "nsfw == nullptr");

@@ -31,7 +31,7 @@ public:
 
 	void Create()
 	{
-		Hobby_Update = Mono::instance().GetCompiledMethod("Hobby2", "Update", 0);
+		Hobby_Update = Mono::Instance().GetCompiledMethod("Hobby2", "Update", 0);
 		if (Hobby_Update == nullptr)
 			return;
 
@@ -67,14 +67,14 @@ public:
 		if (__this == nullptr)
 			return oHobby_Update(__this);
 
-		MonoMethod* Hobby_Unlock = Mono::instance().GetMethod("Hobby2", "Unlock", 1);
+		MonoMethod* Hobby_Unlock = Mono::Instance().GetMethod("Hobby2", "Unlock", 1);
 		if (Hobby_Unlock == nullptr)
 			return oHobby_Update(__this);
 
 		bool value = true;
 
 		void* args[1] = { &value };
-		MonoObject* result = Mono::instance().Invoke(Hobby_Unlock, __this, args);
+		MonoObject* result = Mono::Instance().Invoke(Hobby_Unlock, __this, args);
 
 		if (bExtraDebug)
 			LogInvoke("Hobby_Unlock", "Result = " + (std::stringstream() << result).str());

@@ -2,6 +2,7 @@
 #include "../GUI/GUI.hpp"
 #include "../GUI/Style.hpp"
 
+bool keiroInit = false;
 bool hkInit = false;
 Present oPresent;
 HWND window = NULL;
@@ -46,6 +47,8 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 	hobbiesUnlock.Destroy();
 	nsfw.Destroy();
 	
+	MH_Uninitialize();
+
 	std::this_thread::sleep_for(std::chrono::seconds(3));
 	con.Free();
 	FreeLibraryAndExitThread((HMODULE)lpReserved, EXIT_SUCCESS);
@@ -54,10 +57,16 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 
 void Init()
 {
-	if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success)
+	do
 	{
-		kiero::bind(8, (void**)&oPresent, hkPresent);
-	}
+		if (kiero::init(kiero::RenderType::D3D11) == kiero::Status::Success)
+		{
+			kiero::bind(8, (void**)&oPresent, hkPresent);
+			keiroInit = true;
+		}
+	} while (!keiroInit);
+
+	MH_Initialize();
 
 	// Init Hooks
 	unlockGirls.Create();
@@ -68,8 +77,6 @@ void Init()
 	jobUnlock.Create();
 	hobbiesUnlock.Create();
 	nsfw.Create();
-
-	MH_Initialize();
 }
 
 LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -106,6 +113,7 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 			oWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
 			InitImGui();
 			hkInit = true;
+			return oPresent(pSwapChain, SyncInterval, Flags);
 		}
 		else
 			return oPresent(pSwapChain, SyncInterval, Flags);
@@ -117,17 +125,17 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 	ImGui::PopFont();
 	GUI::EndRender();
 	
-	pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
+	//pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	if (bExit)
 	{
-		kiero::shutdown();
 		pDevice->Release();
 		pContext->Release();
 		pSwapChain->Release();
 		oWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)(oWndProc));
 		oPresent(pSwapChain, SyncInterval, Flags);
+		kiero::shutdown();
 		return 0;
 	}
 

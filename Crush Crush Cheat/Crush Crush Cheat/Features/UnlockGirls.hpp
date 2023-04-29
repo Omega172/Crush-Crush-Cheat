@@ -31,7 +31,7 @@ public:
 
 	void Create()
 	{
-		Girls_Update = Mono::instance().GetCompiledMethod("Girls", "Update", 0);
+		Girls_Update = Mono::Instance().GetCompiledMethod("Girls", "Update", 0);
 		if (Girls_Update == nullptr)
 			return;
 
@@ -52,25 +52,25 @@ public:
 		if (pGirlsClassInstance == nullptr)
 			return;
 
-		MonoMethod* UnlockGirl = Mono::instance().GetMethod("Girls", "UnlockGirl", 1);
+		MonoMethod* UnlockGirl = Mono::Instance().GetMethod("Girls", "UnlockGirl", 1);
 		if (UnlockGirl == nullptr)
 			return;
 
 		for (unsigned int i = 0; i < Girls.size(); i++)
 		{
 			void* args[1] = { &Girls[i].id };
-			MonoObject* result = Mono::instance().Invoke(UnlockGirl, pGirlsClassInstance, args);
+			MonoObject* result = Mono::Instance().Invoke(UnlockGirl, pGirlsClassInstance, args);
 			
 			if (bExtraDebug)
 				LogInvoke("UnlockGirl", "Itter = " + std::to_string(i) + " Result = " + (std::stringstream() << result).str());
 		}
 
 		int32_t unlockedGirlsCount;
-		MonoClassField* pField = Mono::instance().GetField("Girls", "unlockedGirlsCount");
-		Mono::instance().GetFieldValue(pGirlsClassInstance, pField, &unlockedGirlsCount);
+		MonoClassField* pField = Mono::Instance().GetField("Girls", "unlockedGirlsCount");
+		Mono::Instance().GetFieldValue(pGirlsClassInstance, pField, &unlockedGirlsCount);
 			
 		if (bExtraDebug)
-			LogInvoke("GetField", "Value: " + std::to_string(unlockedGirlsCount) + " Yoinked Class Addr: " + (std::stringstream() << pGirlsClassInstance).str() + " Resolved Class Addr: " + (std::stringstream() << Mono::instance().GetClassFromMethod(UnlockGirl)).str());
+			LogInvoke("GetField", "Value: " + std::to_string(unlockedGirlsCount) + " Yoinked Class Addr: " + (std::stringstream() << pGirlsClassInstance).str() + " Resolved Class Addr: " + (std::stringstream() << Mono::Instance().GetClassFromMethod(UnlockGirl)).str());
 	}
 
 	HOOK_DEF(void, Girls_Update, (void* __this))

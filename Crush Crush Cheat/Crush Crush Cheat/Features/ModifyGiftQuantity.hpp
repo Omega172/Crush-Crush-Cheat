@@ -34,7 +34,7 @@ public:
 
 	void Create()
 	{
-		Gift_OnGift = Mono::instance().GetCompiledMethod("Gift", "OnGift", 1);
+		Gift_OnGift = Mono::Instance().GetCompiledMethod("Gift", "OnGift", 1);
 		if (Gift_OnGift == nullptr)
 			return;
 

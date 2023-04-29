@@ -31,7 +31,7 @@ public:
 
 	void Create()
 	{
-		Job_Update = Mono::instance().GetCompiledMethod("Job2", "Update", 0);
+		Job_Update = Mono::Instance().GetCompiledMethod("Job2", "Update", 0);
 		if (Job_Update == nullptr)
 			return;
 
@@ -67,11 +67,11 @@ public:
 		if (__this == nullptr)
 			return oJob_Update(__this);
 
-		MonoMethod* Job_Unlock = Mono::instance().GetMethod("Job2", "Unlock", 0);
+		MonoMethod* Job_Unlock = Mono::Instance().GetMethod("Job2", "Unlock", 0);
 		if (Job_Unlock == nullptr)
 			return oJob_Update(__this);
 
-		MonoObject* result = Mono::instance().Invoke(Job_Unlock, __this, nullptr);
+		MonoObject* result = Mono::Instance().Invoke(Job_Unlock, __this, nullptr);
 
 		/*bool bGilded = true;	
 		MonoClassField* pField = Mono::instance().GetField("Job2", "Gilded");

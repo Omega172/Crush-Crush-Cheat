@@ -43,14 +43,14 @@ public:
 
 	void Create()
 	{
-		Album_IsPinupUnlocked = Mono::instance().GetCompiledMethod("Album", "IsPinupUnlocked", 2);
+		Album_IsPinupUnlocked = Mono::Instance().GetCompiledMethod("Album", "IsPinupUnlocked", 2);
 		if (Album_IsPinupUnlocked == nullptr)
 			return;
 		
 		LogHook(HookLogReason::Create, "Album_IsPinupUnlocked");
 		CreateHook(Album_IsPinupUnlocked);
 
-		Album_Update = Mono::instance().GetCompiledMethod("Album", "Update", 0);
+		Album_Update = Mono::Instance().GetCompiledMethod("Album", "Update", 0);
 		if (Album_Update == nullptr)
 			return;
 		
@@ -93,7 +93,7 @@ public:
 		if (pAlbumClassInstance == nullptr)
 			return;
 
-		MonoMethod* Album_AddDate = Mono::instance().GetMethod("Album", "AddDate", 2);
+		MonoMethod* Album_AddDate = Mono::Instance().GetMethod("Album", "AddDate", 2);
 		if (Album_AddDate == nullptr)
 			return;
 
@@ -103,22 +103,22 @@ public:
 		{
 			dateType = DateTypes::DateType::Beach;
 			void* args[2] = { &dateType, &Girls[i].id };
-			result = Mono::instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
+			result = Mono::Instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
 			
 			dateType = DateTypes::DateType::MoonlightStroll;
 			args[0] = &dateType;
 			args[1] = &Girls[i].id;
-			result = Mono::instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
+			result = Mono::Instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
 			
 			dateType = DateTypes::DateType::MovieTheater;
 			args[0] = &dateType;
 			args[1] = &Girls[i].id;
-			result = Mono::instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
+			result = Mono::Instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
 			
 			dateType = DateTypes::DateType::Sightseeing;
 			args[0] = &dateType;
 			args[1] = &Girls[i].id;
-			result = Mono::instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
+			result = Mono::Instance().Invoke(Album_AddDate, pAlbumClassInstance, args);
 			
 			if (bExtraDebug)
 				LogInvoke("Album_AddDate", "Itter = " + std::to_string(i) + " Result = " + (std::stringstream() << result).str());

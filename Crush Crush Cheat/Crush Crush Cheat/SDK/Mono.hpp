@@ -14,7 +14,6 @@ typedef void* (*t_mono_compile_method)(MonoMethod* method);
 typedef MonoObject* (*t_mono_runtime_invoke)(MonoMethod* method, void* obj, void** params, MonoObject** exc);
 
 typedef MonoClassField* (*t_mono_class_get_field_from_name)(MonoClass* klass, const char* name);
-
 typedef void* (*t_mono_field_get_value)(void* obj, MonoClassField* field, void* value);
 typedef void (*t_mono_field_set_value)(MonoObject* obj, MonoClassField* field, void* value);
 typedef MonoClass* (*t_mono_method_get_class)(MonoMethod* method);
@@ -39,7 +38,6 @@ private:
 	t_mono_runtime_invoke mono_runtime_invoke = nullptr;
 
 	t_mono_class_get_field_from_name mono_class_get_field_from_name = nullptr;
-
 	t_mono_field_get_value mono_field_get_value = nullptr;
 	t_mono_field_set_value mono_field_set_value = nullptr;
 	t_mono_method_get_class mono_method_get_class = nullptr;
@@ -62,14 +60,13 @@ private:
 		mono_runtime_invoke = reinterpret_cast<t_mono_runtime_invoke>(GetProcAddress(hMono, "mono_runtime_invoke"));
 
 		mono_class_get_field_from_name = reinterpret_cast<t_mono_class_get_field_from_name>(GetProcAddress(hMono, "mono_class_get_field_from_name"));
-
 		mono_field_get_value = reinterpret_cast<t_mono_field_get_value>(GetProcAddress(hMono, "mono_field_get_value"));
 		mono_field_set_value = reinterpret_cast<t_mono_field_set_value>(GetProcAddress(hMono, "mono_field_set_value"));
 		mono_method_get_class = reinterpret_cast<t_mono_method_get_class>(GetProcAddress(hMono, "mono_method_get_class"));
 		mono_class_vtable = reinterpret_cast<t_mono_class_vtable>(GetProcAddress(hMono, "mono_class_vtable"));
 		mono_vtable_get_static_field_data = reinterpret_cast<t_mono_vtable_get_static_field_data>(GetProcAddress(hMono, "mono_vtable_get_static_field_data"));
 		mono_field_get_offset = reinterpret_cast<t_mono_field_get_offset>(GetProcAddress(hMono, "mono_field_get_offset"));
-
+		
 		// Attach thread to prevent crashes
 		mono_thread_attach = reinterpret_cast<t_mono_thread_attach>(GetProcAddress(hMono, "mono_thread_attach"));
 		mono_get_root_domain = reinterpret_cast<t_mono_get_root_domain>(GetProcAddress(hMono, "mono_get_root_domain"));
@@ -79,7 +76,7 @@ private:
 	}
 
 public:
-	static Mono& instance()
+	static Mono& Instance()
 	{
 		static Mono _instance;
 

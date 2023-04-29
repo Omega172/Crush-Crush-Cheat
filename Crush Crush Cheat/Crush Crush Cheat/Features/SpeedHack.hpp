@@ -15,12 +15,12 @@ private:
 
 	void SetTimeScale(float scale)
 	{
-		MonoMethod* set_timeScale = Mono::instance().GetMethod("Time", "set_timeScale", 1, "UnityEngine", "UnityEngine");
+		MonoMethod* set_timeScale = Mono::Instance().GetMethod("Time", "set_timeScale", 1, "UnityEngine", "UnityEngine");
 		if (set_timeScale == nullptr)
 			return;
 
 		void* args[1] = { &scale };
-		MonoObject* result = Mono::instance().Invoke(set_timeScale, nullptr, args);
+		MonoObject* result = Mono::Instance().Invoke(set_timeScale, nullptr, args);
 		
 		if (bExtraDebug)
 			LogInvoke("set_timeScale", "Result = " + (std::stringstream() << result).str());

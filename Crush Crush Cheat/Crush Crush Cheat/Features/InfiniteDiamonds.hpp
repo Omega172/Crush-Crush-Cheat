@@ -34,12 +34,12 @@ public:
 
 	void Give()
 	{
-		MonoMethod* AwardDiamonds = Mono::instance().GetMethod("Utilities", "AwardDiamonds", 2);
+		MonoMethod* AwardDiamonds = Mono::Instance().GetMethod("Utilities", "AwardDiamonds", 2);
 		if (AwardDiamonds == nullptr)
 			return;
 
 		void* args[2] = { &amount, &force };
-		MonoObject* result = Mono::instance().Invoke(AwardDiamonds, nullptr, args);
+		MonoObject* result = Mono::Instance().Invoke(AwardDiamonds, nullptr, args);
 
 		if (bExtraDebug)
 			LogInvoke("AwardDiamonds", "Result = " + (std::stringstream()<<result).str());

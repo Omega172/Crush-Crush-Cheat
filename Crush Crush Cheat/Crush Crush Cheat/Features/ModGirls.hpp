@@ -31,7 +31,7 @@ public:
 
 	void Create()
 	{
-		Girl_Update = Mono::instance().GetCompiledMethod("Girl", "Update", 0);
+		Girl_Update = Mono::Instance().GetCompiledMethod("Girl", "Update", 0);
 		if (Girl_Update == nullptr)
 			return;
 
@@ -67,13 +67,13 @@ public:
 		if (__this == nullptr)
 			return oGirl_Update(__this);
 
-		MonoMethod* Girl_SetLove = Mono::instance().GetMethod("Girl", "SetLove", 1);
+		MonoMethod* Girl_SetLove = Mono::Instance().GetMethod("Girl", "SetLove", 1);
 		if (Girl_SetLove == nullptr)
 			return oGirl_Update(__this);
 
 		int loveLevel = LoveLevels::LoveLevel::Lover;
 		void* args[1] = { &loveLevel };
-		MonoObject* result = Mono::instance().Invoke(Girl_SetLove, __this, args);
+		MonoObject* result = Mono::Instance().Invoke(Girl_SetLove, __this, args);
 		
 		if (bExtraDebug)
 			LogInvoke("Girl_SetLove", "Result = " + (std::stringstream() << result).str());
