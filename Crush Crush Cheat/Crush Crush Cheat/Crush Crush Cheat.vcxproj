@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Features\AlbumUnlock.hpp" />
+    <ClInclude Include="Features\HobbiesUnlock.hpp" />
     <ClInclude Include="Features\InfiniteDiamonds.hpp" />
     <ClInclude Include="Features\JobUnlock.hpp" />
     <ClInclude Include="Features\ModGirls.hpp" />

@@ -43,6 +43,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 	modGirls.Destroy();
 	albumUnlock.Destory();
 	jobUnlock.Destroy();
+	hobbiesUnlock.Destroy();
 	nsfw.Destroy();
 	
 	std::this_thread::sleep_for(std::chrono::seconds(3));
@@ -65,6 +66,7 @@ void Init()
 	modGirls.Create();
 	albumUnlock.Create();
 	jobUnlock.Create();
+	hobbiesUnlock.Create();
 	nsfw.Create();
 
 	MH_Initialize();

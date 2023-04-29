@@ -54,6 +54,7 @@ void GUI::Render()
 		albumUnlock.Render();
 		jobUnlock.Render();
 		ImGui::SameLine();
+		hobbiesUnlock.Render();
 		nsfw.Render();
 	}
 	ImGui::EndChild();

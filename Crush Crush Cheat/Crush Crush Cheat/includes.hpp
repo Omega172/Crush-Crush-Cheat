@@ -58,6 +58,8 @@ inline ModGirls modGirls;
 inline AlbumUnlock albumUnlock;
 #include "Features/JobUnlock.hpp"
 inline JobUnlock jobUnlock;
+#include "Features/HobbiesUnlock.hpp"
+inline HobbiesUnlock hobbiesUnlock;
 #include "Features/NSFW.hpp"
 inline NSFW nsfw;
 

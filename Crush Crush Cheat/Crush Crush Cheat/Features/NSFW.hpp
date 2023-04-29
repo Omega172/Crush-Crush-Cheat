@@ -1,11 +1,16 @@
 #pragma once
 #include "../includes.hpp"
 
+// GameState
+// Token: 0x040003FF RID: 1023
+// public static bool NSFW
+// GameState::NSFW
+
 class NSFW
 {
 private:
 	bool originalValue = false;
-	bool* nsfw;
+	bool* nsfw = nullptr;
 	bool toggle = false;
 	
 public:
