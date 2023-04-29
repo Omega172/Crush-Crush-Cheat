@@ -34,6 +34,7 @@
     <ClInclude Include="Features\JobUnlock.hpp" />
     <ClInclude Include="Features\ModGirls.hpp" />
     <ClInclude Include="Features\ModifyGiftQuantity.hpp" />
+    <ClInclude Include="Features\NSFW.hpp" />
     <ClInclude Include="Features\PhoneSkip.hpp" />
     <ClInclude Include="Features\SpeedHack.hpp" />
     <ClInclude Include="Features\Watermark.hpp" />

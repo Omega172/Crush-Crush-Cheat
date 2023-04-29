@@ -58,6 +58,8 @@ inline ModGirls modGirls;
 inline AlbumUnlock albumUnlock;
 #include "Features/JobUnlock.hpp"
 inline JobUnlock jobUnlock;
+#include "Features/NSFW.hpp"
+inline NSFW nsfw;
 
 typedef HRESULT(__stdcall* Present) (IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);

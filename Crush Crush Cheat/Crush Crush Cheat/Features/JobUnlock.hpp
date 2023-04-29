@@ -73,6 +73,27 @@ public:
 
 		MonoObject* result = Mono::instance().Invoke(Job_Unlock, __this, nullptr);
 
+		/*bool bGilded = true;	
+		MonoClassField* pField = Mono::instance().GetField("Job2", "Gilded");
+		if (pField == nullptr)
+			return oJob_Update(__this);
+		
+		Mono::instance().SetFieldValue((MonoObject*)__this, pField, &bGilded);
+
+		bool bIsActive = true;
+		pField = Mono::instance().GetField("Job2", "IsActive");
+		if (pField == nullptr)
+			return oJob_Update(__this);
+		
+		Mono::instance().SetFieldValue((MonoObject*)__this, pField, &bIsActive);
+		
+		bool bLocked = false;
+		pField = Mono::instance().GetField("Job2", "locked");
+		if (pField == nullptr)
+			return oJob_Update(__this);
+		
+		Mono::instance().SetFieldValue((MonoObject*)__this, pField, &bLocked);*/
+		
 		if (bExtraDebug)
 			LogInvoke("Job_Unlock", "Result = " + (std::stringstream() << result).str());
 

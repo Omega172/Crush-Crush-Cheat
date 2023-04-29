@@ -57,6 +57,7 @@
     <ClInclude Include="GUI\Style.hpp" />
     <ClInclude Include="GUI\Custom.hpp" />
     <ClInclude Include="Features\JobUnlock.hpp" />
+    <ClInclude Include="Features\NSFW.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Hooking\Keiro\minhook\dll_resources\MinHook.def" />

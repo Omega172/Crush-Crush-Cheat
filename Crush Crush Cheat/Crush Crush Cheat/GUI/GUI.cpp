@@ -53,6 +53,8 @@ void GUI::Render()
 		phoneSkip.Render();
 		albumUnlock.Render();
 		jobUnlock.Render();
+		ImGui::SameLine();
+		nsfw.Render();
 	}
 	ImGui::EndChild();
 
