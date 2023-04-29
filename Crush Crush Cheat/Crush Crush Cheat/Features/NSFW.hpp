@@ -36,7 +36,7 @@ public:
 		toggle = *nsfw;
 		
 		std::string state = (*nsfw) ? "True" : "False";
-		LogHook(HookLogReason::Create, "GameState_NSFW", "GameState.NSFW = " + state + " Original: " + std::to_string(originalValue) + " Toggle: " + std::to_string(toggle));
+		LogHook(HookLogReason::Create, "GameState_NSFW", "Value on initialization: " + state);
 	}
 
 	void Toggle()

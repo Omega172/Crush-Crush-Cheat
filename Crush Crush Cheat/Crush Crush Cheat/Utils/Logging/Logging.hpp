@@ -9,6 +9,7 @@ enum class HookLogReason
 	Destroy,
 	Error,
 	Called,
+	Info,
 	None
 };
 
@@ -28,6 +29,8 @@ inline std::string LR2S(HookLogReason reason)
 		return "Errored";
 	case HookLogReason::Called:
 		return "Called";
+	case HookLogReason::Info:
+		return "Info";
 	case HookLogReason::None:
 		return "None";
 	}
@@ -37,13 +40,31 @@ inline std::string LR2S(HookLogReason reason)
 
 inline void LogHook(HookLogReason reason, std::string hook, std::string info = "")
 {
-	std::cout << "[" << dye::aqua("OmegaWare.xyz") << "]::[" << dye::green("Hooks") << "]::[" << dye::light_red(hook) << "] " << "Reason: " << dye::yellow(LR2S(reason));
+	if (info == "MH_ERROR_DISABLED" && bExit)
+		return; 
 	
-	if (info.length() > 0)
+	std::cout << "[" << dye::aqua("OmegaWare.xyz") << "]::[" << dye::green("Hooks") << "]::[" << dye::light_red(hook) << "] ";
+
+	if (reason != HookLogReason::Error)
+		std::cout << "Reason: " << dye::yellow(LR2S(reason));
+	else
+		std::cout << "Reason: " << dye::red(LR2S(reason));
+	
+	if (!info.empty())
 	{
-		std::cout << " Info: " << dye::purple(info);
+		if (reason != HookLogReason::Error)
+			std::cout << " Info: " << dye::purple(info);
+		else
+			std::cout << " Info: " << dye::red(info);
 	}
 
+	std::cout << std::endl;
+}
+
+inline void Log(std::string hook, std::string info)
+{
+	std::cout << "[" << dye::aqua("OmegaWare.xyz") << "]::[" << dye::green("Info") << "]::[" << dye::light_red(hook) << "] ";
+	std::cout << " Info: " << dye::purple(info);
 	std::cout << std::endl;
 }
 
@@ -53,7 +74,7 @@ inline void LogInvoke(std::string method, std::string info)
 
 	if (info.length() > 0)
 	{
-		std::cout << " Info: " << dye::purple(info);
+		std::cout << "Info: " << dye::purple(info);
 	}
 
 	std::cout << std::endl;
