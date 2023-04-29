@@ -59,6 +59,7 @@
     <ClInclude Include="Features\JobUnlock.hpp" />
     <ClInclude Include="Features\NSFW.hpp" />
     <ClInclude Include="Features\HobbiesUnlock.hpp" />
+    <ClInclude Include="Utils\MiscUtils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Hooking\Keiro\minhook\dll_resources\MinHook.def" />

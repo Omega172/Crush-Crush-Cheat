@@ -45,10 +45,11 @@ So I looked around on steam to find a free game made in Unity and I found Crush 
 
 <li  class="has-line-data"  data-line-start="11"  data-line-end="12">Misc Section<br>
 – <strong>Unlock All Girls</strong>: A button, this cheat will unlock all of the characters regardless of you owning the correct bundles or if you meet their requirements (Will not persist after reload of a save if disabled, although the girls stats and progress will persist if the game is saved)<br>
-– <strong>Phone Skip Wait</strong>: A button, this cheat will skip the timer between messages of the current open phone conversation (will do nothing if the phone is closed)<br>
 – <strong>Unlock Date Picks</strong>: A button, this cheat will unlock all of the memory album date photos for all currently unlocked girls (Will persist if the game is saved)<br>
 – <strong>All Girls Lover</strong>: A checkbox, this cheat enables a hook which is triggered on game update, which will set all girls relation ship level to <strong>Lover</strong> (Will persist if the game is saved)<br>
+– <strong>Phone Skip Wait</strong>: A button, this cheat will skip the timer between messages of the current open phone conversation (will do nothing if the phone is closed)<br>
 – <strong>Unlock Phone Convos</strong>: A checkbox, this cheat enables a hook that will unlock all phone conversations regardless of you owning the correct bundles or if you meet their requirements (Will not persist after save if disabled, although the progress of any conversations will persist if the game is saved)<br>
+– <strong>Set Skip Key</strong>: A button, after pressing this button the cheat will freeze the game and wait for the user to press any key and will then set it to be the skip key and display it<br>
 – <strong>Unlock Pinups</strong>: A checkbox, this cheat will reveal all memory album pinup photos while enabled, a quick note is that two of the pinups will remain hidden because they don’t actually exist to my knowledge (Will not persist)<br>
 – <strong>Unlock All Jobs</strong>: A checkbox, this cheat enables a hook that will unlock all jobs regardless of you meeting the requirements (Unlocked jobs will not persist after save, but level, progress, and gilding will)<br>
 – <strong>Unlock All Hobbies</strong>: A checkbox, this cheat enables a hook that will unlock all hobbies regardless of you meeting the requirements (Unlocked hobbies will not persist after save, but level, progress, and gilding will)

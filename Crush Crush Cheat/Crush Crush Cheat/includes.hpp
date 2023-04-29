@@ -27,6 +27,7 @@ inline bool bExtraDebug = false;
 #include "Utils/Console/Console.hpp"
 #include "Utils/Logging/Color.hpp"
 #include "Utils/Logging/Logging.hpp"
+#include "Utils/MiscUtils.hpp"
 
 // Hooking
 #include "Hooking/Keiro/kiero.h"

@@ -32,8 +32,18 @@ public:
 			Skip();
 
 		ImGui::SameLine();
-
+		
 		ImGui::Checkbox("Unlock Phone Convos", &toggle);
+
+
+		if (ImGui::Button("Set Skip Key"))
+			phoneSkipKey = Utils::GetKey();
+		
+		ImGui::SameLine();
+		
+		std::stringstream keyName;
+		keyName << "Key: " << Utils::GetKeyName(phoneSkipKey);
+		ImGui::Text(keyName.str().c_str());
 
 		Toggle();
 	}
