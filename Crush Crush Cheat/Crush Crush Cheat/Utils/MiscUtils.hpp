@@ -211,6 +211,8 @@ namespace Utils
 			{
 				keys.push_back({ i, "OEM" });
 			}
+
+			keyInit = true;
 		}
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
