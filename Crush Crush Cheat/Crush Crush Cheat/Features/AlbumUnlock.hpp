@@ -2,9 +2,9 @@
 #include "../Includes.hpp"
 
 // Album
-// Token: 0x0600060D RID: 1549 RVA: 0x00030258 File Offset: 0x0002E458
-// public bool IsPinupUnlocked(int pinupPage, int image)
-// Album::IsPinupUnlocked(int pinupPage, int image)
+// Token: 0x060006C8 RID: 1736 RVA: 0x00036854 File Offset: 0x00034A54
+// public static bool IsPinupUnlocked(int pinupRewardAmount)
+// Album::IsPinupUnlocked(int pinupRewardAmount)
 
 // Album
 // Token: 0x06000602 RID: 1538 RVA: 0x0002FC9C File Offset: 0x0002DE9C
@@ -43,7 +43,7 @@ public:
 
 	void Create()
 	{
-		Album_IsPinupUnlocked = Mono::Instance().GetCompiledMethod("Album", "IsPinupUnlocked", 2);
+		Album_IsPinupUnlocked = Mono::Instance().GetCompiledMethod("Album", "IsPinupUnlocked", 1);
 		if (Album_IsPinupUnlocked == nullptr)
 			return;
 		
@@ -125,10 +125,10 @@ public:
 		}
 	}
 
-	HOOK_DEF(bool, Album_IsPinupUnlocked, (void* __this, int pinupPage, int image))
+	HOOK_DEF(bool, Album_IsPinupUnlocked, (void* __this, int pinupRewardAmount))
 	{
-		if (image != 0 && bExtraDebug)
-			LogHook(HookLogReason::Called, "Album_IsPinupUnlocked", "pinupPage = " + std::to_string(pinupPage) + " image = " + std::to_string(image));
+		if (bExtraDebug)
+			LogHook(HookLogReason::Called, "Album_IsPinupUnlocked", "pinupRewardAmount = " + std::to_string(pinupRewardAmount));
 		
 		return true;
 	}

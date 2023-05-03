@@ -101,6 +101,8 @@ namespace OutfitTypes
 		Monster = 1,
 		Animated = 2,
 		DeluxeWedding = 4,
+		Valentine = 8,
+		Bunny = 16,
 		Christmas = 262144,
 		SchoolUniform = 524288,
 		BathingSuit = 1048576,
@@ -108,7 +110,7 @@ namespace OutfitTypes
 		DiamondRing = 4194304,
 		Lingerie = 536870912,
 		Nude = 1073741824,
-		All = 1616642050
+		All = 1616642074
 	};
 }
 
@@ -174,5 +176,72 @@ namespace DateTypes
 		Sightseeing = 4,
 		MovieTheater = 8,
 		Beach = 16
+	};
+}
+
+namespace PlayfabEnums
+{
+	enum PlayfabItem
+	{
+		NutakuUserOutreach,
+		Easter2017,
+		Summer2017,
+		StarterPack,
+		July2017,
+		BackToSchool2017,
+		Ayano2017,
+		Darya,
+		JelleQuillzone,
+		BonchovySpectrum,
+		NSFW,
+		Winter2018,
+		Charlotte,
+		Nutaku2019,
+		Odango,
+		Shibuki,
+		Sirina,
+		Vellatrix,
+		Roxxy,
+		Tessa,
+		Catara,
+		Claudia,
+		Juliet,
+		Rosa,
+		Wendy,
+		Ruri,
+		Generica,
+		Suzu,
+		FullVoices,
+		Lustat,
+		Winter2020,
+		Anniversary2021,
+		Sawyer,
+		Explora,
+		Esper,
+		MioPlush,
+		QuillPlush,
+		Renee,
+		Mallory,
+		Anniversary2022,
+		Lake,
+		Brie,
+		Ranma,
+		Lotus,
+		Cassia,
+		PESStarterPack,
+		Yuki,
+		RosaAnimated,
+		Nova,
+		Marybelle,
+		Babybelle,
+		Pepper
+	};
+
+	enum EventParticipation
+	{
+		Halloween2022,
+		Holiday2022,
+		Valentine2023,
+		Easter2023
 	};
 }

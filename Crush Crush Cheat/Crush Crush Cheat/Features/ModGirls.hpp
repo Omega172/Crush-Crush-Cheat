@@ -11,6 +11,11 @@
 // private void Update()
 // Girl::Update()
 
+// Girls
+// Token: 0x04000495 RID: 1173
+// public static Girl CurrentGirl;
+// Girls::CurrentGirl;
+
 class ModGirls
 {
 private:
@@ -24,6 +29,11 @@ public:
 
 	void Render()
 	{
+		if (ImGui::Button("Set Current Girl Lover"))
+			SetLover();
+
+		ImGui::SameLine();
+		
 		ImGui::Checkbox("All Girls lover", &toggle);
 
 		Toggle();
@@ -60,6 +70,30 @@ public:
 	{
 		LogHook(HookLogReason::Destroy, "Girl_Update");
 		DisableHook(Girl_Update);
+	}
+
+	void SetLover()
+	{
+		uintptr_t* currentGirl = (uintptr_t*)Mono::Instance().GetStaticFieldValue("Girls", "CurrentGirl");
+		if (currentGirl == nullptr)
+		{
+			Log("Girls_CurrentGirl", "CurrentGirl == nullptr");
+			return;
+		}
+
+		MonoMethod* Girl_SetLove = Mono::Instance().GetMethod("Girl", "SetLove", 1);
+		if (Girl_SetLove == nullptr)
+		{
+			Log("Girl_SetLove", "Girl_SetLove == nullptr");
+			return;
+		}
+
+		int loveLevel = LoveLevels::LoveLevel::Lover;
+		void* args[1] = { &loveLevel };
+		MonoObject* result = Mono::Instance().Invoke(Girl_SetLove, (uintptr_t*)*currentGirl, args);
+
+		if (bExtraDebug)
+			LogInvoke("Girl_SetLove", "Result = " + (std::stringstream() << result).str());
 	}
 
 	HOOK_DEF(void, Girl_Update, (void* __this))

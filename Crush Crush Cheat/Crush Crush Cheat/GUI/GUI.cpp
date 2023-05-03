@@ -48,7 +48,6 @@ void GUI::Render()
 		ImGui::Text("Misc");
 		
 		unlockGirls.Render();
-		ImGui::SameLine();
 		modGirls.Render();
 		phoneSkip.Render();
 		albumUnlock.Render();

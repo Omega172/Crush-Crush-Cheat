@@ -65,6 +65,8 @@ inline JobUnlock jobUnlock;
 inline HobbiesUnlock hobbiesUnlock;
 #include "Features/NSFW.hpp"
 inline NSFW nsfw;
+#include "Features/Unlocker.hpp"
+inline Unlocker unlocker;
 
 typedef HRESULT(__stdcall* Present) (IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
 typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);

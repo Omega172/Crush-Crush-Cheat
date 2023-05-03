@@ -47,6 +47,7 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 	jobUnlock.Destroy();
 	hobbiesUnlock.Destroy();
 	nsfw.Destroy();
+	unlocker.Destory();
 	
 	MH_Uninitialize();
 
@@ -79,6 +80,7 @@ void Init()
 	jobUnlock.Create();
 	hobbiesUnlock.Create();
 	nsfw.Create();
+	unlocker.Create();
 }
 
 LRESULT __stdcall WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

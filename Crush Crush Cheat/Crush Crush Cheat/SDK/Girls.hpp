@@ -4,6 +4,7 @@
 
 enum Girl_ID
 {
+    Unknown = -1,
     Cassie = 0,
     Mio,
     Quill,
@@ -60,7 +61,11 @@ enum Girl_ID
     Marybelle,
     Babybelle,
     Pepper = 55,
-    MAX = 55
+    ReneePF = 1000,
+    NovaPF = 1001,
+    MalloryPF = 1002,
+    QpiddyIntro = 2000,
+    QPernikiss = 18
 };
 
 struct Girl
