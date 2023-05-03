@@ -9,6 +9,11 @@ So I looked around on steam to find a free game made in Unity and I found Crush 
 # Known Issues
 I am aware of some issues when trying to use this cheat with a version of the game from countries that don't have the NSFW content avaiable, now because the NSFW content is avaiable in my country I'm not sure how I can go about fixing this
 
+# Dependencies
+Microsoft Visual C++ Redistributable x86 - https://aka.ms/vs/17/release/vc_redist.x86.exe
+Microsoft Visual C++ Redistributable x64 - https://aka.ms/vs/17/release/vc_redist.x64.exe
+DirectX End-User Runtimes (June 2010) - http://www.microsoft.com/en-us/download/confirmation.aspx?id=8109
+
 # Features
 <li  class="has-line-data"  data-line-start="8"  data-line-end="9">An in-game menu created by hooking the games Direct-X 11 with Keiro and using Dear-ImGui to render</li>
 
