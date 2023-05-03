@@ -4,7 +4,10 @@ A cheat made for the Steam version of  <a href="https://store.steampowered.com/a
 # Why?
 Before I started this project, I was looking into reverse engineering and hacking Unity games, and I know the best way I learn is by doing
 
-So I looked around on steam to find a free game made in Unity and I found Crush Crush, I was not interested in the content of the game just that it was made in Unity.</p>
+So I looked around on steam to find a free game made in Unity and I found Crush Crush, I was not interested in the content of the game just that it was made in Unity.
+
+# Known Issues
+I am aware of some issues when trying to use this cheat with a version of the game from countries that don't have the NSFW content avaiable, now because the NSFW content is avaiable in my country I'm not sure how I can go about fixing this
 
 # Features
 <li  class="has-line-data"  data-line-start="8"  data-line-end="9">An in-game menu created by hooking the games Direct-X 11 with Keiro and using Dear-ImGui to render</li>
@@ -20,27 +23,27 @@ So I looked around on steam to find a free game made in Unity and I found Crush 
  <h1  class="code-line"  data-line-start=14  data-line-end=15  ><a  id="Cheats_14"></a>Cheats</h1>
 
 <li  class="has-line-data"  data-line-start="11"  data-line-end="12">Menu<br>
-– Toggle using the <strong>Insert</strong> key</p>
+– Toggle using the <strong>Insert</strong> key
 
 <li  class="has-line-data"  data-line-start="11"  data-line-end="12">Cheat Section<br>
-– <strong>Unload</strong>: A button that will unload the cheat from the game, which can also be achieved by pressing the <strong>End</strong> key</p>
+– <strong>Unload</strong>: A button that will unload the cheat from the game, which can also be achieved by pressing the <strong>End</strong> key
 
 <li  class="has-line-data"  data-line-start="11"  data-line-end="12">Speed Hack Section<br>
 – This cheat modifies the games internal time scale to increase or decrease the simulation speed<br>
 – <strong>Factor</strong>: An unlabeled integer input field that specifies how much to increase the time scale by<br>
-– <strong>Speed Hack</strong>: A checkbox which enables or disables this feature</p>
+– <strong>Speed Hack</strong>: A checkbox which enables or disables this feature
 
 
 <li  class="has-line-data"  data-line-start="11"  data-line-end="12">Diamonds Section<br>
 – This cheat adds diamonds (the premium currency) to the current save<br>
 – <strong>Quantity</strong>: An unlabeled integer input field specifying the quantity of diamonds to add (can be negative)<br>
-– <strong>Give Diamonds</strong>: A button that will execute the games GiveDiamond function</p>
+– <strong>Give Diamonds</strong>: A button that will execute the games GiveDiamond function
 
 
 <li  class="has-line-data"  data-line-start="11"  data-line-end="12">Gifts Section<br>
 – This cheat enables a hook which upon gifting one of the girls an item modifies the quantity to the set number<br>
 – <strong>Quantity</strong>: An integer input field specifying what the number of gifts should be set to<br>
-– <strong>Override Gift Quantity</strong>: A checkbox which enables or disables this feature</p>
+– <strong>Override Gift Quantity</strong>: A checkbox which enables or disables this feature
 
 
 <li  class="has-line-data"  data-line-start="11"  data-line-end="12">Misc Section<br>
