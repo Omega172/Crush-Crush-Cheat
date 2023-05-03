@@ -1,0 +1,31 @@
+Microsoft (R) COFF/PE Dumper Version 14.35.32217.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file Crush Crush Cheat.dll
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    KERNEL32.dll
+    USER32.dll
+    MSVCP140D.dll
+    IMM32.dll
+    D3DCOMPILER_43.dll
+    XINPUT1_3.dll
+    VCRUNTIME140D.dll
+    ucrtbased.dll
+
+  Summary
+
+        1000 .00cfg
+        E000 .data
+        3000 .idata
+        1000 .msvcjmc
+       29000 .rdata
+        D000 .reloc
+        1000 .rsrc
+      129000 .text
+       8E000 .textbss
+        1000 .tls
