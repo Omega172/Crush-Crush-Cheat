@@ -1,6 +1,8 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
 
+#define VERSION "1.0.0"
+
 #include <Windows.h>
 #include <iostream>
 #include <sstream>
