@@ -6,11 +6,6 @@
 // public static bool AwardDiamonds(int amount)
 // Utilities::AwardDiamonds(int amount)
 
-// Utilities
-// Token: 0x060009D2 RID: 2514 RVA: 0x00051BC8 File Offset: 0x0004FDC8
-// public static void PurchaseDiamonds(int count)
-// Utilities::PurchaseDiamonds(int count)
-
 class InfiniteDiamonds
 {
 private:

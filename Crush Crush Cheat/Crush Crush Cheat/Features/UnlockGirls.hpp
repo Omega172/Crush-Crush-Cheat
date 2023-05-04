@@ -64,13 +64,6 @@ public:
 			if (bExtraDebug)
 				LogInvoke("UnlockGirl", "Itter = " + std::to_string(i) + " Result = " + (std::stringstream() << result).str());
 		}
-
-		int32_t unlockedGirlsCount;
-		MonoClassField* pField = Mono::Instance().GetField("Girls", "unlockedGirlsCount");
-		Mono::Instance().GetFieldValue(pGirlsClassInstance, pField, &unlockedGirlsCount);
-			
-		if (bExtraDebug)
-			LogInvoke("GetField", "Value: " + std::to_string(unlockedGirlsCount) + " Yoinked Class Addr: " + (std::stringstream() << pGirlsClassInstance).str() + " Resolved Class Addr: " + (std::stringstream() << Mono::Instance().GetClassFromMethod(UnlockGirl)).str());
 	}
 
 	HOOK_DEF(void, Girls_Update, (void* __this))
