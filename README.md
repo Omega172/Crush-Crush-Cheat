@@ -1,6 +1,8 @@
 # Crush Crush Cheat
 A cheat made for the Steam version of <a href="https://store.steampowered.com/app/459820/Crush_Crush/">Crush Crush
 
+Check out my cheat for <a href="https://github.com/Omega172/Blush-Blush-Cheat/">Blush Blush
+
 # Why?
 Before I started this project, I was looking into reverse engineering and hacking Unity games, and I know the best way I learn is by doing
 
