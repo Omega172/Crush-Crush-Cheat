@@ -64,7 +64,7 @@ inline void LogHook(HookLogReason reason, std::string hook, std::string info = "
 inline void Log(std::string hook, std::string info)
 {
 	std::cout << "[" << dye::aqua("OmegaWare.xyz") << "]::[" << dye::green("Info") << "]::[" << dye::light_red(hook) << "] ";
-	std::cout << " Info: " << dye::purple(info);
+	std::cout << "Info: " << dye::purple(info);
 	std::cout << std::endl;
 }
 
