@@ -15,8 +15,8 @@ Microsoft Visual C++ Redistributable x64 - https://aka.ms/vs/17/release/vc_redis
 DirectX End-User Runtimes (June 2010) - http://www.microsoft.com/en-us/download/confirmation.aspx?id=8109
 
 # Images
-![Picture of Menu](Images\CrushCrush_60bgNIK15l.png)
-![Picture of Console](Images\CrushCrush_KjZXdt3GL3.png)
+![Picture of Menu](Images/CrushCrush_60bgNIK15l.png)
+![Picture of Console](Images/CrushCrush_KjZXdt3GL3.png)
 
 # Features
 <li  class="has-line-data"  data-line-start="8"  data-line-end="9">An in-game menu created by hooking the games Direct-X 11 with Keiro and using Dear-ImGui to render</li>
