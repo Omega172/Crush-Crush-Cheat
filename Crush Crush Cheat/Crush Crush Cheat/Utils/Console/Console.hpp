@@ -21,6 +21,7 @@ public:
 	void ToggleVisibility();
 	bool GetVisibility() { return this->bVisible; };
 	void SetTitle(std::string title) { SetConsoleTitleA(title.c_str()); };
+	bool IsAllocated() { return this->bAllocated; };
 };
 
 inline Console con = Console::Instance(true);
