@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 
+// Balance::GirlName
 enum Girl_ID
 {
     Unknown = -1,
@@ -23,7 +24,7 @@ enum Girl_ID
     Karma,
     Sutra,
     DarkOne,
-    Qpernikiss,
+    QPiddy,
     Darya,
     Jelle,
     Quillzone,
@@ -60,7 +61,9 @@ enum Girl_ID
     Nova,
     Marybelle,
     Babybelle,
-    Pepper = 55,
+    Pepper,
+    Amelia,
+    Kira = 57,
     ReneePF = 1000,
     NovaPF = 1001,
     MalloryPF = 1002,
@@ -94,7 +97,7 @@ inline std::vector<Girl> Girls
     {"Karma", Girl_ID::Karma},
     {"Sutra", Girl_ID::Sutra},
     {"Dark One", Girl_ID::DarkOne},
-    {"Qpernikiss", Girl_ID::Qpernikiss},
+    {"Qpernikiss", Girl_ID::QPiddy},
     {"Darya", Girl_ID::Darya},
     {"Jelle", Girl_ID::Jelle},
     {"Quillizone", Girl_ID::Quillzone},
@@ -131,5 +134,7 @@ inline std::vector<Girl> Girls
     {"Nova", Girl_ID::Nova},
     {"Marybelle", Girl_ID::Marybelle},
     {"Babybelle", Girl_ID::Babybelle},
-    {"Pepper", Girl_ID::Pepper} // 55
+    {"Pepper", Girl_ID::Pepper},
+    {"Amelia", Girl_ID::Amelia},
+    {"Kira", Girl_ID::Kira} // 57
 };

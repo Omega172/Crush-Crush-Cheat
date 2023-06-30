@@ -71,6 +71,7 @@ void Init()
 	MH_Initialize();
 
 	// Init Hooks
+	Log("Initalization", "Cheat Version: " + VERSION);
 	quit.Create();
 	unlockGirls.Create();
 	modifyGiftQuantity.Create();

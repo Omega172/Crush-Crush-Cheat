@@ -1,8 +1,6 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
 
-#define VERSION "1.0.0"
-
 #include <Windows.h>
 #include <iostream>
 #include <sstream>
@@ -12,6 +10,8 @@
 #include <DXGI.h>
 #include <mono/metadata/threads.h>
 #include <mono/metadata/object.h>
+
+inline std::string VERSION = "1.0.9";
 
 inline bool bExit = false;
 inline bool bExtraDebug = false;
