@@ -113,7 +113,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Program Files\Mono\include\mono-2.0\;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\Mono\include\mono-2.0;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
     <TargetName>DEBUG_$(ProjectName)</TargetName>
   </PropertyGroup>
