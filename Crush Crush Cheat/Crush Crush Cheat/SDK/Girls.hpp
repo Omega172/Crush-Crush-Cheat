@@ -53,7 +53,7 @@ enum Girl_ID
     Renee,
     Mallory,
     Lake,
-	Brie,
+    Brie,
     Ranma,
     Lotus,
     Cassia,
@@ -63,7 +63,9 @@ enum Girl_ID
     Babybelle,
     Pepper,
     Amelia,
-    Kira = 57,
+    Kira,
+    MissDesiree,
+    Nightingale = 59,
     ReneePF = 1000,
     NovaPF = 1001,
     MalloryPF = 1002,
@@ -136,5 +138,7 @@ inline std::vector<Girl> Girls
     {"Babybelle", Girl_ID::Babybelle},
     {"Pepper", Girl_ID::Pepper},
     {"Amelia", Girl_ID::Amelia},
-    {"Kira", Girl_ID::Kira} // 57
+    {"Kira", Girl_ID::Kira},
+    {"Miss Desiree", Girl_ID::MissDesiree},
+    {"Nightingale", Girl_ID::Nightingale} // 59
 };
