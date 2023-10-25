@@ -3,6 +3,8 @@ A cheat made for the Steam version of <a href="https://store.steampowered.com/ap
 
 Check out my cheat for <a href="https://github.com/Omega172/Blush-Blush-Cheat/">Blush Blush
 
+The key to show/hide the GUI is "Insert"
+
 # Why?
 Before I started this project, I was looking into reverse engineering and hacking Unity games, and I know the best way I learn is by doing
 
