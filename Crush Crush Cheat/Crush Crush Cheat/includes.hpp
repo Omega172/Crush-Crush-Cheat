@@ -11,7 +11,7 @@
 #include <mono/metadata/threads.h>
 #include <mono/metadata/object.h>
 
-inline std::string VERSION = "1.0.9";
+inline std::string VERSION = "1.1.1";
 
 inline bool bExit = false;
 inline bool bExtraDebug = false;
