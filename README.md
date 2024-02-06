@@ -1,6 +1,6 @@
 ### The project is in the process of being moved to my new framework but even though I copy and pasted the old code its crashing when attempting to get the compiled version of a mono method if anyone figures it out I'll give you a cookie
 
-### The old project code still reamins and the dll's in Releases still work
+### The old project code still remains and the dll's in Releases still work
 
 # Crush Crush Cheat
 A cheat made for the Steam version of <a href="https://store.steampowered.com/app/459820/Crush_Crush/">Crush Crush
