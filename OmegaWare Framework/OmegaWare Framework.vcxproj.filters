@@ -42,5 +42,47 @@
     <ClInclude Include="Hooks\D3D12\D3D12Hooks.h" />
     <ClInclude Include="Interfaces\Unreal.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Features\GameSpeed\GameSpeed.h" />
+    <ClInclude Include="Features\GiveStuff\GiveStuff.h" />
+    <ClInclude Include="Features\ModGifts\ModGifts.h" />
+    <ClInclude Include="Interfaces\EasyHook.h" />
+    <ClInclude Include="Interfaces\Mono.h" />
+    <ClInclude Include="Mono\jit\jit.h" />
+    <ClInclude Include="Mono\metadata\appdomain.h" />
+    <ClInclude Include="Mono\metadata\assembly.h" />
+    <ClInclude Include="Mono\metadata\attrdefs.h" />
+    <ClInclude Include="Mono\metadata\blob.h" />
+    <ClInclude Include="Mono\metadata\class.h" />
+    <ClInclude Include="Mono\metadata\debug-helpers.h" />
+    <ClInclude Include="Mono\metadata\debug-mono-symfile.h" />
+    <ClInclude Include="Mono\metadata\environment.h" />
+    <ClInclude Include="Mono\metadata\exception.h" />
+    <ClInclude Include="Mono\metadata\image.h" />
+    <ClInclude Include="Mono\metadata\loader.h" />
+    <ClInclude Include="Mono\metadata\metadata.h" />
+    <ClInclude Include="Mono\metadata\mono-config.h" />
+    <ClInclude Include="Mono\metadata\mono-debug.h" />
+    <ClInclude Include="Mono\metadata\mono-gc.h" />
+    <ClInclude Include="Mono\metadata\object-forward.h" />
+    <ClInclude Include="Mono\metadata\object.h" />
+    <ClInclude Include="Mono\metadata\opcodes.h" />
+    <ClInclude Include="Mono\metadata\profiler-events.h" />
+    <ClInclude Include="Mono\metadata\profiler.h" />
+    <ClInclude Include="Mono\metadata\reflection.h" />
+    <ClInclude Include="Mono\metadata\row-indexes.h" />
+    <ClInclude Include="Mono\metadata\sgen-bridge.h" />
+    <ClInclude Include="Mono\metadata\threads.h" />
+    <ClInclude Include="Mono\metadata\tokentype.h" />
+    <ClInclude Include="Mono\metadata\verify.h" />
+    <ClInclude Include="Mono\utils\mono-counters.h" />
+    <ClInclude Include="Mono\utils\mono-dl-fallback.h" />
+    <ClInclude Include="Mono\utils\mono-error.h" />
+    <ClInclude Include="Mono\utils\mono-forward.h" />
+    <ClInclude Include="Mono\utils\mono-jemalloc.h" />
+    <ClInclude Include="Mono\utils\mono-logger.h" />
+    <ClInclude Include="Mono\utils\mono-publib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Mono\cil\opcode.def" />
   </ItemGroup>
 </Project>

@@ -52,6 +52,10 @@ namespace Cheat
 
 		Utils::LogDebug(Utils::GetLocation(CurrentLoc), "Initalizing Globals, this can take a bit"); // Log that the globals are being initalized
 
+		MH_STATUS Status = MH_Initialize();
+		if (Status == MH_ERROR_ALREADY_INITIALIZED)
+			Utils::LogError(Utils::GetLocation(CurrentLoc), "MinHook already initalized");
+
 	#if FRAMEWORK_UNREAL // If using the Unreal framework print the pointer to the Unreal class to make sure it was initalized
 		Utils::LogDebug(Utils::GetLocation(CurrentLoc), (std::stringstream() << "Unreal: 0x" << unreal.get()).str());
 	#endif
