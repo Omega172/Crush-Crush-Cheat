@@ -13,6 +13,8 @@ private:
 	float flTimeScale = 3.f;
 	bool bSet = false;
 
+	float flCurrent = 1.f;
+
 	void SetTimeScale(float flTargetTimeScale)
 	{
 		MonoMethod* set_timeScale = Mono::Instance().GetMethod("Time", "set_timeScale", 1, "UnityEngine", "UnityEngine");
@@ -54,6 +56,7 @@ public:
 			ImGui::Text("Time Scale Manipulation");
 			ImGui::SameLine();
 			ImGui::Hotkey("#Time Scale Manipulation", TimeScaleToggle, &bSetting);
+			ImGui::Text("Current Time Scale: %.1f", flCurrent);
 		}
 		ImGui::EndChild();
 	}
@@ -66,12 +69,14 @@ public:
 		{
 			bSet = true;
 			SetTimeScale(flTimeScale);
+			flCurrent = flTimeScale;
 		}
 
 		if (!TimeScaleToggle.IsToggled() && bSet)
 		{
 			bSet = false;
 			SetTimeScale(1.f);
+			flCurrent = 1.f;
 		}
 	}
 };

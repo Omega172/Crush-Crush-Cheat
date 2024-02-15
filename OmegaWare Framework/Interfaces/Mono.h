@@ -98,6 +98,9 @@ public:
 
 	void* GetCompiledMethod(const char* className, const char* methodName, int param_count = 0, const char* assemblyName = "Assembly-CSharp")
 	{
+		MonoDomain* RootDomain = mono_get_root_domain();
+		MonoThread* Thread = mono_thread_attach(RootDomain);
+
 		MonoDomain* pDomain = mono_get_root_domain();
 		if (pDomain == nullptr)
 			return nullptr;

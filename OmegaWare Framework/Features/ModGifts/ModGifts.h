@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-inline int iModQuantity = 1000;
+inline int iModQuantity = 1000000;
 
 class ModGifts : public Feature
 {
@@ -66,7 +66,7 @@ public:
 		if (bEnabled && !bHookSet)
 		{
 			bHookSet = true;
-			Utils::LogHook(Utils::GetLocation(CurrentLoc), "Gift_OnGift", "Enable", "");
+			Utils::LogHook(Utils::GetLocation(CurrentLoc), "Gift_OnGift", "Enable", "Hook Enabled");
 
 			EnableHook(Gift_OnGift);
 			return;
@@ -75,7 +75,7 @@ public:
 		if (!bEnabled && bHookSet)
 		{
 			bHookSet = false;
-			Utils::LogHook(Utils::GetLocation(CurrentLoc), "Gift_OnGift", "Disable", "");
+			Utils::LogHook(Utils::GetLocation(CurrentLoc), "Gift_OnGift", "Disable", "Hook Disabled");
 
 			DisableHook(Gift_OnGift);
 			return;

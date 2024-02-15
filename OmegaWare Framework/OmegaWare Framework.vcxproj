@@ -193,7 +193,9 @@
     <ClInclude Include="Features\Feature.h" />
     <ClInclude Include="Features\GameSpeed\GameSpeed.h" />
     <ClInclude Include="Features\GiveStuff\GiveStuff.h" />
+    <ClInclude Include="Features\Misc\Misc.h" />
     <ClInclude Include="Features\ModGifts\ModGifts.h" />
+    <ClInclude Include="Features\Quit\Quit.h" />
     <ClInclude Include="GUI\Custom.h" />
     <ClInclude Include="GUI\GUI.h" />
     <ClInclude Include="GUI\Watermark.h" />
@@ -249,6 +251,7 @@
     <ClInclude Include="Mono\utils\mono-logger.h" />
     <ClInclude Include="Mono\utils\mono-publib.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SDK\SDK.h" />
     <ClInclude Include="Utils\Console\Console.h" />
     <ClInclude Include="Utils\Logging\Colors.hpp" />
     <ClInclude Include="Utils\Logging\Logging.h" />

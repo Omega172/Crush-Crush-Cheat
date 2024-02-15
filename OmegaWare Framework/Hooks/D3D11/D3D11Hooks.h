@@ -105,7 +105,7 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 	GUI::EndRender();
 
 	// Set the render target and render ImGui draw data
-	pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
+	//pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	// Check if the cheat should stop running

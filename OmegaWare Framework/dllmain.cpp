@@ -9,7 +9,7 @@
 #include "Hooks/D3D12/D3D12Hooks.h"
 #endif
 
-#define DO_THREAD_SLEEP 1
+#define DO_THREAD_SLEEP 0
 #define THREAD_SLEEP_TIME 100
 
 namespace Cheat
@@ -67,9 +67,11 @@ namespace Cheat
 		// https://stackoverflow.com/questions/16711697/is-there-any-use-for-unique-ptr-with-array
 		// Features
 		//Features.push_back(std::make_unique<ESP>());
+		Features.push_back(std::make_unique<Quit>());
 		Features.push_back(std::make_unique<GameSpeed>());
 		Features.push_back(std::make_unique<GiveStuff>());
 		Features.push_back(std::make_unique<ModGifts>());
+		Features.push_back(std::make_unique<Misc>());
 
 		for (size_t i = 0; i < Features.size(); i++) // A loop to grap the feature pointers and call their respective setup functions
 		{

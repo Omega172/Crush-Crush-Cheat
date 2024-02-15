@@ -25,7 +25,15 @@ void GUI::Render()
 			if (ImGui::Button(Cheat::console.get()->GetVisibility() ? "Hide Console" : "Show Console"))
 				Cheat::console.get()->ToggleVisibility();
 
-			//ImGui::Checkbox("Extra Debug Info", &bExtraDebug);
+			if (Cheat::console.get()->GetVisibility())
+			{
+				ImGui::SameLine();
+				if (ImGui::Button("Clear Console"))
+				{
+					system("cls");
+					Utils::LogDebug(Utils::GetLocation(CurrentLoc), "Console cleared.");
+				}
+			}
 
 			ImGui::Checkbox("Watermark", &bWatermark);
 			if (bWatermark)

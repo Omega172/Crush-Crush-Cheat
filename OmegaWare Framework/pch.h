@@ -23,7 +23,7 @@ static_assert(FRAMEWORK_TARGET_GAME != "", "Target game not set."); // Make sure
 #define FRAMEWORK_UNREAL 0
 #define FRAMEWORK_UNITY 1
 
-#define IGNORE_32BIT_WARNING 1
+#define IGNORE_32BIT_WARNING 1 // If not enabled and building for x86 it fails because Dx12 does not support x86
 
 // Make sure a framework is selected and only one framework is selected
 #if !FRAMEWORK_OTHER && !FRAMEWORK_UNREAL && !FRAMEWORK_UNITY
@@ -161,10 +161,14 @@ namespace Cheat
 	#endif
 }
 
+#include "SDK/SDK.h"
+
 #include "Features/Feature.h" // Include the Feature.h file that contains the Feature class that is used to create the features for the framework
+#include "Features/Quit/Quit.h"
 #include "Features/GameSpeed/GameSpeed.h"
 #include "Features/GiveStuff/GiveStuff.h"
 #include "Features/ModGifts/ModGifts.h"
+#include "Features/Misc/Misc.h"
 
 // https://stackoverflow.com/questions/13048301/pointer-to-array-of-base-class-populate-with-derived-class
 inline std::vector<std::unique_ptr<Feature>> Features; // A vector of unique pointers to the Feature class that is used to store the features for the framework

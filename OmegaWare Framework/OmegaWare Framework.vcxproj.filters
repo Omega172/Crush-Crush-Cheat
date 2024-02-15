@@ -81,6 +81,9 @@
     <ClInclude Include="Mono\utils\mono-jemalloc.h" />
     <ClInclude Include="Mono\utils\mono-logger.h" />
     <ClInclude Include="Mono\utils\mono-publib.h" />
+    <ClInclude Include="Features\Misc\Misc.h" />
+    <ClInclude Include="SDK\SDK.h" />
+    <ClInclude Include="Features\Quit\Quit.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Mono\cil\opcode.def" />
