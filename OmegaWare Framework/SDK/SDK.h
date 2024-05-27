@@ -71,7 +71,8 @@ inline std::vector<Girl> Girls // Balance::GirlName
     {"Miss Desiree", 58},
     {"Nightingale", 59},
     {"Grace", 60},
-    {"Desdemona", 61}
+    {"Desdemona", 61},
+    {"Abby", 62}
 };
 
 enum LoveLevel
