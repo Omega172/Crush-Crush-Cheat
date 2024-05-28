@@ -17,7 +17,7 @@ inline std::vector<Girl> Girls // Balance::GirlName
     {"Nutaku", 4},
     {"Iro", 5},
     {"Bonnnibel", 6},
-    {"Ayano", 7},
+    {"Ayeka", 7},
     {"Fumi", 8},
     {"Bearverly", 9},
     {"Nina", 10},
