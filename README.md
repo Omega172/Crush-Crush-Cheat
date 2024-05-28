@@ -1,7 +1,7 @@
 # Crush Crush Cheat
 A cheat made for the Steam version of <a href="https://store.steampowered.com/app/459820/Crush_Crush/">Crush Crush
 
-Check out my cheat for <a href="https://github.com/Omega172/Blush-Blush-Cheat/">Blush Blush
+Check out my cheat for [Blush Blush]("https://github.com/Omega172/Blush-Blush-Cheat/") 
 
 The key to show/hide the GUI is "Insert"
 
