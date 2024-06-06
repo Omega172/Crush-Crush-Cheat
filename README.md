@@ -27,6 +27,6 @@ DirectX End-User Runtimes (June 2010) - http://www.microsoft.com/en-us/download/
 
 <li  class="has-line-data"  data-line-start="10"  data-line-end="11">A console attached to the game used for outputting debug information and hook status with a button to enable and disable it</li>
 
-<li  class="has-line-data"  data-line-start="11"  data-line-end="12">A simple watermark in the top right corner that displays the cheat’s title and the current FPS</li>
+<li  class="has-line-data"  data-line-start="11"  data-line-end="12">A simple watermark in the top left corner that displays the cheat’s title and the current FPS</li>
 
 <li  class="has-line-data"  data-line-start="12"  data-line-end="14">Hooks for many of the games internal functions using MinHook</li>
