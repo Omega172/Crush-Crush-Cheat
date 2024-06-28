@@ -27,6 +27,27 @@ private:
 		Utils::LogDebug(Utils::GetLocation(CurrentLoc), SS.str());
 	}
 
+	void GivePurchases()
+	{
+		MonoMethod* AwardItem = Mono::Instance().GetMethod("BlayFapInventory", "AwardItem", 1);
+		if (!AwardItem)
+		{
+			Utils::LogError(Utils::GetLocation(CurrentLoc), "Failed to get a pointer to AwardItem");
+			return;
+		}
+
+		for (int i = 0; i < BlayFapItems::MAX; i++)
+		{
+			void* pArgs[1] = { &i };
+			MonoObject* pResult = Mono::Instance().Invoke(AwardItem, nullptr, pArgs);
+
+			std::stringstream SS("AwardItem = ");
+			SS << std::hex << pResult << std::dec << " | Added item: " << i;
+
+			Utils::LogDebug(Utils::GetLocation(CurrentLoc), SS.str());
+		}
+	}
+
 public:
 	GiveStuff() {}
 
@@ -49,6 +70,8 @@ public:
 			ImGui::InputInt("##Diamond Amount", &iAmount);
 			if (ImGui::Button("Add Diamonds"))
 				GiveDiamonds(iAmount);
+			//if (ImGui::Button("Add All Purchases"))
+				//GivePurchases();
 		}
 		ImGui::EndChild();
 	}
