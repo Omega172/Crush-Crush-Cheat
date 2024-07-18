@@ -9,7 +9,6 @@ Utils::Location Utils::GetLocation(std::source_location stLocation)
 
 void Utils::LogHook(Location stLocation, std::string sHookName, std::string sReason, std::string sMessage)
 {
-#ifdef _DEBUG
 	// Hook[HookName]: Filename | Function() -> Ln: 1 Col: 1 | Reason: Message
 	std::cout << colors::cyan << "Hook[" << sHookName << "]" << colors::white << ": ";
 
@@ -18,12 +17,10 @@ void Utils::LogHook(Location stLocation, std::string sHookName, std::string sRea
 	std::cout << " -> Ln: " << colors::magenta << stLocation.m_iLine << colors::white << " Col: " << colors::magenta << stLocation.m_iColumn << colors::white;
 
 	std::cout << " | " << colors::yellow << sReason << colors::white << ": " << sMessage << std::endl;
-#endif
 }
 
 void Utils::LogError(Location stLocation, int iErrorCode)
 {
-#ifdef _DEBUG
 	// Error: Filename | Function() -> Ln: 1 Col: 1 | Info: Message
 	std::cout << colors::red << "Error" << colors::white << ": ";
 
@@ -32,12 +29,10 @@ void Utils::LogError(Location stLocation, int iErrorCode)
 	std::cout << " -> Ln: " << colors::magenta << stLocation.m_iLine << colors::white << " Col: " << colors::magenta << stLocation.m_iColumn << colors::white;
 
 	std::cout << " | " << colors::yellow << "Info" << colors::white << ": " << std::system_category().message(iErrorCode) << std::endl;
-#endif
 }
 
 void Utils::LogError(Location stLocation, std::string sErrorMessage)
 {
-#ifdef _DEBUG
 	// Error: Filename | Function() -> Ln: 1 Col: 1 | Info: Message
 	std::cout << colors::red << "Error" << colors::white << ": ";
 
@@ -46,12 +41,10 @@ void Utils::LogError(Location stLocation, std::string sErrorMessage)
 	std::cout << " -> Ln: " << colors::magenta << stLocation.m_iLine << colors::white << " Col: " << colors::magenta << stLocation.m_iColumn << colors::white;
 
 	std::cout << " | " << colors::yellow << "Info" << colors::white << ": " << sErrorMessage << std::endl;
-#endif
 }
 
 void Utils::LogDebug(Location stLocation, std::string sDebugMessage)
 {
-#ifdef _DEBUG
 	// Debug: Filename | Function() -> Ln: 1 Col: 1 | Info: Message
 	std::cout << colors::cyan << "Debug" << colors::white << ": ";
 
@@ -60,5 +53,4 @@ void Utils::LogDebug(Location stLocation, std::string sDebugMessage)
 	std::cout << " -> Ln: " << colors::magenta << stLocation.m_iLine << colors::white << " Col: " << colors::magenta << stLocation.m_iColumn << colors::white;
 
 	std::cout << " | " << colors::yellow << "Info" << colors::white << ": " << sDebugMessage << std::endl;
-#endif
 }

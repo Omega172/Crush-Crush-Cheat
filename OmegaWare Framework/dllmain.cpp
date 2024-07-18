@@ -111,9 +111,8 @@ namespace Cheat
 	{
 		hModule = reinterpret_cast<HMODULE>(lpParam); // Store the module handle which is used for unloading the module
 
-#ifdef _DEBUG
 		console.get()->SetVisibility(true); // Set the console to be visible if the framework is in debug mode
-#endif
+
 		if (!Init())
 		{
 			// If the initalization failed log an error and set the boolean to false to stop the cheat from running

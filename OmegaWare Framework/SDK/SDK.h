@@ -163,5 +163,6 @@ enum BlayFapItems
     Desdemona,
     Abby,
     Shelly,
+    Honey,
     MAX = 60
 };

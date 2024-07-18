@@ -230,9 +230,9 @@ public:
 		return mono_vtable_get_static_field_data(pVTable);
 	}
 
-	void* GetStaticFieldValue(const char* className, const char* fieldName)
+	void* GetStaticFieldValue(const char* className, const char* fieldName, const char* assemblyName = "Assembly-CSharp", const char* nameSpace = "")
 	{
-		MonoClass* pKlass = GetClass(className);
+		MonoClass* pKlass = GetClass(className, assemblyName, nameSpace);
 		if (pKlass == nullptr)
 			return nullptr;
 
