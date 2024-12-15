@@ -10,6 +10,8 @@ Before I started this project, I was looking into reverse engineering and hackin
 
 So I looked around on steam to find a free game made in Unity and I found Crush Crush, I was not interested in the content of the game just that it was made in Unity.
 
+# IF THE MENU IS NOT SHOWING RUN THE GAME IN WINDOWED MODE AND EXPAND THE WINDOW BEFORE INJECTING THE CHEAT!!!
+
 # Dependencies
 Mono - https://www.mono-project.com/download/stable/ (Only if you want to compile this yourself)<br>
 Microsoft Visual C++ Redistributable x86 - https://aka.ms/vs/17/release/vc_redist.x86.exe<br>
