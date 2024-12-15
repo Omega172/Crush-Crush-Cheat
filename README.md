@@ -13,10 +13,11 @@ So I looked around on steam to find a free game made in Unity and I found Crush 
 # IF THE MENU IS NOT SHOWING RUN THE GAME IN WINDOWED MODE AND EXPAND THE WINDOW BEFORE INJECTING THE CHEAT!!!
 
 # Dependencies
-Mono - https://www.mono-project.com/download/stable/ (Only if you want to compile this yourself)<br>
 Microsoft Visual C++ Redistributable x86 - https://aka.ms/vs/17/release/vc_redist.x86.exe<br>
 Microsoft Visual C++ Redistributable x64 - https://aka.ms/vs/17/release/vc_redist.x64.exe<br>
 DirectX End-User Runtimes (June 2010) - http://www.microsoft.com/en-us/download/confirmation.aspx?id=8109
+
+Mono - https://www.mono-project.com/download/stable/ (Only if you want to compile this yourself)<br>
 
 # Images
 ![Picture of Menu](Images/Menu.png)
