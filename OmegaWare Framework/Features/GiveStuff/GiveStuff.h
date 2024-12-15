@@ -36,14 +36,14 @@ private:
 			return;
 		}
 
-		void* Instance = (Mono::Instance().GetStaticFieldValue("BlayFapClient", "instance", "Assembly-CSharp", "BlayFap"));
-		Instance = reinterpret_cast<void*>(*(int*)Instance);
-
+		MonoMethod* BlayFapClientInstance = Mono::Instance().GetMethod("BlayFapClient", "get_Instance", 0, "Assembly-CSharp", "BlayFap");
+		MonoObject* Instance = Mono::Instance().Invoke(BlayFapClientInstance, nullptr, nullptr);
 		if (!Instance)
 		{
 			Utils::LogError(Utils::GetLocation(CurrentLoc), "Failed to get an instance pointer to BlayFapClient");
 			return;
 		}
+
 		std::cout << Instance << std::endl;
 		for (int i = 0; i < BlayFapItems::MAX; i++)
 		{
@@ -53,7 +53,7 @@ private:
 			std::stringstream SS("AwardBlayFapItem = ");
 			SS << std::hex << pResult << std::dec << " | Added item: " << i;
 
-			//Utils::LogDebug(Utils::GetLocation(CurrentLoc), SS.str());
+			Utils::LogDebug(Utils::GetLocation(CurrentLoc), SS.str());
 		}
 	}
 
