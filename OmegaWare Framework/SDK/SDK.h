@@ -170,5 +170,5 @@ enum BlayFapItems
     Karyn,
     Myro,
     Aurora,
-    MAX = 67
+    MAX = 65
 };

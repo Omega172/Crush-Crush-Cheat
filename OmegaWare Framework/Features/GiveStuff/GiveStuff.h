@@ -29,32 +29,25 @@ private:
 
 	void GivePurchases()
 	{
-		MonoMethod* AwardBlayFapItem = Mono::Instance().GetMethod("BlayFapClient", "AwardBlayFapItem", 2, "Assembly-CSharp", "BlayFap");
-		if (!AwardBlayFapItem)
+		MonoMethod* AwardItem = Mono::Instance().GetMethod("BlayFapInventory", "AwardItem", 1);
+		if (!AwardItem)
 		{
-			Utils::LogError(Utils::GetLocation(CurrentLoc), "Failed to get a pointer to AwardBlayFapItem");
+			Utils::LogError(Utils::GetLocation(CurrentLoc), "Failed to get a pointer to AwardItem");
 			return;
 		}
 
-		MonoMethod* BlayFapClientInstance = Mono::Instance().GetMethod("BlayFapClient", "get_Instance", 0, "Assembly-CSharp", "BlayFap");
-		MonoObject* Instance = Mono::Instance().Invoke(BlayFapClientInstance, nullptr, nullptr);
-		if (!Instance)
-		{
-			Utils::LogError(Utils::GetLocation(CurrentLoc), "Failed to get an instance pointer to BlayFapClient");
-			return;
-		}
-
-		std::cout << Instance << std::endl;
 		for (int i = 0; i < BlayFapItems::MAX; i++)
 		{
 			void* pArgs[2] = { &i, nullptr };
-			MonoObject* pResult = Mono::Instance().Invoke(AwardBlayFapItem, Instance, pArgs);
+			MonoObject* pResult = Mono::Instance().Invoke(AwardItem, nullptr, pArgs);
 
-			std::stringstream SS("AwardBlayFapItem = ");
+			std::stringstream SS("AwardItem = ");
 			SS << std::hex << pResult << std::dec << " | Added item: " << i;
 
 			Utils::LogDebug(Utils::GetLocation(CurrentLoc), SS.str());
 		}
+
+		MessageBoxA(NULL, "SAVE YOUR PROGRESS IMMEDIATELY, IN THE SETTINGS!!!", "SAVE NOW", MB_OK | MB_ICONEXCLAMATION);
 	}
 
 public:
@@ -79,6 +72,9 @@ public:
 			ImGui::InputInt("##Diamond Amount", &iAmount);
 			if (ImGui::Button("Add Diamonds"))
 				GiveDiamonds(iAmount);
+			ImGui::Spacing();
+			ImGui::Text("THIS PERMANEBTLY UNLOCKS ALL");
+			ImGui::Text("DLC/EVENT CHARACTERS AMONG OTHER SHIT");
 			if (ImGui::Button("Add All Purchases"))
 				GivePurchases();
 		}
