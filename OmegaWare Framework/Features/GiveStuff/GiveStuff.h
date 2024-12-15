@@ -46,8 +46,6 @@ private:
 
 			Utils::LogDebug(Utils::GetLocation(CurrentLoc), SS.str());
 		}
-
-		MessageBoxA(NULL, "SAVE YOUR PROGRESS IMMEDIATELY, IN THE SETTINGS!!!", "SAVE NOW", MB_OK | MB_ICONEXCLAMATION);
 	}
 
 public:
@@ -75,6 +73,7 @@ public:
 			ImGui::Spacing();
 			ImGui::Text("THIS PERMANEBTLY UNLOCKS ALL");
 			ImGui::Text("DLC/EVENT CHARACTERS AMONG OTHER SHIT");
+			ImGui::Text("SAVE GAME & RELOAD AFTER USING!!!");
 			if (ImGui::Button("Add All Purchases"))
 				GivePurchases();
 		}
