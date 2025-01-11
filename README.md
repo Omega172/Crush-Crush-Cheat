@@ -12,6 +12,9 @@ So I looked around on steam to find a free game made in Unity and I found Crush 
 
 # IF THE MENU IS NOT SHOWING RUN THE GAME IN WINDOWED MODE AND EXPAND THE WINDOW BEFORE INJECTING THE CHEAT!!!
 
+# How to Inject
+https://youtu.be/4X9lxytX4ek?si=xJ7Ouy6d0HJwZwMR
+
 # Dependencies
 Microsoft Visual C++ Redistributable x86 - https://aka.ms/vs/17/release/vc_redist.x86.exe<br>
 Microsoft Visual C++ Redistributable x64 - https://aka.ms/vs/17/release/vc_redist.x64.exe<br>
