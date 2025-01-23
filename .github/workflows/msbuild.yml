@@ -1,4 +1,4 @@
-name: MSBuild
+name: Build Visual Studio Project
 
 on:
   push:
@@ -15,18 +15,20 @@ jobs:
 
     strategy:
       matrix:
-        configuration: [Release, Debug]
+        configuration: [Debug, Release]
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    - name: Add MSBuild to PATH
+    - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Restore NuGet packages
-      working-directory: ${{ env.GITHUB_WORKSPACE }}
-      run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
+      run: nuget restore "OmegaWare Framework/OmegaWare Framework.sln"
 
-    - name: Build
-      working-directory: ${{ env.GITHUB_WORKSPACE }}
-      run: msbuild /m /p:Configuration=${{ matrix.configuration }} ${{ env.SOLUTION_FILE_PATH }}
+    - name: Build Solution
+      run: msbuild "OmegaWare Framework/OmegaWare Framework.sln" /m /p:Configuration=${{ matrix.configuration }}
+
+    - name: Verify Artifacts
+      run: dir "Crush-Crush-Cheat/OmegaWare Framework/Build/Win32/${{ matrix.configuration }}"
