@@ -77,7 +77,8 @@ inline std::vector<Girl> Girls // Balance::GirlName
     {"Honey", 64},
     {"Karyn", 65},
     {"Myro", 66},
-    {"Aurora", 67}
+    {"Aurora", 67},
+    {"Ginger & Wasabi", 68}
 };
 
 enum LoveLevel
@@ -103,7 +104,7 @@ enum DateType
     Beach = 16
 };
 
-enum BlayFapItems
+enum BlayFapItems // BlayFapInventory::BlayFapItem
 {
     NutakuUserOutreach = 0,
     Easter2017,
@@ -170,5 +171,8 @@ enum BlayFapItems
     Karyn,
     Myro,
     Aurora,
-    MAX = 65
+    PESFinishPack,
+    GingerWasabi,
+    Anniversary2025,
+    MAX = 67
 };
