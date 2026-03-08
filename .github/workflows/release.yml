@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'V.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., V.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup xmake
+      uses: xmake-io/github-action-setup-xmake@v1
+      with:
+        xmake-version: latest
+
+    - name: Configure xmake (Release)
+      run: xmake config -m release -a x86 -p windows -y
+
+    - name: Build project (Release)
+      run: xmake build "Omegaware CrushCrush"
+
+    - name: Package Release artifacts (DLL + PDB)
+      run: |
+        mkdir release-package
+        xcopy /E /I Build\Release release-package\
+        echo "Build completed on $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" > release-package\BUILD_INFO.txt
+      shell: pwsh
+
+    - name: Create ZIP archive
+      run: |
+        Compress-Archive -Path release-package\* -DestinationPath CrushCrush-Cheat-Release.zip
+      shell: pwsh
+
+    - name: Get version
+      id: get_version
+      run: |
+        if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+          $version = "${{ github.event.inputs.version }}"
+        } else {
+          $version = "${{ github.ref_name }}"
+        }
+        echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+      shell: pwsh
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.get_version.outputs.VERSION }}
+        name: "Game Ver: ${{ steps.get_version.outputs.VERSION }}"
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+        files: |
+          CrushCrush-Cheat-Release.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
