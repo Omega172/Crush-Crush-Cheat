@@ -57,7 +57,7 @@ private:
 
 	void Initalize()
 	{
-		hMono = GetModuleHandleA("mono.dll");
+		hMono = GetModuleHandleA("mono-2.0-bdwgc.dll");
 		if (hMono == NULL)
 			return;
 
