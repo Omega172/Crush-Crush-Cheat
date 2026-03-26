@@ -1,16 +1,12 @@
 # Crush Crush Cheat
 A cheat made for the Steam version of <a href="https://store.steampowered.com/app/459820/Crush_Crush/">Crush Crush
 
-Check out my cheat for [Blush Blush](https://github.com/Omega172/Blush-Blush-Cheat/) it's the same as this game but it's about guys instead
-
 The key to show/hide the GUI is "Insert"
 
 # Why?
 Before I started this project, I was looking into reverse engineering and hacking Unity games, and I know the best way I learn is by doing
 
 So I looked around on steam to find a free game made in Unity and I found Crush Crush, I was not interested in the content of the game just that it was made in Unity.
-
-# IF THE MENU IS NOT SHOWING RUN THE GAME IN WINDOWED MODE AND EXPAND THE WINDOW BEFORE INJECTING THE CHEAT!!!
 
 # How to Inject
 https://youtu.be/4X9lxytX4ek?si=xJ7Ouy6d0HJwZwMR
