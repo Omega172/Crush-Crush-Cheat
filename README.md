@@ -14,7 +14,7 @@ https://youtu.be/4X9lxytX4ek?si=xJ7Ouy6d0HJwZwMR
 # Dependencies
 Microsoft Visual C++ Redistributable x86 - https://aka.ms/vs/17/release/vc_redist.x86.exe<br>
 Microsoft Visual C++ Redistributable x64 - https://aka.ms/vs/17/release/vc_redist.x64.exe<br>
-DirectX End-User Runtimes (June 2010) - http://www.microsoft.com/en-us/download/confirmation.aspx?id=8109
+DirectX End-User Runtimes (June 2010) - https://www.microsoft.com/en-us/download/details.aspx?id=35
 
 Mono - https://www.mono-project.com/download/stable/ (Only if you want to compile this yourself)<br>
 
