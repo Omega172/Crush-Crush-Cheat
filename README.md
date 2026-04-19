@@ -1,4 +1,4 @@
-# Build for BepInEx 6.0.0-be
+# Built for BepInEx 6.0.0-be
 netstandard.dll: Present
 
 Unity: 2019.4.41f2
