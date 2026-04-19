@@ -1,34 +1,41 @@
-# Crush Crush Cheat
-A cheat made for the Steam version of <a href="https://store.steampowered.com/app/459820/Crush_Crush/">Crush Crush
+# Build for BepInEx 6.0.0-be
+netstandard.dll: Present
 
-The key to show/hide the GUI is "Insert"
+Unity: 2019.4.41f2
 
-# Why?
-Before I started this project, I was looking into reverse engineering and hacking Unity games, and I know the best way I learn is by doing
+BepInEx Ver: 6.0.0-be.755
 
-So I looked around on steam to find a free game made in Unity and I found Crush Crush, I was not interested in the content of the game just that it was made in Unity.
+# Building Yourself:
+Install [.NET 10.0.202 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 
-# How to Inject
-https://youtu.be/4X9lxytX4ek?si=xJ7Ouy6d0HJwZwMR
+Install [BepInEx 6.0.0-be.755](https://builds.bepinex.dev/projects/bepinex_be/755/BepInEx-Unity.Mono-win-x86-6.0.0-be.755%2B3fab71a.zip) into your Crush Crush game directory
 
-# Dependencies
-Microsoft Visual C++ Redistributable x86 - https://aka.ms/vs/17/release/vc_redist.x86.exe<br>
-Microsoft Visual C++ Redistributable x64 - https://aka.ms/vs/17/release/vc_redist.x64.exe<br>
-DirectX End-User Runtimes (June 2010) - https://www.microsoft.com/en-us/download/details.aspx?id=35
+OmegaWare-CrushCrush.csproj:
+ - Change line 31 to point to `..\YOUR\GAME\DIR\CrushCrush\CrushCrush_Data\Managed\Assembly-CSharp.dll`
+ - Change line 36 to point to `..\YOUR\GAME\DIR\CrushCrush\BepInEx\plugins`
 
-Mono - https://www.mono-project.com/download/stable/ (Only if you want to compile this yourself)<br>
+If making a PR, make sure to update the version on line 7
 
-# Images
-![Picture of Menu](Images/Menu.png)
-![Picture of Console](Images/Console.png)
+Then run `dotnet restore` and make your changes.
 
-# Features
-<li  class="has-line-data"  data-line-start="8"  data-line-end="9">An in-game menu created by hooking the games Direct-X 11 with Keiro and using Dear-ImGui to render</li>
+To build run `dotnet build`
 
-<li  class="has-line-data"  data-line-start="9"  data-line-end="10">The ability to unload the DLL at anytime to resume normal game function</li>
+```
+TODO:
+	Port from C++:
+		- Game Speed Slider & Toggle + Key
+		- Gift quantity override
+		- Diamonds
+		- Set Current Girl Lover
+		- Set All Girls Lover
+		- Skip Phone Timer & Key
+		- Show All Phone Conversations
+		- Enable NSFW
+	DLC Unlocker?
+```
 
-<li  class="has-line-data"  data-line-start="10"  data-line-end="11">A console attached to the game used for outputting debug information and hook status with a button to enable and disable it</li>
-
-<li  class="has-line-data"  data-line-start="11"  data-line-end="12">A simple watermark in the top left corner that displays the cheat’s title and the current FPS</li>
-
-<li  class="has-line-data"  data-line-start="12"  data-line-end="14">Hooks for many of the games internal functions using MinHook</li>
+```
+Implemented:
+	- Unlock All Items & Girls (Now combined into one feature)
+	- Show all album pinups
+	- Unlock all album date pics
