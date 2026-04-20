@@ -25,8 +25,6 @@ TODO:
 	Port from C++:
 		- Gift quantity override
 		- Skip Phone Timer & Key
-		- Show All Phone Conversations
-		- Enable NSFW
 
 	DLC Unlocker?
 ```
@@ -40,3 +38,5 @@ Implemented:
 	- Add Diamonds
 	- Set Current Girl To Lover
 	- Set All Girls Lover
+	- All Phone Conversations Unlocked
+	- Enable NSFW

@@ -22,6 +22,7 @@ public class Plugin : BaseUnityPlugin
     internal static Rect popupRect = new(100, 100, 300, 150);
 
     internal static Girls girlsInstance = null;
+    internal static Cellphone cellphoneInstance = null;
 
     internal static bool bShowMenu = true;
     internal static bool bUnlockAllItems = false;
@@ -31,6 +32,8 @@ public class Plugin : BaseUnityPlugin
     internal static float timescale = 1f;
     internal static string intInputText = "1000";
     internal static int intDiamondValue = 1000;
+    internal static bool bShowAllPhoneConversations = false;
+    internal static bool bEnableNSFW = false;
 
     private void Awake()
     {
@@ -68,11 +71,11 @@ public class Plugin : BaseUnityPlugin
         GUI.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f); // Dark gray background
         GUI.contentColor = Color.cyan; // Cyan text
 
-        const float menuControlWidth = 200f;
+        const float menuControlWidth = 210f;
         const float menuControlHeight = 30f;
-        const float menuPadding = 10f;
+        const float menuPadding = 14f;
         const float menuSpacing = 5f;
-        const int menuControlCount = 12; // 3 cheat buttons + 1 label + slider + 2 timescale buttons + 1 diamonds label + 1 text field
+        const int menuControlCount = 15; // 3 cheat buttons + 1 label + slider + 2 timescale buttons + 1 diamonds label + 1 text field
 
         float menuWidth = menuControlWidth + (menuPadding * 2f);
         float menuHeight = 40f + (menuControlCount * menuControlHeight) + ((menuControlCount + 1) * menuSpacing) + menuPadding;
@@ -227,6 +230,9 @@ public class Plugin : BaseUnityPlugin
                 }
             }
 
+            bShowAllPhoneConversations = GUILayout.Toggle(bShowAllPhoneConversations, "All Phone Conversations Unlocked", GUILayout.Height(menuControlHeight));
+            GameState.NSFW = GUILayout.Toggle(GameState.NSFW, "Enable NSFW Content", GUILayout.Height(menuControlHeight));
+            GameState.NSFWAllowed = GameState.NSFW;
 
             GUILayout.EndVertical();
 
@@ -316,5 +322,30 @@ public class Girls_Update_Patch
     static void Prefix(Girls __instance)
     {
         Plugin.girlsInstance = __instance;
+    }
+}
+
+[HarmonyPatch(typeof(Cellphone), "Update")]
+public class Cellphone_Update_Patch
+{
+    [HarmonyPrefix]
+    static void Prefix(Cellphone __instance)
+    {
+        Plugin.cellphoneInstance = __instance;
+    }
+}
+
+[HarmonyPatch(typeof(Cellphone), "IsUnlocked", typeof(short))]
+public class Cellphone_IsUnlocked_Patch
+{
+    [HarmonyPostfix]
+    static void Postfix(ref bool __result, short id)
+    {
+        if (!__result && Plugin.bShowAllPhoneConversations)
+        {
+            if (Plugin.bExtraDebugLogs)
+                Plugin.Logger.LogInfo($"Pretending phone conversation {id} is unlocked");
+            __result = true;
+        }
     }
 }
