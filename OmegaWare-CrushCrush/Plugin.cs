@@ -30,10 +30,15 @@ public class Plugin : BaseUnityPlugin
     internal static bool bShowConfirmPopup = false;
     internal static float originalTimescale = 1f;
     internal static float timescale = 1f;
-    internal static string intInputText = "1000";
-    internal static int intDiamondValue = 1000;
+    internal static string diamondInputText = "1000";
+    internal static int diamondValue = 1000;
     internal static bool bShowAllPhoneConversations = false;
     internal static bool bEnableNSFW = false;
+    internal static bool bOverrideGiftQuantity = false;
+    internal static string overrideGiftQuantityInputText = "1000";
+    internal static int overrideGiftQuantityValue = 1000;
+    internal static KeyCode skipPhoneTimerHotkey = KeyCode.Mouse3;
+    internal static bool bListeningForSkipPhoneTimerHotkey = false;
 
     private void Awake()
     {
@@ -56,6 +61,41 @@ public class Plugin : BaseUnityPlugin
     {
         if (Input.GetKeyDown(toggleMenuKey))
             bShowMenu = !bShowMenu;
+
+        // Listen for skip phone timer hotkey binding
+        if (bListeningForSkipPhoneTimerHotkey)
+        {
+            foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKeyDown(key) && key != KeyCode.Escape)
+                {
+                    skipPhoneTimerHotkey = key;
+                    Logger.LogInfo($"Skip Phone Timer hotkey set to {key}");
+                    bListeningForSkipPhoneTimerHotkey = false;
+                    break;
+                }
+
+                // Escape cancels hotkey binding
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    bListeningForSkipPhoneTimerHotkey = false;
+                    break;
+                }
+            }
+        }
+
+        // Check if skip phone timer hotkey is held
+        if (!bListeningForSkipPhoneTimerHotkey && Input.GetKey(skipPhoneTimerHotkey))
+        {
+            SkipPhoneTimer();
+        }
+    }
+
+    private void SkipPhoneTimer()
+    {
+        Traverse.Create(cellphoneInstance).Method("Debug_SkipMessage").GetValue();
+        if (bExtraDebugLogs)
+            Logger.LogInfo("Skipped phone timer");
     }
 
     private void OnGUI()
@@ -75,7 +115,7 @@ public class Plugin : BaseUnityPlugin
         const float menuControlHeight = 30f;
         const float menuPadding = 14f;
         const float menuSpacing = 5f;
-        const int menuControlCount = 15; // 3 cheat buttons + 1 label + slider + 2 timescale buttons + 1 diamonds label + 1 text field
+        const int menuControlCount = 20; // added skip phone timer hotkey label + button
 
         float menuWidth = menuControlWidth + (menuPadding * 2f);
         float menuHeight = 40f + (menuControlCount * menuControlHeight) + ((menuControlCount + 1) * menuSpacing) + menuPadding;
@@ -166,35 +206,35 @@ public class Plugin : BaseUnityPlugin
 
             GUILayout.Space(menuSpacing);
             GUILayout.Label("Diamonds:");
-            intInputText = GUILayout.TextField(intInputText, GUILayout.Height(menuControlHeight));
+            diamondInputText = GUILayout.TextField(diamondInputText, GUILayout.Height(menuControlHeight));
 
-            intInputText = System.Text.RegularExpressions.Regex.Replace(intInputText, "[^0-9-]", "");
-            if (intInputText.Contains("-"))
+            diamondInputText = System.Text.RegularExpressions.Regex.Replace(diamondInputText, "[^0-9-]", "");
+            if (diamondInputText.Contains("-"))
             {
-                int minusIndex = intInputText.IndexOf("-");
+                int minusIndex = diamondInputText.IndexOf("-");
                 if (minusIndex > 0)
                 {
-                    intInputText = intInputText.Replace("-", "");
+                    diamondInputText = diamondInputText.Replace("-", "");
                 }
-                else if (intInputText.IndexOf("-", 1) >= 0)
+                else if (diamondInputText.IndexOf("-", 1) >= 0)
                 {
-                    intInputText = intInputText.Substring(0, 1) + intInputText.Substring(1).Replace("-", "");
+                    diamondInputText = diamondInputText.Substring(0, 1) + diamondInputText.Substring(1).Replace("-", "");
                 }
             }
 
-            if (!string.IsNullOrEmpty(intInputText) && int.TryParse(intInputText, out int result))
+            if (!string.IsNullOrEmpty(diamondInputText) && int.TryParse(diamondInputText, out int result))
             {
-                intDiamondValue = result;
+                diamondValue = result;
             }
-            else if (!string.IsNullOrEmpty(intInputText))
+            else if (!string.IsNullOrEmpty(diamondInputText))
             {
                 GUILayout.Label("Invalid integer");
             }
 
             if (GUILayout.Button("Add Diamonds", GUILayout.Height(menuControlHeight)))
             {
-                Traverse.Create(typeof(Utilities)).Method("AwardDiamonds", intDiamondValue, false).GetValue();
-                Logger.LogInfo($"Added {intDiamondValue} diamonds!");
+                Traverse.Create(typeof(Utilities)).Method("AwardDiamonds", diamondValue, false).GetValue();
+                Logger.LogInfo($"Added {diamondValue} diamonds!");
             }
 
             if (GUILayout.Button("Set Current Girl ToLover", GUILayout.Height(menuControlHeight)))
@@ -229,10 +269,52 @@ public class Plugin : BaseUnityPlugin
                     }
                 }
             }
-
-            bShowAllPhoneConversations = GUILayout.Toggle(bShowAllPhoneConversations, "All Phone Conversations Unlocked", GUILayout.Height(menuControlHeight));
+            
             GameState.NSFW = GUILayout.Toggle(GameState.NSFW, "Enable NSFW Content", GUILayout.Height(menuControlHeight));
             GameState.NSFWAllowed = GameState.NSFW;
+            
+            bOverrideGiftQuantity = GUILayout.Toggle(bOverrideGiftQuantity, "Override Gift Quantity", GUILayout.Height(menuControlHeight));
+            
+            GUILayout.Space(menuSpacing);
+            GUILayout.Label("Gift Quantity:");
+            overrideGiftQuantityInputText = GUILayout.TextField(overrideGiftQuantityInputText, GUILayout.Height(menuControlHeight));
+
+            overrideGiftQuantityInputText = System.Text.RegularExpressions.Regex.Replace(overrideGiftQuantityInputText, "[^0-9-]", "");
+            if (overrideGiftQuantityInputText.Contains("-"))
+            {
+                int minusIndex = overrideGiftQuantityInputText.IndexOf("-");
+                if (minusIndex > 0)
+                {
+                    overrideGiftQuantityInputText = overrideGiftQuantityInputText.Replace("-", "");
+                }
+                else if (overrideGiftQuantityInputText.IndexOf("-", 1) >= 0)
+                {
+                    overrideGiftQuantityInputText = overrideGiftQuantityInputText.Substring(0, 1) + overrideGiftQuantityInputText.Substring(1).Replace("-", "");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(overrideGiftQuantityInputText) && int.TryParse(overrideGiftQuantityInputText, out int giftResult))
+            {
+                overrideGiftQuantityValue = giftResult;
+            }
+            else if (!string.IsNullOrEmpty(overrideGiftQuantityInputText))
+            {
+                GUILayout.Label("Invalid integer");
+            }
+
+            if (GUILayout.Button("Skip Phone Timer", GUILayout.Height(menuControlHeight)))
+            {
+                SkipPhoneTimer();
+            }
+
+            bShowAllPhoneConversations = GUILayout.Toggle(bShowAllPhoneConversations, "All Phone Conversations Unlocked", GUILayout.Height(menuControlHeight));
+            
+            GUILayout.Space(menuSpacing);
+            GUILayout.Label($"Skip Phone Timer: {skipPhoneTimerHotkey}");
+            if (GUILayout.Button(bListeningForSkipPhoneTimerHotkey ? "Press any key..." : "Bind Skip Hotkey", GUILayout.Height(menuControlHeight)))
+            {
+                bListeningForSkipPhoneTimerHotkey = true;
+            }
 
             GUILayout.EndVertical();
 
@@ -346,6 +428,21 @@ public class Cellphone_IsUnlocked_Patch
             if (Plugin.bExtraDebugLogs)
                 Plugin.Logger.LogInfo($"Pretending phone conversation {id} is unlocked");
             __result = true;
+        }
+    }
+}
+
+[HarmonyPatch(typeof(Gift), "OnGift", typeof(int))]
+public class Gift_OnGift_Patch
+{
+    [HarmonyPrefix]
+    static void Prefix(ref int quantity)
+    {
+        if (Plugin.bOverrideGiftQuantity)
+        {
+            quantity = Plugin.overrideGiftQuantityValue;
+            if (Plugin.bExtraDebugLogs)
+                Plugin.Logger.LogInfo($"Overriding gift quantity to {quantity}");
         }
     }
 }

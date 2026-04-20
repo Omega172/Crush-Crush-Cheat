@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>OmegaWare_CrushCrush</AssemblyName>
     <Product>OmegaWare (Crush Crush)</Product>
-    <Version>1.0.0-alpha</Version>
+    <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
