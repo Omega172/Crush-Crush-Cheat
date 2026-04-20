@@ -13,6 +13,7 @@
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
     <RootNamespace>OmegaWare_CrushCrush</RootNamespace>
+    <AssemblyCSharpHintPath Condition="'$(AssemblyCSharpHintPath)' == ''">D:\SteamLibrary\steamapps\common\CrushCrush\CrushCrush_Data\Managed\Assembly-CSharp.dll</AssemblyCSharpHintPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,15 +29,15 @@
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>D:\SteamLibrary\steamapps\common\CrushCrush\CrushCrush_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(AssemblyCSharpHintPath)</HintPath>
     </Reference>
   </ItemGroup>
 
   <PropertyGroup>
-    <DeployPath>D:\SteamLibrary\steamapps\common\CrushCrush\BepInEx\plugins</DeployPath>
+    <DeployPath Condition="'$(DeployPath)' == ''">D:\SteamLibrary\steamapps\common\CrushCrush\BepInEx\plugins</DeployPath>
   </PropertyGroup>
 
-  <Target Name="DeployToGame" AfterTargets="Build">
+  <Target Name="DeployToGame" AfterTargets="Build" Condition="Exists('$(DeployPath)')">
     <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(DeployPath)" />
   </Target>
 </Project>
