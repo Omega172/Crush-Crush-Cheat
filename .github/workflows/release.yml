@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Game version tag (example: v0.1.0)"
+        description: "Release tag in format <game ver>,<cheat ver> (example: 0.412,1.1.0)"
         required: true
         type: string
       managed_dlls_zip_url:
@@ -66,6 +66,22 @@ jobs:
       - name: Build project
         run: dotnet build OmegaWare-CrushCrush/OmegaWare-CrushCrush.csproj --configuration Release --no-restore -p:ManagedAssembliesPath="${{ steps.dlls.outputs.managed_dlls_path }}"
 
+      - name: Parse Release Tag
+        id: parsed_tag
+        shell: pwsh
+        run: |
+          $rawTag = "${{ inputs.tag }}"
+          $parts = $rawTag.Split(',', 2)
+          if ($parts.Count -ne 2 -or [string]::IsNullOrWhiteSpace($parts[0]) -or [string]::IsNullOrWhiteSpace($parts[1])) {
+            throw "Invalid tag format. Expected: <game ver>,<cheat ver>"
+          }
+
+          $gameVer = $parts[0].Trim()
+          $cheatVer = $parts[1].Trim()
+
+          "game_ver=$gameVer" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "cheat_ver=$cheatVer" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
       - name: Find built plugin DLL
         id: artifact
         shell: pwsh
@@ -80,7 +96,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.tag }}
-          name: "Game Ver: ${{ inputs.tag }} | BepInEx Plugin"
+          name: "Game Ver: ${{ steps.parsed_tag.outputs.game_ver }} | Plugin Ver: ${{ steps.parsed_tag.outputs.cheat_ver }}"
           body: |
             Guide to install BepInEx can be found [here](docs.bepinex.dev/master/articles/user_guide/installation/index.html)
             You need [this](https://builds.bepinex.dev/projects/bepinex_be/755/BepInEx-Unity.Mono-win-x86-6.0.0-be.755%2B3fab71a.zip) version of BepInEx
