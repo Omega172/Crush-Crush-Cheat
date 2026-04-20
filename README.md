@@ -34,8 +34,9 @@ To build run `dotnet build`
 
 - Disable Analytics (On by default, can only be disabled by editing the config file found in `BepInEx/config/OmegaWare_CrushCrush.cfg`)
 
-### TODO
 - Unlock All Outfits
+
+### TODO
 - Outfits Cost 1 Diamond
 - Gifts Cost No Diamonds
 - Free Diamond Purchasables

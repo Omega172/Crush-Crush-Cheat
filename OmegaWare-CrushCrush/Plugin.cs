@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -39,6 +40,7 @@ public class Plugin : BaseUnityPlugin
     internal static ConfigEntry<bool> bOverrideGiftQuantity;
     internal static ConfigEntry<KeyCode> skipPhoneTimerHotkey;
     internal static ConfigEntry<bool> bDlcUnlocker;
+    internal static ConfigEntry<bool> bUnlockAllOutfits;
 
     // Helper Fields
     internal static float originalTimescale = 0f;
@@ -77,6 +79,7 @@ public class Plugin : BaseUnityPlugin
         bOverrideGiftQuantity = Config.Bind("General", "OverrideGiftQuantity", false, "Whether to override the quantity of gifts received");
         skipPhoneTimerHotkey = Config.Bind("General", "SkipPhoneTimerHotkey", KeyCode.Mouse3, "Hotkey to hold for skipping phone timer");
         bDlcUnlocker = Config.Bind("General", "DlcUnlocker", false, "Whether to unlock all DLC content");
+        bUnlockAllOutfits = Config.Bind("General", "UnlockAllOutfits", false, "Whether to auto-unlock outfits from Gift.Init by OR-ing OutfitType into current girl's LifetimeOutfits.");
 
         originalTimescale = Time.timeScale;
         Logger.LogInfo($"Original timescale: {originalTimescale}");
@@ -196,7 +199,7 @@ public class Plugin : BaseUnityPlugin
         const float menuControlHeight = 30f;
         const float menuPadding = 10f;
         const float menuSpacing = 5f;
-        const int menuControlCount = 25; // added skip phone timer hotkey label + button
+        const int menuControlCount = 26; // includes Unlock All Outfits toggle
 
         float menuWidth = menuControlWidth + (menuPadding * 2f);
         float menuHeight = 40f + (menuControlCount * menuControlHeight) + ((menuControlCount + 1) * menuSpacing) + menuPadding;
@@ -398,6 +401,7 @@ public class Plugin : BaseUnityPlugin
             }
 
             bDlcUnlocker.Value = GUILayout.Toggle(bDlcUnlocker.Value, "Enable All DLC", GUILayout.Height(menuControlHeight));
+            bUnlockAllOutfits.Value = GUILayout.Toggle(bUnlockAllOutfits.Value, "Unlock All Outfits", GUILayout.Height(menuControlHeight));
 
             if (GUILayout.Button("Meet Current Girl Heart Requirement", GUILayout.Height(menuControlHeight)))
             {
@@ -659,6 +663,94 @@ public class Gift_OnGift_Patch
             if (Plugin.bExtraDebugLogs)
                 Plugin.Logger.LogInfo($"Overriding gift quantity to {quantity}");
         }
+    }
+}
+
+[HarmonyPatch(typeof(Gift), "Init", typeof(OutfitModel))]
+public class Gift_Init_Patch
+{
+    [HarmonyPostfix]
+    static void Postfix(Gift __instance)
+    {
+        if (Plugin.bUnlockAllOutfits == null || !Plugin.bUnlockAllOutfits.Value)
+            return;
+
+        if (Girls.CurrentGirl == null)
+            return;
+
+        if (!TryGetGiftOutfitType(__instance, out Requirement.OutfitType outfitType))
+            return;
+
+        if (outfitType == Requirement.OutfitType.None)
+            return;
+
+        try
+        {
+            Girls.CurrentGirl.LifetimeOutfits |= outfitType;
+            Girls.CurrentGirl.StoreState();
+
+            if (Plugin.bExtraDebugLogs)
+            {
+                Plugin.Logger.LogInfo($"Unlocked outfit {outfitType} for {Enum.GetName(typeof(Balance.GirlName), Girls.CurrentGirl.GirlName)}");
+            }
+        }
+        catch (Exception ex)
+        {
+            if (Plugin.bExtraDebugLogs)
+                Plugin.Logger.LogWarning($"Failed to unlock outfit from Gift.Init: {ex.Message}");
+        }
+    }
+
+    private static bool TryGetGiftOutfitType(Gift gift, out Requirement.OutfitType outfitType)
+    {
+        outfitType = Requirement.OutfitType.None;
+        if (gift == null)
+            return false;
+
+        Type giftType = gift.GetType();
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
+        foreach (PropertyInfo property in giftType.GetProperties(flags))
+        {
+            if (property.PropertyType != typeof(Requirement.OutfitType) || property.GetIndexParameters().Length != 0)
+                continue;
+
+            try
+            {
+                var value = (Requirement.OutfitType)property.GetValue(gift, null);
+                if (value != Requirement.OutfitType.None)
+                {
+                    outfitType = value;
+                    return true;
+                }
+            }
+            catch
+            {
+                // Ignore reflection read failures and continue probing.
+            }
+        }
+
+        foreach (FieldInfo field in giftType.GetFields(flags))
+        {
+            if (field.FieldType != typeof(Requirement.OutfitType))
+                continue;
+
+            try
+            {
+                var value = (Requirement.OutfitType)field.GetValue(gift);
+                if (value != Requirement.OutfitType.None)
+                {
+                    outfitType = value;
+                    return true;
+                }
+            }
+            catch
+            {
+                // Ignore reflection read failures and continue probing.
+            }
+        }
+
+        return false;
     }
 }
 
