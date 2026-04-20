@@ -13,11 +13,15 @@ namespace OmegaWare_CrushCrush;
 [BepInProcess("CrushCrush.exe")]
 public class Plugin : BaseUnityPlugin
 {
+    internal static bool bExtraDebugLogs = false;
+
     internal static new ManualLogSource Logger;
     internal static Harmony HarmonyInstance;
     internal static KeyCode toggleMenuKey = KeyCode.Insert;
     internal static Rect menuRect = new(10, 10, 200, 130);
     internal static Rect popupRect = new(100, 100, 300, 150);
+
+    internal static Girls girlsInstance = null;
 
     internal static bool bShowMenu = true;
     internal static bool bUnlockAllItems = false;
@@ -68,7 +72,7 @@ public class Plugin : BaseUnityPlugin
         const float menuControlHeight = 30f;
         const float menuPadding = 10f;
         const float menuSpacing = 5f;
-        const int menuControlCount = 10; // 3 cheat buttons + 1 label + slider + 2 timescale buttons + 1 diamonds label + 1 text field
+        const int menuControlCount = 12; // 3 cheat buttons + 1 label + slider + 2 timescale buttons + 1 diamonds label + 1 text field
 
         float menuWidth = menuControlWidth + (menuPadding * 2f);
         float menuHeight = 40f + (menuControlCount * menuControlHeight) + ((menuControlCount + 1) * menuSpacing) + menuPadding;
@@ -82,6 +86,29 @@ public class Plugin : BaseUnityPlugin
             if (GUILayout.Button("Unlock All Items", GUILayout.Height(menuControlHeight)))
             {
                 bShowConfirmPopup = true;
+            }
+
+            if (GUILayout.Button("Unlock All Girls", GUILayout.Height(menuControlHeight)))
+            {
+                Balance.GirlName newestGirl = Enum.GetValues(typeof(Balance.GirlName))
+                    .Cast<Balance.GirlName>()
+                    .Where(g => (int)g < 1000)
+                    .OrderByDescending(g => (int)g)
+                    .FirstOrDefault();
+
+                for (int i = 1; i <= (int)newestGirl; i++)
+                {
+                    try
+                    {
+                        Traverse.Create(girlsInstance).Method("UnlockGirl", i).GetValue();
+                        if (bExtraDebugLogs)
+                            Logger.LogInfo($"Unlocked girl {Enum.GetName(typeof(Balance.GirlName), i)}");
+                    }
+                    catch
+                    {
+                        Logger.LogWarning($"Could not unlock girl {Enum.GetName(typeof(Balance.GirlName), i)}");
+                    }
+                }
             }
 
             GUILayout.Space(menuSpacing);
@@ -104,12 +131,13 @@ public class Plugin : BaseUnityPlugin
                         foreach (int j in new int[] { 1, 2, 4, 8, 16 })
                         {
                             Traverse.Create(typeof(Album)).Method("Add", (Requirement.DateType)j, girl).GetValue();
-                            Logger.LogInfo($"Unlocked {Enum.GetName(typeof(Requirement.DateType), j)} pic for {Enum.GetName(typeof(Balance.GirlName), i)}");
+                            if (bExtraDebugLogs)
+                                Logger.LogInfo($"Unlocked {Enum.GetName(typeof(Requirement.DateType), j)} pic for {Enum.GetName(typeof(Balance.GirlName), i)}");
                         }
                     }
                     catch
                     {
-                        Logger.LogWarning($"Could not unlock pics for girl {(Balance.GirlName)i}");
+                        Logger.LogWarning($"Could not unlock pics for girl {Enum.GetName(typeof(Balance.GirlName), i)}");
                     }
                 }
             }
@@ -166,6 +194,40 @@ public class Plugin : BaseUnityPlugin
                 Logger.LogInfo($"Added {intDiamondValue} diamonds!");
             }
 
+            if (GUILayout.Button("Set Current Girl ToLover", GUILayout.Height(menuControlHeight)))
+            {
+                Traverse.Create(Girls.CurrentGirl).Method("SetLove", Girl.LoveLevel.Lover).GetValue();
+
+                if (bExtraDebugLogs)
+                    Logger.LogInfo($"Set current girl {Enum.GetName(typeof(Balance.GirlName), Girls.CurrentGirl.GirlName)} love to lover");
+            }
+
+            if (GUILayout.Button("Set All Girls To Lover", GUILayout.Height(menuControlHeight)))
+            {
+                Balance.GirlName newestGirl = Enum.GetValues(typeof(Balance.GirlName))
+                    .Cast<Balance.GirlName>()
+                    .Where(g => (int)g < 1000)
+                    .OrderByDescending(g => (int)g)
+                    .FirstOrDefault();
+
+                for (int i = 1; i <= (int)newestGirl; i++)
+                {
+                    try
+                    {
+                        Girl girl = Traverse.Create(typeof(Girl)).Method("FindGirl", (Balance.GirlName)i).GetValue<Girl>();
+                        Traverse.Create(girl).Method("SetLove", Girl.LoveLevel.Lover).GetValue();
+                        if (bExtraDebugLogs)
+                            Logger.LogInfo($"Set girl {Enum.GetName(typeof(Balance.GirlName), i)} love to lover");
+                    }
+                    catch (Exception ex)
+                    {
+                        if (bExtraDebugLogs)
+                            Logger.LogError($"Error setting girl {i} to lover: {ex.Message}");
+                    }
+                }
+            }
+
+
             GUILayout.EndVertical();
 
             GUI.DragWindow(new Rect(0, 0, 10000, 22));
@@ -199,6 +261,7 @@ public class Plugin : BaseUnityPlugin
 
                 if (GUILayout.Button("No", GUILayout.Height(popupButtonHeight)))
                 {
+                    bUnlockAllItems = false;
                     bShowConfirmPopup = false;
                 }
 
@@ -208,7 +271,7 @@ public class Plugin : BaseUnityPlugin
                 GUI.DragWindow(new Rect(0, 0, 10000, 22));
 
             }, "Confirm Action");
-        }
+        }        
 
         // Restore original colors
         GUI.backgroundColor = originalBg;
@@ -224,7 +287,8 @@ public class BlayFapInventory_HasItem_Patch
     {
         if (!__result && Plugin.bUnlockAllItems)
         {
-            Plugin.Logger.LogInfo($"Pretending player has item {id}");
+            if (Plugin.bExtraDebugLogs)
+                Plugin.Logger.LogInfo($"Pretending player has item {id}");
             __result = true;
         }
     }   
@@ -238,8 +302,19 @@ public class Album_IsPinupUnlocked_Patch
     {
         if (!__result && Plugin.bShowAllPinups)
         {
-            Plugin.Logger.LogInfo($"Pretending pinup {pinupRewardAmount} is unlocked");
+            if (Plugin.bExtraDebugLogs)
+                Plugin.Logger.LogInfo($"Pretending pinup {pinupRewardAmount} is unlocked");
             __result = true;
         }
+    }
+}
+
+[HarmonyPatch(typeof(Girls), "Update")]
+public class Girls_Update_Patch
+{
+    [HarmonyPrefix]
+    static void Prefix(Girls __instance)
+    {
+        Plugin.girlsInstance = __instance;
     }
 }

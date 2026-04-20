@@ -24,12 +24,10 @@ To build run `dotnet build`
 TODO:
 	Port from C++:
 		- Gift quantity override
-		- Set Current Girl Lover
-		- Set All Girls Lover
 		- Skip Phone Timer & Key
 		- Show All Phone Conversations
 		- Enable NSFW
-		
+
 	DLC Unlocker?
 ```
 
@@ -40,3 +38,5 @@ Implemented:
 	- Unlock all album date pics
 	- Game Speed Slider & Toggle Buttons
 	- Add Diamonds
+	- Set Current Girl To Lover
+	- Set All Girls Lover
