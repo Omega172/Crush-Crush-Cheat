@@ -23,7 +23,6 @@ To build run `dotnet build`
 ```
 TODO:
 	Port from C++:
-		- Game Speed Slider & Toggle + Key
 		- Gift quantity override
 		- Diamonds
 		- Set Current Girl Lover
@@ -39,3 +38,4 @@ Implemented:
 	- Unlock All Items & Girls (Now combined into one feature)
 	- Show all album pinups
 	- Unlock all album date pics
+	- Game Speed Slider & Toggle Buttons

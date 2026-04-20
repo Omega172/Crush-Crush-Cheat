@@ -23,6 +23,8 @@ public class Plugin : BaseUnityPlugin
     internal static bool bUnlockAllItems = false;
     internal static bool bShowAllPinups = false;
     internal static bool bShowConfirmPopup = false;
+    internal static float originalTimescale = 1f;
+    internal static float timescale = 1f;
 
     private void Awake()
     {
@@ -36,6 +38,9 @@ public class Plugin : BaseUnityPlugin
         HarmonyInstance.PatchAll();
 
         Logger.LogInfo("Patches applied!");
+
+        originalTimescale = Time.timeScale;
+        Logger.LogInfo($"Original timescale: {originalTimescale}");
     }
 
     private void LateUpdate()
@@ -57,15 +62,31 @@ public class Plugin : BaseUnityPlugin
         GUI.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f); // Dark gray background
         GUI.contentColor = Color.cyan; // Cyan text
 
+        const float menuControlWidth = 200f;
+        const float menuControlHeight = 30f;
+        const float menuPadding = 10f;
+        const float menuSpacing = 5f;
+        const int menuControlCount = 7; // 3 cheat buttons + 1 label + slider + 2 timescale buttons
+
+        float menuWidth = menuControlWidth + (menuPadding * 2f);
+        float menuHeight = 40f + (menuControlCount * menuControlHeight) + ((menuControlCount + 1) * menuSpacing) + menuPadding;
+        menuRect = new Rect(menuRect.x, menuRect.y, menuWidth, menuHeight);
+
         menuRect = GUI.Window(0, menuRect, (id) =>
         {
-            if (GUI.Button(new Rect(10, 100, 180, 30), "Unlock All Items")) {
+            GUILayout.BeginVertical(GUILayout.Width(menuControlWidth));
+            GUILayout.Space(menuSpacing);
+
+            if (GUILayout.Button("Unlock All Items", GUILayout.Height(menuControlHeight)))
+            {
                 bShowConfirmPopup = true;
             }
 
-            bShowAllPinups = GUI.Toggle(new Rect(10, 70, 180, 30), bShowAllPinups, "Show All Pinups");
+            GUILayout.Space(menuSpacing);
+            bShowAllPinups = GUILayout.Toggle(bShowAllPinups, "Show All Pinups", GUILayout.Height(menuControlHeight));
 
-            if (GUI.Button(new Rect(10, 30, 180, 30), "Unlock All Date Pics"))
+            GUILayout.Space(menuSpacing);
+            if (GUILayout.Button("Unlock All Date Pics", GUILayout.Height(menuControlHeight)))
             {
                 Balance.GirlName newestGirl = Enum.GetValues(typeof(Balance.GirlName))
                     .Cast<Balance.GirlName>()
@@ -78,7 +99,7 @@ public class Plugin : BaseUnityPlugin
                     try
                     {
                         Girl girl = Traverse.Create(typeof(Girl)).Method("FindGirl", (Balance.GirlName)i).GetValue<Girl>();
-                        foreach(int j in new int[] { 1, 2, 4, 8, 16 })
+                        foreach (int j in new int[] { 1, 2, 4, 8, 16 })
                         {
                             var result = Traverse.Create(typeof(Album)).Method("Add", (Requirement.DateType)j, girl).GetValue();
                             Logger.LogInfo($"Unlocked {Enum.GetName(typeof(Requirement.DateType), j)} pic for {Enum.GetName(typeof(Balance.GirlName), i)}");
@@ -91,29 +112,65 @@ public class Plugin : BaseUnityPlugin
                 }
             }
 
-            GUI.DragWindow(); // Make the entire window draggable (except where controls are)
+            GUILayout.Space(menuSpacing);
+            GUILayout.Label($"Timescale: {timescale:F2}");
+            timescale = GUILayout.HorizontalSlider(timescale, 0.1f, 5f, GUILayout.Height(menuControlHeight));
+
+            GUILayout.Space(menuSpacing);
+            if (GUILayout.Button("Set Timescale", GUILayout.Height(menuControlHeight)))
+            {
+                Time.timeScale = timescale;
+                Logger.LogInfo($"Timescale set to {timescale}");
+            }
+
+            GUILayout.Space(menuSpacing);
+            if (GUILayout.Button("Reset Timescale", GUILayout.Height(menuControlHeight)))
+            {
+                Time.timeScale = originalTimescale;
+                timescale = originalTimescale;
+                Logger.LogInfo("Timescale reset to original value");
+            }
+
+            GUILayout.EndVertical();
+
+            GUI.DragWindow(new Rect(0, 0, 10000, 22));
 
         }, MyPluginInfo.PLUGIN_NAME);
 
         if (bShowConfirmPopup)
         {
+            const float popupWidth = 320f;
+            const float popupButtonHeight = 30f;
+            const float popupSpacing = 10f;
+            const float popupContentWidth = 290f;
+            popupRect = new Rect(popupRect.x, popupRect.y, popupWidth, 175f);
+
             popupRect = GUI.Window(1, popupRect, (id) =>
             {
-                GUI.Label(new Rect(10, 20, 280, 60), "This will unlock all items in the game including all girls and premium content.\nYou must save and reload for this to take effect.\n\nAre you sure?");
+                GUILayout.BeginVertical(GUILayout.Width(popupContentWidth));
+                GUILayout.Space(popupSpacing);
 
-                if (GUI.Button(new Rect(10, 90, 135, 30), "Yes"))
+                GUILayout.Label("This will unlock all items in the game including all girls and premium content.\nYou must save and reload for this to take effect.\n\nAre you sure?");
+
+                GUILayout.Space(popupSpacing);
+                GUILayout.BeginHorizontal();
+
+                if (GUILayout.Button("Yes", GUILayout.Height(popupButtonHeight)))
                 {
                     bUnlockAllItems = true;
                     bShowConfirmPopup = false;
                     Logger.LogInfo("All Items Unlocked feature enabled!");
                 }
 
-                if (GUI.Button(new Rect(155, 90, 135, 30), "No"))
+                if (GUILayout.Button("No", GUILayout.Height(popupButtonHeight)))
                 {
                     bShowConfirmPopup = false;
                 }
 
-                GUI.DragWindow();
+                GUILayout.EndHorizontal();
+                GUILayout.EndVertical();
+
+                GUI.DragWindow(new Rect(0, 0, 10000, 22));
 
             }, "Confirm Action");
         }
