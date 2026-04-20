@@ -25,6 +25,8 @@ public class Plugin : BaseUnityPlugin
     internal static bool bShowConfirmPopup = false;
     internal static float originalTimescale = 1f;
     internal static float timescale = 1f;
+    internal static string intInputText = "1000";
+    internal static int intDiamondValue = 1000;
 
     private void Awake()
     {
@@ -66,7 +68,7 @@ public class Plugin : BaseUnityPlugin
         const float menuControlHeight = 30f;
         const float menuPadding = 10f;
         const float menuSpacing = 5f;
-        const int menuControlCount = 7; // 3 cheat buttons + 1 label + slider + 2 timescale buttons
+        const int menuControlCount = 10; // 3 cheat buttons + 1 label + slider + 2 timescale buttons + 1 diamonds label + 1 text field
 
         float menuWidth = menuControlWidth + (menuPadding * 2f);
         float menuHeight = 40f + (menuControlCount * menuControlHeight) + ((menuControlCount + 1) * menuSpacing) + menuPadding;
@@ -101,7 +103,7 @@ public class Plugin : BaseUnityPlugin
                         Girl girl = Traverse.Create(typeof(Girl)).Method("FindGirl", (Balance.GirlName)i).GetValue<Girl>();
                         foreach (int j in new int[] { 1, 2, 4, 8, 16 })
                         {
-                            var result = Traverse.Create(typeof(Album)).Method("Add", (Requirement.DateType)j, girl).GetValue();
+                            Traverse.Create(typeof(Album)).Method("Add", (Requirement.DateType)j, girl).GetValue();
                             Logger.LogInfo($"Unlocked {Enum.GetName(typeof(Requirement.DateType), j)} pic for {Enum.GetName(typeof(Balance.GirlName), i)}");
                         }
                     }
@@ -129,6 +131,39 @@ public class Plugin : BaseUnityPlugin
                 Time.timeScale = originalTimescale;
                 timescale = originalTimescale;
                 Logger.LogInfo("Timescale reset to original value");
+            }
+
+            GUILayout.Space(menuSpacing);
+            GUILayout.Label("Diamonds:");
+            intInputText = GUILayout.TextField(intInputText, GUILayout.Height(menuControlHeight));
+
+            intInputText = System.Text.RegularExpressions.Regex.Replace(intInputText, "[^0-9-]", "");
+            if (intInputText.Contains("-"))
+            {
+                int minusIndex = intInputText.IndexOf("-");
+                if (minusIndex > 0)
+                {
+                    intInputText = intInputText.Replace("-", "");
+                }
+                else if (intInputText.IndexOf("-", 1) >= 0)
+                {
+                    intInputText = intInputText.Substring(0, 1) + intInputText.Substring(1).Replace("-", "");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(intInputText) && int.TryParse(intInputText, out int result))
+            {
+                intDiamondValue = result;
+            }
+            else if (!string.IsNullOrEmpty(intInputText))
+            {
+                GUILayout.Label("Invalid integer");
+            }
+
+            if (GUILayout.Button("Add Diamonds", GUILayout.Height(menuControlHeight)))
+            {
+                Traverse.Create(typeof(Utilities)).Method("AwardDiamonds", intDiamondValue, false).GetValue();
+                Logger.LogInfo($"Added {intDiamondValue} diamonds!");
             }
 
             GUILayout.EndVertical();
