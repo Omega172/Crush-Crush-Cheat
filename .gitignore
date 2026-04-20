@@ -348,9 +348,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-OmegaWare Framework/Build/
-/.vscode
-Crush-Crush-Cheat.zip
-
-Game Dir.lnk
