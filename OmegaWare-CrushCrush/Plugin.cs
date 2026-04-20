@@ -394,7 +394,7 @@ public class Plugin : BaseUnityPlugin
             bShowAllPhoneConversations.Value = GUILayout.Toggle(bShowAllPhoneConversations.Value, "All Phone Conversations Unlocked", GUILayout.Height(menuControlHeight));
             
             GUILayout.Space(menuSpacing);
-            GUILayout.Label($"Skip Phone Timer: {skipPhoneTimerHotkey}");
+            GUILayout.Label($"Skip Phone Timer: {skipPhoneTimerHotkey.Value}");
             if (GUILayout.Button(bListeningForSkipPhoneTimerHotkey ? "Press any key..." : "Bind Skip Hotkey", GUILayout.Height(menuControlHeight)))
             {
                 bListeningForSkipPhoneTimerHotkey = true;
@@ -754,7 +754,7 @@ public class Gift_Init_Patch
     }
 }
 
-[HarmonyPatch(typeof(Steamworks.SteamApps), "BIsDlcInstalled", typeof(AppId_t))]
+[HarmonyPatch(typeof(SteamApps), "BIsDlcInstalled", typeof(AppId_t))]
 public class Steamworks_BIsDlcInstalled_Patch
 {
     [HarmonyPostfix]
