@@ -354,7 +354,7 @@ public class Plugin : BaseUnityPlugin
                 }
             }
             
-            GameState.NSFW = GUILayout.Toggle(GameState.NSFW, "Enable NSFW Content", GUILayout.Height(menuControlHeight));
+            GameState.NSFW = GUILayout.Toggle(bEnableNSFW.Value, "Enable NSFW Content", GUILayout.Height(menuControlHeight));
             GameState.NSFWAllowed = GameState.NSFW;
             
             bOverrideGiftQuantity.Value = GUILayout.Toggle(bOverrideGiftQuantity.Value, "Override Gift Quantity", GUILayout.Height(menuControlHeight));
