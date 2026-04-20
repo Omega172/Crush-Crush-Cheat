@@ -8,8 +8,7 @@ Install [.NET 10.0.202 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/1
 Install [BepInEx 6.0.0-be.755](https://builds.bepinex.dev/projects/bepinex_be/755/BepInEx-Unity.Mono-win-x86-6.0.0-be.755%2B3fab71a.zip) into your Crush Crush game directory
 
 OmegaWare-CrushCrush.csproj:
-- Change line 31 to point to `..\YOUR\GAME\DIR\CrushCrush\CrushCrush_Data\Managed\Assembly-CSharp.dll`
-- Change line 36 to point to `..\YOUR\GAME\DIR\CrushCrush\BepInEx\plugins`
+- Change line 16 to point to `..\YOUR\GAME\DIR\CrushCrush\CrushCrush_Data\Managed`
 - If making a PR, make sure to update the version on line 7
 
 Then run `dotnet restore` and make any changes you want<br/>
@@ -28,8 +27,21 @@ To build run `dotnet build`
 - Gift quantity override
 - Skip Phone Timer & Hotkeys
 
+- (Thanks to [sliperhr](https://github.com/sliperhr) for the suggestions & [this](https://fearlessrevolution.com/viewtopic.php?f=4&t=8211) post for the methods)
+	- DLC Unlocker
+	- Meet Current Heart Requirement
+	- Meet All Current Girl Requirements (Hearts + Skip To Next Love Level)
+
+- Disable Analytics (On by default, can only be disabled by editing the config file found in `BepInEx/config/OmegaWare_CrushCrush.cfg`)
+
 ### TODO
-- Fufill Heart Requirements/Skip To Next Love Level
+- Unlock All Outfits
+- Outfits Cost 1 Diamond
+- Gifts Cost No Diamonds
+- Free Diamond Purchasables
+- Max Hobby Level
+- No Job Cooldown
+- Max Highlighted Job Experience
 
 ## Images
 Menu <br/>

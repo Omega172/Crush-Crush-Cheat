@@ -7,8 +7,8 @@ on:
         description: "Game version tag (example: v0.1.0)"
         required: true
         type: string
-      assembly_csharp_url:
-        description: "Direct URL to Assembly-CSharp.dll"
+      managed_dlls_zip_url:
+        description: "URL to ZIP file containing all managed DLLs (Assembly-CSharp.dll, com.rlabrecque.steamworks.net.dll, etc.)"
         required: true
         type: string
 
@@ -31,19 +31,40 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Crush-Crush-Cheat.sln
 
-      - name: Download Assembly-CSharp.dll
-        id: asm
+      - name: Download and Extract Managed DLLs
+        id: dlls
         shell: pwsh
         run: |
-          $targetPath = Join-Path $env:RUNNER_TEMP "Assembly-CSharp.dll"
-          Invoke-WebRequest -Uri "${{ inputs.assembly_csharp_url }}" -OutFile $targetPath
-          if (!(Test-Path $targetPath)) {
-            throw "Failed to download Assembly-CSharp.dll"
+          $zipPath = Join-Path $env:RUNNER_TEMP "managed-dlls.zip"
+          $extractPath = Join-Path $env:RUNNER_TEMP "managed-dlls"
+          Invoke-WebRequest -Uri "${{ inputs.managed_dlls_zip_url }}" -OutFile $zipPath
+          if (!(Test-Path $zipPath)) {
+            throw "Failed to download managed DLLs ZIP"
           }
-          "assembly_csharp_path=$targetPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          Expand-Archive -Path $zipPath -DestinationPath $extractPath
+          if (!(Test-Path $extractPath)) {
+            throw "Failed to extract managed DLLs"
+          }
+          
+          # Check if DLLs are in root of extracted folder
+          $dllsInRoot = @(Get-ChildItem -Path $extractPath -Filter "*.dll" -File)
+          if ($dllsInRoot.Count -gt 0) {
+            "managed_dlls_path=$extractPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            Write-Host "Found DLLs in root: $($dllsInRoot.Count) files"
+          } else {
+            # Check if DLLs are in a Managed subfolder
+            $managedPath = Join-Path $extractPath "Managed"
+            $dllsInManaged = @(Get-ChildItem -Path $managedPath -Filter "*.dll" -File -ErrorAction SilentlyContinue)
+            if ($dllsInManaged.Count -gt 0) {
+              "managed_dlls_path=$managedPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+              Write-Host "Found DLLs in Managed subfolder: $($dllsInManaged.Count) files"
+            } else {
+              throw "No DLL files found in ZIP (checked root and Managed folder)"
+            }
+          }
 
       - name: Build project
-        run: dotnet build OmegaWare-CrushCrush/OmegaWare-CrushCrush.csproj --configuration Release --no-restore -p:AssemblyCSharpHintPath="${{ steps.asm.outputs.assembly_csharp_path }}"
+        run: dotnet build OmegaWare-CrushCrush/OmegaWare-CrushCrush.csproj --configuration Release --no-restore -p:ManagedAssembliesPath="${{ steps.dlls.outputs.managed_dlls_path }}"
 
       - name: Find built plugin DLL
         id: artifact

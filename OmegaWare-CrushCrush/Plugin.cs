@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.Mono;
 using HarmonyLib;
+using Steamworks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace OmegaWare_CrushCrush;
 
@@ -13,32 +15,48 @@ namespace OmegaWare_CrushCrush;
 [BepInProcess("CrushCrush.exe")]
 public class Plugin : BaseUnityPlugin
 {
+    // Static Fields
     internal static bool bExtraDebugLogs = false;
-
     internal static new ManualLogSource Logger;
     internal static Harmony HarmonyInstance;
-    internal static KeyCode toggleMenuKey = KeyCode.Insert;
-    internal static Rect menuRect = new(10, 10, 200, 130);
+    internal static Rect menuRect = new(10, 10, 210, 130);
     internal static Rect popupRect = new(100, 100, 300, 150);
-
+    
+    // Class Instances
     internal static Girls girlsInstance = null;
     internal static Cellphone cellphoneInstance = null;
 
-    internal static bool bShowMenu = true;
-    internal static bool bUnlockAllItems = false;
-    internal static bool bShowAllPinups = false;
+    // Config Entries
+
+    internal static ConfigEntry<bool> bDisableAnalyticsManager;
+    internal static ConfigEntry<KeyCode> toggleMenuKey;
+    internal static ConfigEntry<bool> bShowMenu;
+    internal static ConfigEntry<bool> bUnlockAllItems;
+    internal static ConfigEntry<bool> bShowAllPinups;
+    internal static ConfigEntry<float> customTimescale;
+    internal static ConfigEntry<bool> bShowAllPhoneConversations;
+    internal static ConfigEntry<bool> bEnableNSFW;
+    internal static ConfigEntry<bool> bOverrideGiftQuantity;
+    internal static ConfigEntry<KeyCode> skipPhoneTimerHotkey;
+    internal static ConfigEntry<bool> bDlcUnlocker;
+
+    // Helper Fields
+    internal static float originalTimescale = 0f;
     internal static bool bShowConfirmPopup = false;
-    internal static float originalTimescale = 1f;
-    internal static float timescale = 1f;
     internal static string diamondInputText = "1000";
     internal static int diamondValue = 1000;
-    internal static bool bShowAllPhoneConversations = false;
-    internal static bool bEnableNSFW = false;
-    internal static bool bOverrideGiftQuantity = false;
     internal static string overrideGiftQuantityInputText = "1000";
     internal static int overrideGiftQuantityValue = 1000;
-    internal static KeyCode skipPhoneTimerHotkey = KeyCode.Mouse3;
     internal static bool bListeningForSkipPhoneTimerHotkey = false;
+    internal static bool bBypassCurrentGirlOtherRequirementsOnce = false;
+    internal static Balance.GirlName bypassOtherRequirementsGirl = Balance.GirlName.Unknown;
+    internal static int bypassOtherRequirementsLove = -1;
+
+    private bool bPendingAnalyticsManagerDisable;
+
+    private GameObject inputBlockerCanvasObject;
+    private RectTransform menuInputBlocker;
+    private RectTransform popupInputBlocker;
 
     private void Awake()
     {
@@ -47,20 +65,42 @@ public class Plugin : BaseUnityPlugin
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
         Logger.LogWarning("This plugin is an alpha build, expect crashes and bugs!");
 
+        Logger.LogInfo("Loading config...");
+        bDisableAnalyticsManager = Config.Bind("General", "DisableAnalyticsManager", true, "Whether to destroy and clear Analytics.AnalyticsManager on startup.");
+        toggleMenuKey = Config.Bind("General", "ToggleMenuKey", KeyCode.Insert, "Key to toggle the cheat menu");
+        bShowMenu = Config.Bind("General", "ShowMenu", true, "Whether to show the cheat menu");
+        bUnlockAllItems = Config.Bind("General", "UnlockAllItems", false, "Whether to unlock all items in the game");
+        bShowAllPinups = Config.Bind("General", "ShowAllPinups", false, "Whether to show all pinups in the album");
+        customTimescale = Config.Bind("General", "CustomTimescale", 1f, "Custom timescale value to set when clicking 'Set Timescale'");
+        bShowAllPhoneConversations = Config.Bind("General", "ShowAllPhoneConversations", false, "Whether to unlock all phone conversations");
+        bEnableNSFW = Config.Bind("General", "EnableNSFW", false, "Whether to enable NSFW content");
+        bOverrideGiftQuantity = Config.Bind("General", "OverrideGiftQuantity", false, "Whether to override the quantity of gifts received");
+        skipPhoneTimerHotkey = Config.Bind("General", "SkipPhoneTimerHotkey", KeyCode.Mouse3, "Hotkey to hold for skipping phone timer");
+        bDlcUnlocker = Config.Bind("General", "DlcUnlocker", false, "Whether to unlock all DLC content");
+
+        originalTimescale = Time.timeScale;
+        Logger.LogInfo($"Original timescale: {originalTimescale}");
+
+        Logger.LogInfo("Config loaded!");
+
+        bPendingAnalyticsManagerDisable = bDisableAnalyticsManager.Value;
+
         Logger.LogInfo("Patching game methods...");
         HarmonyInstance = new Harmony(MyPluginInfo.PLUGIN_GUID);
         HarmonyInstance.PatchAll();
 
         Logger.LogInfo("Patches applied!");
 
-        originalTimescale = Time.timeScale;
-        Logger.LogInfo($"Original timescale: {originalTimescale}");
+        CreateInputBlockers();
     }
 
     private void LateUpdate()
     {
-        if (Input.GetKeyDown(toggleMenuKey))
-            bShowMenu = !bShowMenu;
+        if (bPendingAnalyticsManagerDisable && TryDisableAnalyticsManager())
+            bPendingAnalyticsManagerDisable = false;
+
+        if (Input.GetKeyDown(toggleMenuKey.Value))
+            bShowMenu.Value = !bShowMenu.Value;
 
         // Listen for skip phone timer hotkey binding
         if (bListeningForSkipPhoneTimerHotkey)
@@ -69,7 +109,7 @@ public class Plugin : BaseUnityPlugin
             {
                 if (Input.GetKeyDown(key) && key != KeyCode.Escape)
                 {
-                    skipPhoneTimerHotkey = key;
+                    skipPhoneTimerHotkey.Value = key;
                     Logger.LogInfo($"Skip Phone Timer hotkey set to {key}");
                     bListeningForSkipPhoneTimerHotkey = false;
                     break;
@@ -85,10 +125,12 @@ public class Plugin : BaseUnityPlugin
         }
 
         // Check if skip phone timer hotkey is held
-        if (!bListeningForSkipPhoneTimerHotkey && Input.GetKey(skipPhoneTimerHotkey))
+        if (!bListeningForSkipPhoneTimerHotkey && Input.GetKey(skipPhoneTimerHotkey.Value))
         {
             SkipPhoneTimer();
         }
+
+        UpdateInputBlockers();
     }
 
     private void SkipPhoneTimer()
@@ -98,24 +140,63 @@ public class Plugin : BaseUnityPlugin
             Logger.LogInfo("Skipped phone timer");
     }
 
+    private bool TryDisableAnalyticsManager()
+    {
+        try
+        {
+            Type analyticsManagerType = AccessTools.TypeByName("Analytics.AnalyticsManager");
+            if (analyticsManagerType == null)
+            {
+                return false;
+            }
+
+            var instanceField = AccessTools.Field(analyticsManagerType, "s_instance");
+            if (instanceField == null)
+            {
+                Logger.LogWarning("Analytics.AnalyticsManager.s_instance field was not found.");
+                return true;
+            }
+
+            object instance = instanceField?.GetValue(null);
+            if (instance == null)
+                return false;
+
+            var destroyInstanceMethod = AccessTools.Method(analyticsManagerType, "DestroyInstance");
+            if (destroyInstanceMethod != null)
+            {
+                object target = destroyInstanceMethod.IsStatic ? null : instance;
+                destroyInstanceMethod.Invoke(target, null);
+            }
+
+            instanceField?.SetValue(null, null);
+            Logger.LogInfo("Analytics manager disabled.");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning($"Failed to disable analytics manager: {ex.Message}");
+            return true;
+        }
+    }
+
     private void OnGUI()
     {
         // Save original colors
         Color originalBg = GUI.backgroundColor;
         Color originalContent = GUI.contentColor;
 
-        if (!bShowMenu)
+        if (!bShowMenu.Value)
             return;
 
         // Set custom colors
         GUI.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f); // Dark gray background
         GUI.contentColor = Color.cyan; // Cyan text
 
-        const float menuControlWidth = 210f;
+        const float menuControlWidth = 270f;
         const float menuControlHeight = 30f;
-        const float menuPadding = 14f;
+        const float menuPadding = 10f;
         const float menuSpacing = 5f;
-        const int menuControlCount = 20; // added skip phone timer hotkey label + button
+        const int menuControlCount = 25; // added skip phone timer hotkey label + button
 
         float menuWidth = menuControlWidth + (menuPadding * 2f);
         float menuHeight = 40f + (menuControlCount * menuControlHeight) + ((menuControlCount + 1) * menuSpacing) + menuPadding;
@@ -155,7 +236,7 @@ public class Plugin : BaseUnityPlugin
             }
 
             GUILayout.Space(menuSpacing);
-            bShowAllPinups = GUILayout.Toggle(bShowAllPinups, "Show All Pinups", GUILayout.Height(menuControlHeight));
+            bShowAllPinups.Value = GUILayout.Toggle(bShowAllPinups.Value, "Show All Pinups", GUILayout.Height(menuControlHeight));
 
             GUILayout.Space(menuSpacing);
             if (GUILayout.Button("Unlock All Date Pics", GUILayout.Height(menuControlHeight)))
@@ -186,21 +267,21 @@ public class Plugin : BaseUnityPlugin
             }
 
             GUILayout.Space(menuSpacing);
-            GUILayout.Label($"Timescale: {timescale:F2}");
-            timescale = GUILayout.HorizontalSlider(timescale, 0.1f, 5f, GUILayout.Height(menuControlHeight));
+            GUILayout.Label($"Timescale: {customTimescale.Value:F2}");
+            customTimescale.Value = GUILayout.HorizontalSlider(customTimescale.Value, 0.1f, 5f, GUILayout.Height(menuControlHeight));
 
             GUILayout.Space(menuSpacing);
             if (GUILayout.Button("Set Timescale", GUILayout.Height(menuControlHeight)))
             {
-                Time.timeScale = timescale;
-                Logger.LogInfo($"Timescale set to {timescale}");
+                Time.timeScale = customTimescale.Value;
+                Logger.LogInfo($"Timescale set to {customTimescale.Value}");
             }
 
             GUILayout.Space(menuSpacing);
             if (GUILayout.Button("Reset Timescale", GUILayout.Height(menuControlHeight)))
             {
                 Time.timeScale = originalTimescale;
-                timescale = originalTimescale;
+                customTimescale.Value = originalTimescale;
                 Logger.LogInfo("Timescale reset to original value");
             }
 
@@ -273,7 +354,7 @@ public class Plugin : BaseUnityPlugin
             GameState.NSFW = GUILayout.Toggle(GameState.NSFW, "Enable NSFW Content", GUILayout.Height(menuControlHeight));
             GameState.NSFWAllowed = GameState.NSFW;
             
-            bOverrideGiftQuantity = GUILayout.Toggle(bOverrideGiftQuantity, "Override Gift Quantity", GUILayout.Height(menuControlHeight));
+            bOverrideGiftQuantity.Value = GUILayout.Toggle(bOverrideGiftQuantity.Value, "Override Gift Quantity", GUILayout.Height(menuControlHeight));
             
             GUILayout.Space(menuSpacing);
             GUILayout.Label("Gift Quantity:");
@@ -307,13 +388,60 @@ public class Plugin : BaseUnityPlugin
                 SkipPhoneTimer();
             }
 
-            bShowAllPhoneConversations = GUILayout.Toggle(bShowAllPhoneConversations, "All Phone Conversations Unlocked", GUILayout.Height(menuControlHeight));
+            bShowAllPhoneConversations.Value = GUILayout.Toggle(bShowAllPhoneConversations.Value, "All Phone Conversations Unlocked", GUILayout.Height(menuControlHeight));
             
             GUILayout.Space(menuSpacing);
             GUILayout.Label($"Skip Phone Timer: {skipPhoneTimerHotkey}");
             if (GUILayout.Button(bListeningForSkipPhoneTimerHotkey ? "Press any key..." : "Bind Skip Hotkey", GUILayout.Height(menuControlHeight)))
             {
                 bListeningForSkipPhoneTimerHotkey = true;
+            }
+
+            bDlcUnlocker.Value = GUILayout.Toggle(bDlcUnlocker.Value, "Enable All DLC", GUILayout.Height(menuControlHeight));
+
+            if (GUILayout.Button("Meet Current Girl Heart Requirement", GUILayout.Height(menuControlHeight)))
+            {
+                if (Girls.CurrentGirl == null)
+                {
+                    Logger.LogWarning("No current girl is selected.");
+                }
+                else
+                {
+                    long heartRequirement = Girls.CurrentGirl.HeartRequirement;
+                    if (heartRequirement >= 0)
+                    {
+                        Girls.CurrentGirl.Hearts = heartRequirement;
+                        Logger.LogInfo($"Set {Enum.GetName(typeof(Balance.GirlName), Girls.CurrentGirl.GirlName)} hearts to requirement {heartRequirement}");
+                    }
+                }
+            }
+
+            if (GUILayout.Button("Meet All Current Girl Requirements", GUILayout.Height(menuControlHeight)))
+            {
+                if (Girls.CurrentGirl == null)
+                {
+                    Logger.LogWarning("No current girl is selected.");
+                }
+                else
+                {
+                    long heartRequirement = Girls.CurrentGirl.HeartRequirement;
+                    if (heartRequirement >= 0)
+                    {
+                        Girls.CurrentGirl.Hearts = heartRequirement;
+                        Logger.LogInfo($"Set {Enum.GetName(typeof(Balance.GirlName), Girls.CurrentGirl.GirlName)} hearts to requirement {heartRequirement}");
+                    }
+
+                    bBypassCurrentGirlOtherRequirementsOnce = true;
+                    bypassOtherRequirementsGirl = Girls.CurrentGirl.GirlName;
+                    bypassOtherRequirementsLove = Girls.CurrentGirl.Love;
+                    Logger.LogInfo($"Armed one-time requirement bypass for {Enum.GetName(typeof(Balance.GirlName), bypassOtherRequirementsGirl)} at love level {bypassOtherRequirementsLove}.");
+                }
+            }
+
+            if (GUILayout.Button("Save Config", GUILayout.Height(menuControlHeight)))
+            {
+                Config.Save();
+                Logger.LogInfo("Config saved!");
             }
 
             GUILayout.EndVertical();
@@ -342,14 +470,14 @@ public class Plugin : BaseUnityPlugin
 
                 if (GUILayout.Button("Yes", GUILayout.Height(popupButtonHeight)))
                 {
-                    bUnlockAllItems = true;
+                    bUnlockAllItems.Value = true;
                     bShowConfirmPopup = false;
                     Logger.LogInfo("All Items Unlocked feature enabled!");
                 }
 
                 if (GUILayout.Button("No", GUILayout.Height(popupButtonHeight)))
                 {
-                    bUnlockAllItems = false;
+                    bUnlockAllItems.Value = false;
                     bShowConfirmPopup = false;
                 }
 
@@ -361,9 +489,96 @@ public class Plugin : BaseUnityPlugin
             }, "Confirm Action");
         }        
 
+        ConsumeMenuMouseInput();
+
         // Restore original colors
         GUI.backgroundColor = originalBg;
         GUI.contentColor = originalContent;
+    }
+
+    private void ConsumeMenuMouseInput()
+    {
+        Event currentEvent = Event.current;
+        if (currentEvent == null)
+            return;
+
+        bool isMouseEvent = currentEvent.type == EventType.MouseDown
+            || currentEvent.type == EventType.MouseUp
+            || currentEvent.type == EventType.MouseDrag
+            || currentEvent.type == EventType.ScrollWheel
+            || currentEvent.type == EventType.ContextClick;
+
+        if (!isMouseEvent)
+            return;
+
+        bool pointerOverMenu = menuRect.Contains(currentEvent.mousePosition);
+        bool pointerOverPopup = bShowConfirmPopup && popupRect.Contains(currentEvent.mousePosition);
+        if (!pointerOverMenu && !pointerOverPopup)
+            return;
+
+        Input.ResetInputAxes();
+        currentEvent.Use();
+    }
+
+    private void CreateInputBlockers()
+    {
+        inputBlockerCanvasObject = new GameObject("OmegaWareInputBlockers");
+        DontDestroyOnLoad(inputBlockerCanvasObject);
+
+        Canvas canvas = inputBlockerCanvasObject.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = short.MaxValue;
+        inputBlockerCanvasObject.AddComponent<GraphicRaycaster>();
+
+        menuInputBlocker = CreateInputBlockerRect("MenuInputBlocker");
+        popupInputBlocker = CreateInputBlockerRect("PopupInputBlocker");
+
+        inputBlockerCanvasObject.SetActive(false);
+    }
+
+    private RectTransform CreateInputBlockerRect(string objectName)
+    {
+        GameObject blockerObject = new GameObject(objectName);
+        blockerObject.transform.SetParent(inputBlockerCanvasObject.transform, false);
+
+        RectTransform rectTransform = blockerObject.AddComponent<RectTransform>();
+        rectTransform.anchorMin = new Vector2(0f, 1f);
+        rectTransform.anchorMax = new Vector2(0f, 1f);
+        rectTransform.pivot = new Vector2(0f, 1f);
+
+        Image image = blockerObject.AddComponent<Image>();
+        image.color = new Color(0f, 0f, 0f, 0f);
+        image.raycastTarget = true;
+
+        return rectTransform;
+    }
+
+    private void UpdateInputBlockers()
+    {
+        if (inputBlockerCanvasObject == null)
+            return;
+
+        bool showMenuBlocker = bShowMenu != null && bShowMenu.Value;
+        bool showPopupBlocker = showMenuBlocker && bShowConfirmPopup;
+        inputBlockerCanvasObject.SetActive(showMenuBlocker || showPopupBlocker);
+        if (!inputBlockerCanvasObject.activeSelf)
+            return;
+
+        SetBlockerRect(menuInputBlocker, menuRect, showMenuBlocker);
+        SetBlockerRect(popupInputBlocker, popupRect, showPopupBlocker);
+    }
+
+    private void SetBlockerRect(RectTransform blocker, Rect guiRect, bool visible)
+    {
+        if (blocker == null)
+            return;
+
+        blocker.gameObject.SetActive(visible);
+        if (!visible)
+            return;
+
+        blocker.anchoredPosition = new Vector2(guiRect.x, -guiRect.y);
+        blocker.sizeDelta = new Vector2(guiRect.width, guiRect.height);
     }
 }
 
@@ -373,7 +588,7 @@ public class BlayFapInventory_HasItem_Patch
     [HarmonyPostfix]
     static void Postfix(ref bool __result, string id)
     {
-        if (!__result && Plugin.bUnlockAllItems)
+        if (!__result && Plugin.bUnlockAllItems.Value)
         {
             if (Plugin.bExtraDebugLogs)
                 Plugin.Logger.LogInfo($"Pretending player has item {id}");
@@ -388,7 +603,7 @@ public class Album_IsPinupUnlocked_Patch
     [HarmonyPostfix]
     static void Postfix(ref bool __result, int pinupRewardAmount)
     {
-        if (!__result && Plugin.bShowAllPinups)
+        if (!__result && Plugin.bShowAllPinups.Value)
         {
             if (Plugin.bExtraDebugLogs)
                 Plugin.Logger.LogInfo($"Pretending pinup {pinupRewardAmount} is unlocked");
@@ -423,7 +638,7 @@ public class Cellphone_IsUnlocked_Patch
     [HarmonyPostfix]
     static void Postfix(ref bool __result, short id)
     {
-        if (!__result && Plugin.bShowAllPhoneConversations)
+        if (!__result && Plugin.bShowAllPhoneConversations.Value)
         {
             if (Plugin.bExtraDebugLogs)
                 Plugin.Logger.LogInfo($"Pretending phone conversation {id} is unlocked");
@@ -438,11 +653,51 @@ public class Gift_OnGift_Patch
     [HarmonyPrefix]
     static void Prefix(ref int quantity)
     {
-        if (Plugin.bOverrideGiftQuantity)
+        if (Plugin.bOverrideGiftQuantity.Value)
         {
             quantity = Plugin.overrideGiftQuantityValue;
             if (Plugin.bExtraDebugLogs)
                 Plugin.Logger.LogInfo($"Overriding gift quantity to {quantity}");
         }
+    }
+}
+
+[HarmonyPatch(typeof(Steamworks.SteamApps), "BIsDlcInstalled", typeof(AppId_t))]
+public class Steamworks_BIsDlcInstalled_Patch
+{
+    [HarmonyPostfix]
+    static void Postfix(ref bool __result, AppId_t appID)
+    {
+        if (!__result && Plugin.bDlcUnlocker.Value)
+        {
+            if (Plugin.bExtraDebugLogs)
+                Plugin.Logger.LogInfo($"Pretending DLC {appID} is installed");
+            __result = true;
+        }
+    }
+}
+
+[HarmonyPatch(typeof(Girl), "MeetsRequirements")]
+public class Girl_MeetsRequirements_Patch
+{
+    [HarmonyPostfix]
+    static void Postfix(Girl __instance, ref bool __result)
+    {
+        if (!Plugin.bBypassCurrentGirlOtherRequirementsOnce || __instance == null)
+            return;
+
+        if (__instance.GirlName != Plugin.bypassOtherRequirementsGirl)
+            return;
+
+        // Expire once this girl advances a level.
+        if (__instance.Love > Plugin.bypassOtherRequirementsLove)
+        {
+            Plugin.bBypassCurrentGirlOtherRequirementsOnce = false;
+            Plugin.bypassOtherRequirementsGirl = Balance.GirlName.Unknown;
+            Plugin.bypassOtherRequirementsLove = -1;
+            return;
+        }
+
+        __result = true;
     }
 }

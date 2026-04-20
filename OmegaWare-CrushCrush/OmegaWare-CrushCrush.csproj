@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>OmegaWare_CrushCrush</AssemblyName>
     <Product>OmegaWare (Crush Crush)</Product>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
@@ -13,7 +13,10 @@
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
     <RootNamespace>OmegaWare_CrushCrush</RootNamespace>
-    <AssemblyCSharpHintPath Condition="'$(AssemblyCSharpHintPath)' == ''">D:\SteamLibrary\steamapps\common\CrushCrush\CrushCrush_Data\Managed\Assembly-CSharp.dll</AssemblyCSharpHintPath>
+    <ManagedAssembliesPath Condition="'$(ManagedAssembliesPath)' == ''">D:\SteamLibrary\steamapps\common\CrushCrush\CrushCrush_Data\Managed</ManagedAssembliesPath>
+    <AssemblyCSharpHintPath Condition="'$(AssemblyCSharpHintPath)' == ''">$(ManagedAssembliesPath)\Assembly-CSharp.dll</AssemblyCSharpHintPath>
+    <SteamworksNetHintPath Condition="'$(SteamworksNetHintPath)' == ''">$(ManagedAssembliesPath)\com.rlabrecque.steamworks.net.dll</SteamworksNetHintPath>
+    <UnityEngineUIHintPath Condition="'$(UnityEngineUIHintPath)' == ''">$(ManagedAssembliesPath)\UnityEngine.UI.dll</UnityEngineUIHintPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +33,12 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(AssemblyCSharpHintPath)</HintPath>
+    </Reference>
+    <Reference Include="com.rlabrecque.steamworks.net">
+      <HintPath>$(SteamworksNetHintPath)</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(UnityEngineUIHintPath)</HintPath>
     </Reference>
   </ItemGroup>
 
