@@ -1,7 +1,5 @@
 # Note
 > Check out my cheat for Blush Blush the "brother" game to Crush Crush, [OmegaWare (BlushBlush)](https://github.com/Omega172/Blush-Blush-Cheat) it is a copy & paste of this cheat but with fixes to work for its changes.
->
-> Join our [discord](https://discord.gg/zc8E7dYYRe)
 
 # Built for BepInEx 6.0.0-be
 netstandard.dll: Present <br/>
