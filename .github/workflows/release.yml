@@ -98,7 +98,7 @@ jobs:
           tag_name: ${{ inputs.tag }}
           name: "Game Ver: ${{ steps.parsed_tag.outputs.game_ver }} | Plugin Ver: ${{ steps.parsed_tag.outputs.cheat_ver }}"
           body: |
-            Guide to install BepInEx can be found [here](docs.bepinex.dev/master/articles/user_guide/installation/index.html)
+            Guide to install BepInEx can be found [here](https://docs.bepinex.dev/master/articles/user_guide/installation/index.html)
             You need [this](https://builds.bepinex.dev/projects/bepinex_be/755/BepInEx-Unity.Mono-win-x86-6.0.0-be.755%2B3fab71a.zip) version of BepInEx
             After BepInEx is installed put the DLL in the BepInEx plugins folder.
           generate_release_notes: true
