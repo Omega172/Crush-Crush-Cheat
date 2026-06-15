@@ -13,7 +13,7 @@ BepInEx Ver: 6.0.0-be.755 <br/>
 4. Start the game and enjoy the cheats!<br/>
 Menu show/hide key is Insert by default, but can be changed in the config file found in `BepInEx/config/CrushCrush.cfg` 
 
-## Building
+## Building From Source
 Install [.NET 10.0.202 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)<br/>
 Install [BepInEx 6.0.0-be.755](https://builds.bepinex.dev/projects/bepinex_be/755/BepInEx-Unity.Mono-win-x86-6.0.0-be.755%2B3fab71a.zip) if you haven't already<br/>
 
