@@ -9,7 +9,7 @@ BepInEx Ver: 6.0.0-be.755 <br/>
 # Install Instructions
 1. Install [BepInEx 6.0.0-be.755](https://builds.bepinex.dev/projects/bepinex_be/755/BepInEx-Unity.Mono-win-x86-6.0.0-be.755%2B3fab71a.zip) into your Crush Crush game directory<br/>
 2. Run the game once to generate the config files and then close it<br/>
-3. Download the latest release from the releases tab [here](https://github.com/Omega172/Blush-Blush-Cheat/releases/latest/download/OmegaWare_BlushBlush.dll) and place the `OmegaWare_CrushCrush.dll` file in `BepInEx/plugins`<br/>
+3. Download the latest release from the releases tab [here](https://github.com/Omega172/Crush-Crush-Cheat/releases/latest/download/OmegaWare_BlushBlush.dll) and place the `OmegaWare_CrushCrush.dll` file in `BepInEx/plugins`<br/>
 4. Start the game and enjoy the cheats!<br/>
 Menu show/hide key is Insert by default, but can be changed in the config file found in `BepInEx/config/CrushCrush.cfg` 
 
